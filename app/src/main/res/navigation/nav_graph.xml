@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/tabViewFragment">
+    <fragment
+        android:id="@+id/tabViewFragment"
+        android:name="com.example.paybuddy.TabViewFragment"
+        android:label="TabViewFragment" >
+        <action
+            android:id="@+id/action_tabViewFragment_to_occasionAddFragment"
+            app:destination="@id/occasionAddFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/occasionAddFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_tabViewFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/occasionAddFragment"
+        android:name="com.example.paybuddy.Occasions.OccasionAddFragment"
+        android:label="OccasionAddFragment" >
+        <action
+            android:id="@+id/action_occasionAddFragment_to_tabViewFragment"
+            app:destination="@id/tabViewFragment"
+            app:enterAnim="@anim/nav_default_pop_enter_anim"
+            app:exitAnim="@anim/nav_default_pop_exit_anim"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/tabViewFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.paybuddy.Settings.SettingsFragment"
+        android:label="SettingsFragment" />
+</navigation>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#6C63FF</color>
+    <color name="colorPrimaryDark">#6C63FF</color>
+    <color name="colorAccent">#03DAC5</color>
+    
+    <color name="mainText">#000000</color>
+    <color name="textAlt">#8D8F97</color>
+
+    <color name="overviewTabColor">#454F87</color>
+
+    <color name="mainBackground">#ffffff</color>
+    <color name="cardBackground">#8CBABA</color>
+
+    <color name="hintText">#7C7777</color>
+
+    <color name="overViewBackground">#ffffff</color>
+
+    <color name="buttonText">#000000</color>
+    <color name="buttonBackground">#286868</color>
+
+    <color name="iconBackground">#EDF4F4</color>
+    <color name="tabTint">#000000</color>
+    <color name="tabTintOverview">#000000</color>
+
+    <color name="OverviewTitle">#0B2633</color>
+    <color name="ItemColor">#013C2F</color>
+    <color name="TitleColor">#000000</color>
+</resources>
