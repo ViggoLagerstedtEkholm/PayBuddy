@@ -10,8 +10,8 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.paybuddy.History.HistoryFragment;
 import com.example.paybuddy.Home.HomeFragment;
-import com.example.paybuddy.Handle.OccasionsFragment;
-import com.example.paybuddy.TimesUp.DuePaymentFragment;
+import com.example.paybuddy.Selector.SelectorFragment;
+import com.example.paybuddy.TimesUp.TimesUp.DuePaymentFragment;
 import com.example.paybuddy.R;
 
 /**
@@ -21,7 +21,7 @@ import com.example.paybuddy.R;
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.tab_history, R.string.tab_home, R.string.tab_occasions, R.string.timesUp};
+    private static final int[] TAB_TITLES = new int[]{R.string.tab_home, R.string.tab_selector};
     private final Context mContext;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
@@ -34,16 +34,10 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         Fragment routedFragment = null;
         switch(position){
             case 0:
-                routedFragment = new HistoryFragment();
-                break;
-            case 1:
                 routedFragment = new HomeFragment();
                 break;
-            case 2:
-                routedFragment = new OccasionsFragment();
-                break;
-            case 3:
-                routedFragment = new DuePaymentFragment();
+            case 1:
+                routedFragment = new SelectorFragment();
                 break;
         }
         return routedFragment;

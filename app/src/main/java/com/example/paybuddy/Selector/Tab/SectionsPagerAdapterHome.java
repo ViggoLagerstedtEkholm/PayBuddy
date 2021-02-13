@@ -1,4 +1,4 @@
-package com.example.paybuddy.Handle.Tab;
+package com.example.paybuddy.Selector.Tab;
 
 import android.content.Context;
 
@@ -7,21 +7,21 @@ import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.example.paybuddy.Handle.OccasionsFragment;
-import com.example.paybuddy.History.HistoryFragment;
+import com.example.paybuddy.History.List.ListFragmentHistory;
 import com.example.paybuddy.Occasions.List_of_occasions.ListFragmentOccasions;
 import com.example.paybuddy.R;
-import com.example.paybuddy.TimesUp.DuePaymentFragment;
+import com.example.paybuddy.TimesUp.TimesUp.List.ListFragmentDuePayment;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
  * one of the sections/tabs/pages.
  */
-public class SectionsPagerAdapterHome extends FragmentPagerAdapter {
+public class SectionsPagerAdapterHome extends FragmentStatePagerAdapter {
 
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.Tab1, R.string.Tab2, R.string.Tab3};
+    private static final int[] TAB_TITLES = new int[]{R.string.tab_occasions, R.string.tab_history, R.string.tab_expired};
     private final Context mContext;
 
     public SectionsPagerAdapterHome(Context context, FragmentManager fm) {
@@ -37,10 +37,10 @@ public class SectionsPagerAdapterHome extends FragmentPagerAdapter {
                 routedFragment = new ListFragmentOccasions();
                 break;
             case 1:
-                routedFragment = new HistoryFragment();
+                routedFragment = new ListFragmentHistory();
                 break;
             case 2:
-                routedFragment = new DuePaymentFragment();
+                routedFragment = new ListFragmentDuePayment();
                 break;
         }
         return routedFragment;

@@ -17,6 +17,7 @@ import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.Occasions.Dialogs.DialogPreviewOccasion;
 import com.example.paybuddy.R;
+import com.example.paybuddy.database.DatabaseHelper;
 
 import java.util.List;
 
@@ -27,12 +28,13 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     private List<OccasionModel> items;
     private final Fragment currentFragment;
     private UpdateViewModel updateViewModel;
+    private DatabaseHelper databaseHelper;
 
     public MyItemRecyclerViewAdapter(List<OccasionModel> items, Fragment currentFragment) {
         this.items = items;
         this.currentFragment = currentFragment;
         updateViewModel = new ViewModelProvider(currentFragment.getActivity()).get(UpdateViewModel.class);
-
+        databaseHelper = DatabaseHelper.getInstance(currentFragment.getContext());
     }
 
     public void addItems(List<OccasionModel> occasionModels){
@@ -52,7 +54,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     public void onBindViewHolder(final ViewHolder holder, int position) {
         OccasionModel occasionModel = items.get(position);
         holder.mItem = items.get(position);
-
+        Log.d("AAAAAAAAA", "...");
         String people = "";
         double cost = 0.0;
 
@@ -70,7 +72,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
             @Override
             public void onClick(View v) {
                 items.remove(position);
-                MainActivity.databaseHelper.delete(occasionModel);
+                databaseHelper.delete(occasionModel);
                 updateViewModel.updateTotalPrice(MainActivity.databaseHelper.getSumItems());
                 updateViewModel.updateTotalOccasion(MainActivity.databaseHelper.getAmountOfOccasion());
                 notifyDataSetChanged();
@@ -84,6 +86,16 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
                 dialogFragment.show(currentFragment.getChildFragmentManager(), "Test");
             }
         });
+
+        holder.buttonRegisterPaid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int ID = occasionModel.getID();
+                items.remove(occasionModel);
+                notifyDataSetChanged();
+                //update database entry.
+            }
+        });
     }
 
     @Override
@@ -91,13 +103,13 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         return items.size();
     }
 
-
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView titleOfMyOccasion;
         public final TextView textViewDateOccasionCard;
         public final TextView textViewSumOfItemsOccasionCard;
         public final TextView textViewPeopleOccasionCard;
+        public final Button buttonRegisterPaid;
         public final Button buttonRemove;
         public final Button buttonPreview;
         public OccasionModel mItem;
@@ -108,6 +120,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
             buttonRemove = (Button) view.findViewById(R.id.buttonRemoveItem);
             buttonPreview = (Button) view.findViewById(R.id.buttonPreview);
+            buttonRegisterPaid = (Button) view.findViewById(R.id.buttonRegisterPaid);
 
             titleOfMyOccasion = (TextView) view.findViewById(R.id.titleOfMyOccasion);
             textViewDateOccasionCard = (TextView) view.findViewById(R.id.textViewDateOccasionCard);

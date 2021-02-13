@@ -8,12 +8,15 @@ public class OccasionModel {
     private String description;
     private List<ItemModel> items;
     private boolean isPaid;
+    private boolean isExpired;
 
-    public OccasionModel(int ID, String date, String description, List<ItemModel> items) {
+    public OccasionModel(int ID, String date, String description, List<ItemModel> items, boolean isPaid, boolean isExpired) {
         this.ID = ID;
         this.date = date;
         this.description = description;
         this.items = items;
+        this.isExpired = isExpired;
+        this.isPaid = isPaid;
     }
 
     public String getDate() {
@@ -54,5 +57,13 @@ public class OccasionModel {
 
     public void setPaid(boolean paid) {
         isPaid = paid;
+    }
+
+    public boolean isExpired() {
+        return isExpired;
+    }
+
+    public void setExpired(boolean expired) {
+        isExpired = expired;
     }
 }

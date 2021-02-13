@@ -1,4 +1,4 @@
-package com.example.paybuddy.Handle.Tab;
+package com.example.paybuddy.Selector.Tab;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

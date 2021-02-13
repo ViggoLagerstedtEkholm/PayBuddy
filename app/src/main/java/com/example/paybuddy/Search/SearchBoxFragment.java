@@ -6,18 +6,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.paybuddy.Occasions.ViewModel.FilterViewModelOccasion;
 import com.example.paybuddy.R;
 
 public class SearchBoxFragment extends Fragment implements View.OnClickListener {
-    private FilterViewModelOccasion filterViewModel;
+    private FilterViewModel filterViewModel;
     private Button buttonSearch;
     private EditText searchWord;
 
@@ -47,7 +45,7 @@ public class SearchBoxFragment extends Fragment implements View.OnClickListener 
         buttonSearch = (Button) view.findViewById(R.id.buttonSearch);
         searchWord = (EditText) view.findViewById(R.id.txfItemName);
 
-        filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModelOccasion.class);
+        filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
 
         buttonSearch.setOnClickListener(new View.OnClickListener() {
             @Override

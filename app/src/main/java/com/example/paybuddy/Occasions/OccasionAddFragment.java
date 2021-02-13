@@ -23,6 +23,7 @@ import com.example.paybuddy.Occasions.Dialogs.DialogOccasionAdded;
 import com.example.paybuddy.Occasions.ViewModel.CompleteListViewModel;
 import com.example.paybuddy.Occasions.ViewModel.InputToItemListViewModel;
 import com.example.paybuddy.R;
+import com.example.paybuddy.database.DatabaseHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,11 +35,11 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
     private EditText date;
     private InputToItemListViewModel inputToItemListViewModel;
     private CompleteListViewModel completeListViewModel;
+    private DatabaseHelper databaseHelper;
 
     public OccasionAddFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
         items = new ArrayList<>();
         inputToItemListViewModel = new ViewModelProvider(requireActivity()).get(InputToItemListViewModel.class);
         completeListViewModel = new ViewModelProvider(requireActivity()).get(CompleteListViewModel.class);
-
+        databaseHelper = DatabaseHelper.getInstance(getContext());
     }
 
     @Override
@@ -93,9 +94,12 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
                 String occasionTitle = title.getText().toString();
                 String occasionDate = date.getText().toString();
                 if(!occasionTitle.equals("") && !occasionDate.equals("") && items.size() != 0){
-                    OccasionModel occasionModel = new OccasionModel(-1, occasionDate, occasionTitle, items);
-                    MainActivity.databaseHelper.insertOccasion(occasionModel);
+                    OccasionModel occasionModel = new OccasionModel(-1, occasionDate, occasionTitle, items, false, false);
+                    boolean success = databaseHelper.insertOccasion(occasionModel);
 
+                    if(!success){
+                        Log.d("Error can't insert!", "...");
+                    }
                     DialogOccasionAdded dialogFragment = new DialogOccasionAdded(occasionModel, currentView);
                     dialogFragment.show(getChildFragmentManager(), "Test");
                 }
@@ -110,7 +114,6 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
                 }
                 break;
             case R.id.buttonCancel:
-
                     Navigation.findNavController(view).navigate(R.id.action_occasionAddFragment_to_tabViewFragment);
                 break;
             case R.id.buttonAddItems:

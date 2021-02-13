@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.example.paybuddy.MainActivity;
 import com.example.paybuddy.R;
+import com.example.paybuddy.database.DatabaseHelper;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +28,7 @@ import com.example.paybuddy.R;
 public class HomeFragment extends Fragment {
     private TextView textViewSumOfItems;
     private TextView textViewCountOfExpiredOccasions;
+    private DatabaseHelper databaseHelper;
     private TextView textViewCountOfOccasions;
     private boolean isSelected;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -38,6 +40,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        databaseHelper = DatabaseHelper.getInstance(getContext());
     }
 
     @Override
@@ -67,8 +70,8 @@ public class HomeFragment extends Fragment {
             textViewCountOfOccasions.setText(String.valueOf(value));
         });
 
-        double totalPrice = MainActivity.databaseHelper.getSumItems();
-        int totalOccasion = MainActivity.databaseHelper.getAmountOfOccasion();
+        double totalPrice = databaseHelper.getSumItems();
+        int totalOccasion = databaseHelper.getAmountOfOccasion();
 
         textViewSumOfItems.setText(Double.toString(totalPrice));
         textViewCountOfOccasions.setText(String.valueOf(totalOccasion));
@@ -93,8 +96,8 @@ public class HomeFragment extends Fragment {
             @Override
             public void onRefresh() {
                 Log.d("Updating fields", "...");
-                double totalPrice = MainActivity.databaseHelper.getSumItems();
-                int totalOccasion = MainActivity.databaseHelper.getAmountOfOccasion();
+                double totalPrice = databaseHelper.getSumItems();
+                int totalOccasion = databaseHelper.getAmountOfOccasion();
                 textViewSumOfItems.setText(Double.toString(totalPrice));
                 textViewCountOfOccasions.setText(String.valueOf(totalOccasion));
                 if(swipeRefreshLayout.isRefreshing()){

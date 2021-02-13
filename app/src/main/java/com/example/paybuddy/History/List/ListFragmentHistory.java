@@ -13,40 +13,43 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.paybuddy.History.ViewModel.FilterViewModelHistory;
 import com.example.paybuddy.MainActivity;
-import com.example.paybuddy.Occasions.ViewModel.InputToItemListViewModel;
+import com.example.paybuddy.Models.OccasionModel;
+import com.example.paybuddy.Search.FilterViewModel;
 import com.example.paybuddy.R;
+import com.example.paybuddy.database.DatabaseHelper;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A fragment representing a list of Items.
  */
-public class ListFragment extends Fragment {
+public class ListFragmentHistory extends Fragment {
 
     private int mColumnCount = 1;
-    private FilterViewModelHistory filterViewModelHistory;
+    private FilterViewModel filterViewModel;
     private MyItemRecyclerViewAdapter myItemRecyclerViewAdapter;
-
-    public ListFragment() {
+    private DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
+    public ListFragmentHistory() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(new ArrayList());
-        filterViewModelHistory = new ViewModelProvider(requireActivity()).get(FilterViewModelHistory.class);
+        filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_history_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_list_history, container, false);
 
-        filterViewModelHistory.getSelected().observe(getViewLifecycleOwner(), word -> {
-            String searchWord = word;
-            myItemRecyclerViewAdapter.addItems(MainActivity.databaseHelper.filterOccasion(searchWord));
+        myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(databaseHelper.filterOccasion("NONE", DatabaseHelper.FILTER_TYPE.SEARCH_ISPAID));
+
+        filterViewModel.getSelected().observe(getViewLifecycleOwner(), word -> {
+            List<OccasionModel> occasionModelArrayList = databaseHelper.filterOccasion(word, DatabaseHelper.FILTER_TYPE.SEARCH_ISPAID);
+            myItemRecyclerViewAdapter.addItems(occasionModelArrayList);
         });
 
         // Set the adapter

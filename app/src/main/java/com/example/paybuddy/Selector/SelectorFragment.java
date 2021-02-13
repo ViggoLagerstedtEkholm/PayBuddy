@@ -1,4 +1,4 @@
-package com.example.paybuddy.Handle;
+package com.example.paybuddy.Selector;
 
 import android.os.Bundle;
 
@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.example.paybuddy.Handle.Tab.SectionsPagerAdapterHome;
+import com.example.paybuddy.Selector.Tab.SectionsPagerAdapterHome;
 import com.example.paybuddy.R;
 import com.google.android.material.tabs.TabLayout;
 
@@ -21,10 +21,10 @@ import com.google.android.material.tabs.TabLayout;
  * A simple {@link Fragment} subclass.
  * create an instance of this fragment.
  */
-public class OccasionsFragment extends Fragment {
+public class SelectorFragment extends Fragment {
     private Button buttonAdd;
 
-    public OccasionsFragment() {
+    public SelectorFragment() {
         // Required empty public constructor
     }
 
