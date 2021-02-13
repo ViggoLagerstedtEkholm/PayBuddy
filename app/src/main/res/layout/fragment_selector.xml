@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Handle.OccasionsFragment">
+    tools:context=".Selector.SelectorFragment">
 
     <Button
         android:id="@+id/buttonAdd"
@@ -23,11 +23,12 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
-        android:layout_width="369dp"
-        android:layout_height="514dp"
+        android:layout_width="372dp"
+        android:layout_height="512dp"
         android:layout_marginTop="8dp"
-        android:background="@color/overviewTabColor"
-        app:cardBackgroundColor="@color/colorPrimary"
+        android:background="@color/mainBackground"
+        app:cardBackgroundColor="@color/mainBackground"
+        app:cardCornerRadius="6dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,21 +37,35 @@
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorPrimary"
+            android:background="@color/mainBackground"
             tools:context=".MainActivity">
 
             <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/iconBackground"
+                android:background="@color/mainBackground"
                 android:theme="@style/AppTheme">
 
-                <fragment
-                    android:id="@+id/searchFragment"
-                    android:name="com.example.paybuddy.Search.SearchBoxFragment"
-                    android:layout_width="369dp"
-                    android:layout_height="83dp"
-                    android:layout_marginTop="8dp" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <fragment
+                        android:id="@+id/searchFragment"
+                        android:name="com.example.paybuddy.Search.SearchBoxFragment"
+                        android:layout_width="358dp"
+                        android:layout_height="72dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginBottom="8dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tabsHome"

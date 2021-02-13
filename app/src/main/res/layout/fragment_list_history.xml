@@ -9,5 +9,5 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context=".History.List.ListFragment"
-    tools:listitem="@layout/fragment_history_item" />
+    tools:context=".History.List.ListFragmentHistory"
+    tools:listitem="@layout/fragment_list_history_item" />

@@ -2,6 +2,9 @@
     <string name="app_name">PayBuddy</string>
     <string name="tab_history">History</string>
     <string name="tab_home">Home</string>
+    <string name="tab_expired">Expired</string>
+    <string name="Paid">Register as paid</string>
+    <string name="tab_selector">Your occasions</string>
     <string name="tab_occasions">Occasions</string>
     <string name="overview">Overview</string>
     <string name="Tab1">Tab 1</string>
@@ -33,7 +36,8 @@
     <string name="quantity">Quantity:</string>
     <string name="price">Price:</string>
     <string name="title">Title</string>
-
+    <string name="call">Call</string>
+    <string name="postpone">Postpone</string>
     <string name="SUM_OF_ITEMS_COST">Sum of items cost</string>
     <string name="SUM_OF_OCCASIONS">Sum of occasions</string>
     <string name="SUM_OF_EXPIRED">Sum of expired</string>

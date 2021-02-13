@@ -10,5 +10,5 @@
     android:paddingBottom="5dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context=".Occasions.list_of_items.ItemInOccasionsFragment"
-    tools:listitem="@layout/fragment_item_in_occasion" />
+    tools:context=".Occasions.List_of_items.ItemInOccasionsFragment"
+    tools:listitem="@layout/fragment_list_occasion_item" />

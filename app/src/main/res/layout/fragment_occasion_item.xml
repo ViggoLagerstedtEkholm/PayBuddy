@@ -16,7 +16,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="187dp"
+        android:layout_height="179dp"
         android:layout_margin="4dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,14 +25,14 @@
 
             <TextView
                 android:id="@+id/titleOfMyOccasion2"
-                android:layout_width="35dp"
+                android:layout_width="40dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="15dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/title"
                 android:textColor="@color/mainText"
-                android:textSize="15dp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,6 +45,7 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/price"
                 android:textColor="@color/mainText"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/titleOfMyOccasion2" />
 
@@ -52,30 +53,27 @@
                 android:id="@+id/textView21"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/NameOfPerson"
                 android:textColor="@color/mainText"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView23" />
+                app:layout_constraintTop_toBottomOf="@+id/textViewDateOccasionCard" />
 
             <Button
                 android:id="@+id/buttonRemoveItem"
-                android:layout_width="162dp"
-                android:layout_height="38dp"
-                android:layout_marginStart="15dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginRight="4dp"
-                android:layout_marginBottom="2dp"
+                android:layout_width="136dp"
+                android:layout_height="37dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/button_background"
                 android:text="@string/remove"
                 android:textColor="@color/mainText"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/buttonPreview"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView21" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textViewDateOccasionCard"
@@ -83,11 +81,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/ExpiringDate"
                 android:textColor="@color/mainText"
-                app:layout_constraintBottom_toBottomOf="@+id/textView23"
-                app:layout_constraintStart_toEndOf="@+id/textView23"
-                app:layout_constraintTop_toTopOf="@+id/textView23" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView23" />
 
             <TextView
                 android:id="@+id/textViewSumOfItemsOccasionCard"
@@ -95,12 +93,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="8dp"
                 android:text="@string/SUM_OF_ITEMS_COST"
                 android:textColor="@color/mainText"
                 app:layout_constraintBottom_toBottomOf="@+id/textView20"
                 app:layout_constraintStart_toEndOf="@+id/textView20"
-                app:layout_constraintTop_toBottomOf="@+id/titleOfMyOccasion" />
+                app:layout_constraintTop_toTopOf="@+id/textView20" />
 
             <TextView
                 android:id="@+id/titleOfMyOccasion"
@@ -129,19 +126,16 @@
 
             <Button
                 android:id="@+id/buttonPreview"
-                android:layout_width="154dp"
-                android:layout_height="38dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginEnd="13dp"
-                android:layout_marginRight="13dp"
+                android:layout_width="136dp"
+                android:layout_height="37dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/button_background"
                 android:text="@string/preview"
                 android:textColor="@color/mainText"
-                app:layout_constraintBottom_toBottomOf="@+id/buttonRemoveItem"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/buttonRemoveItem"
-                app:layout_constraintTop_toTopOf="@+id/buttonRemoveItem" />
+                app:layout_constraintTop_toBottomOf="@+id/buttonRemoveItem" />
 
             <TextView
                 android:id="@+id/textView23"
@@ -152,8 +146,24 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/ExpiringDate"
                 android:textColor="@color/mainText"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView20" />
+
+            <Button
+                android:id="@+id/buttonRegisterPaid"
+                android:layout_width="136dp"
+                android:layout_height="42dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/button_background"
+                android:text="@string/Paid"
+                android:textColor="@color/mainText"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonPreview" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </RelativeLayout>

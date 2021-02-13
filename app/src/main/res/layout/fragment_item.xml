@@ -133,7 +133,7 @@
 
     <fragment
         android:id="@+id/fragment3"
-        android:name="com.example.paybuddy.Occasions.list_of_items.ItemInOccasionsFragment"
+        android:name="com.example.paybuddy.Occasions.List_of_items.ItemInOccasionsFragment"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_marginTop="8dp"

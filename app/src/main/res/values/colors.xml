@@ -10,16 +10,16 @@
     <color name="overviewTabColor">#454F87</color>
 
     <color name="mainBackground">#ffffff</color>
-    <color name="cardBackground">#8CBABA</color>
+    <color name="cardBackground">#E2ECEC</color>
 
     <color name="hintText">#7C7777</color>
 
     <color name="overViewBackground">#ffffff</color>
 
     <color name="buttonText">#000000</color>
-    <color name="buttonBackground">#286868</color>
+    <color name="buttonBackground">#2E7A7A</color>
 
-    <color name="iconBackground">#EDF4F4</color>
+    <color name="iconBackground">#5395F8</color>
     <color name="tabTint">#000000</color>
     <color name="tabTintOverview">#000000</color>
 
