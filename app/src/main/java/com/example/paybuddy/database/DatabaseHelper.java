@@ -17,10 +17,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
+    public enum FILTER_TYPE{
+        SEARCH_WORD,
+        SEARCH_EXPIRED,
+        SEARCH_NOTEXPIRED,
+        SEARCH_ISPAID,
+        SEARCH_NOTPAID
+    }
+
     public static final String OCCASION_TABLE = "OCCASION_TABLE";
     public static final String COLUMN_OCCASION_ID = "ID";
     public static final String COLUMN_OCCASION_DESCRIPTION = "DESCRIPTION";
     public static final String COLUMN_DATE = "DATE";
+    public static final String COLUMN_STATUS_ISEXPIRED = "IsExpired";
+    public static final String COLUMN_STATUS_ISPAID = "IsPaid";
 
     public static final String ITEM_TABLE = "ITEM_TABLE";
     public static final String COLUMN_ITEM_ID = "ID";
@@ -29,15 +39,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ITEM_IN_OCCASION = "OCCASION_ID";
     public static final String COLUMN_QUANTITY = "QUANTITY";
 
-    public DatabaseHelper(@Nullable Context context) {
-        super(context, "payBuddie.db", null, 1);
+    private static DatabaseHelper instance;
+
+    private DatabaseHelper(@Nullable Context context) {
+        super(context, "payBuddiess.db", null, 1);
         getReadableDatabase();
         Log.d("Created db class", "...");
     }
 
+    public static synchronized DatabaseHelper getInstance(Context context){
+        if(instance == null){
+            instance = new DatabaseHelper(context.getApplicationContext());
+        }
+        return instance;
+    }
+
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createTableQuery = "CREATE TABLE " + OCCASION_TABLE + " (" + COLUMN_OCCASION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_OCCASION_DESCRIPTION + " TEXT, " + COLUMN_DATE + " TEXT)";
+        String createTableQuery = "CREATE TABLE " + OCCASION_TABLE + " (" + COLUMN_OCCASION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_OCCASION_DESCRIPTION + " TEXT, " + COLUMN_DATE + " TEXT," +
+                " " + COLUMN_STATUS_ISPAID + " BOOLEAN, " + COLUMN_STATUS_ISEXPIRED + " BOOLEAN )";
         String createValuesTable = "CREATE TABLE " + ITEM_TABLE + " (" + COLUMN_ITEM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_ITEM_DESCRIPTION + " TEXT, " + COLUMN_PRICE + " INTEGER, "
                 + COLUMN_QUANTITY + " INTEGER ," + COLUMN_ITEM_IN_OCCASION + " INTEGER,  FOREIGN KEY( " + COLUMN_ITEM_IN_OCCASION + " ) REFERENCES OCCASION_TABLE( " + COLUMN_OCCASION_ID + " ))";
         Log.d("QUERY1: ", createTableQuery);
@@ -51,11 +71,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //Update if new db found.
     }
 
-    public List<OccasionModel> filterOccasion(String searchWord){
+    public List<OccasionModel> filterOccasion(String searchWord, FILTER_TYPE filter){
         List<OccasionModel> occasionModels = new ArrayList<>();
-
+        String queryString = "";
         try{
-            String queryString = "SELECT * FROM " + OCCASION_TABLE + " WHERE " +  COLUMN_OCCASION_DESCRIPTION + " LIKE '%" + searchWord + "%'";
+            switch(filter){
+                case SEARCH_WORD:
+                    queryString = "SELECT * FROM " + OCCASION_TABLE + " WHERE " +  COLUMN_OCCASION_DESCRIPTION + " LIKE '%" + searchWord + "%'";
+                    Log.d("QUERY", queryString);
+                    break;
+                case SEARCH_EXPIRED:
+                    queryString = "SELECT * FROM " + OCCASION_TABLE + " WHERE " + COLUMN_STATUS_ISEXPIRED + " = 1 ";
+                    Log.d("QUERY", queryString);
+                    break;
+                case SEARCH_NOTEXPIRED:
+                    queryString = "SELECT * FROM " + OCCASION_TABLE + " WHERE " + COLUMN_STATUS_ISEXPIRED + " = 0 ";
+                    Log.d("QUERY", queryString);
+                    break;
+                case SEARCH_ISPAID:
+                    queryString = "SELECT * FROM " + OCCASION_TABLE + " WHERE " + COLUMN_STATUS_ISPAID + " = 1 ";
+                    Log.d("QUERY", queryString);
+                    break;
+                case SEARCH_NOTPAID:
+                    queryString = "SELECT * FROM " + OCCASION_TABLE + " WHERE " + COLUMN_STATUS_ISPAID + " = 0 ";
+                    Log.d("QUERY", queryString);
+                    break;
+            }
             SQLiteDatabase db = this.getReadableDatabase();
             Cursor cursorOccasion = db.rawQuery(queryString, null);
 
@@ -64,9 +105,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     int OccasionID = cursorOccasion.getInt(0);
                     String description = cursorOccasion.getString(1);
                     String date = cursorOccasion.getString(2);
+                    boolean isExpired = cursorOccasion.getInt(3) > 0;
+                    boolean isPaid = cursorOccasion.getInt(4) > 0;
                     ArrayList<ItemModel> items = getItemsForOccasion(db, OccasionID);
-
-                    OccasionModel primeModel = new OccasionModel(OccasionID, date,description, items);
+                    Log.d("occasion name" , description);
+                    OccasionModel primeModel = new OccasionModel(OccasionID, date,description, items, isPaid, isExpired);
                     occasionModels.add(primeModel);
                 }while(cursorOccasion.moveToNext());
             }else{
@@ -80,6 +123,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         return occasionModels;
+    }
+
+    private ArrayList<ItemModel> getItemsForOccasion(SQLiteDatabase db, long OccasionID){
+        ArrayList<ItemModel> items = new ArrayList<>();
+        String itemQuery = "SELECT * FROM " + ITEM_TABLE + " WHERE " + COLUMN_ITEM_IN_OCCASION + " = " + OccasionID;
+        Cursor cursorItem = db.rawQuery(itemQuery, null);
+
+        if(cursorItem.moveToFirst()){
+            do{
+                int itemID = cursorItem.getInt(0);
+                String description = cursorItem.getString(1);
+                int price = cursorItem.getInt(2);
+                int quantity = cursorItem.getInt(3);
+
+                ItemModel itemModel = new ItemModel(itemID, price, description, quantity);
+                items.add(itemModel);
+            }while(cursorItem.moveToNext());
+        }else{
+            //don't add anything to the list.
+        }
+        cursorItem.close();
+        return items;
     }
 
     public void delete(OccasionModel occasionModel){
@@ -128,16 +193,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return countOfRows;
     }
 
-    //public int getSumOfExpiredOccasions(){
-
-    //}
-
     public boolean insertOccasion(OccasionModel occasionModel){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
         cv.put(COLUMN_OCCASION_DESCRIPTION, occasionModel.getDescription());
-        cv.put(COLUMN_DATE, occasionModel.getDate().toString());
+        cv.put(COLUMN_DATE, occasionModel.getDate());
+        cv.put(COLUMN_STATUS_ISEXPIRED, occasionModel.isExpired());
+        cv.put(COLUMN_STATUS_ISPAID, occasionModel.isPaid());
 
         long insert = db.insert(OCCASION_TABLE, null, cv);
         boolean itemsInserted = insertItemsForOccasion(occasionModel, insert);
@@ -171,58 +234,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         return true;
-    }
-
-    public List<OccasionModel> getAllOccasions(){
-        List<OccasionModel> occasionModels = new ArrayList<>();
-
-        try{
-            String queryString = "SELECT * FROM " + OCCASION_TABLE;
-            SQLiteDatabase db = this.getReadableDatabase();
-            Cursor cursorOccasion = db.rawQuery(queryString, null);
-
-            if(cursorOccasion.moveToFirst()){
-                do{
-                    int OccasionID = cursorOccasion.getInt(0);
-                    String description = cursorOccasion.getString(1);
-                    String date = cursorOccasion.getString(2);
-                    ArrayList<ItemModel> items = getItemsForOccasion(db, OccasionID);
-
-                    OccasionModel primeModel = new OccasionModel(OccasionID, date,description, items);
-                    occasionModels.add(primeModel);
-                }while(cursorOccasion.moveToNext());
-            }else{
-                //don't add anything to the list.
-            }
-            Log.d("ITEM_COUNT", String.valueOf(occasionModels.size()));
-            cursorOccasion.close();
-            db.close();
-        }catch(Exception e){
-            Log.d("NO RECORDS FOUND", "NO RECORDS FOUND IN HISTORY!");
-        }
-
-        return occasionModels;
-    }
-
-    private ArrayList<ItemModel> getItemsForOccasion(SQLiteDatabase db, long OccasionID){
-        ArrayList<ItemModel> items = new ArrayList<>();
-        String itemQuery = "SELECT * FROM " + ITEM_TABLE + " WHERE " + COLUMN_ITEM_IN_OCCASION + " = " + OccasionID;
-        Cursor cursorItem = db.rawQuery(itemQuery, null);
-
-        if(cursorItem.moveToFirst()){
-            do{
-                int itemID = cursorItem.getInt(0);
-                String description = cursorItem.getString(1);
-                int price = cursorItem.getInt(2);
-                int quantity = cursorItem.getInt(3);
-
-                ItemModel itemModel = new ItemModel(itemID, price, description, quantity);
-                items.add(itemModel);
-            }while(cursorItem.moveToNext());
-        }else{
-            //don't add anything to the list.
-        }
-        cursorItem.close();
-        return items;
     }
 }
