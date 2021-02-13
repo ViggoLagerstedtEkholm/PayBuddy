@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/mainBackground"
     android:theme="@style/AppTheme"
-    tools:context=".TimesUp.DuePaymentFragment">
+    tools:context=".TimesUp.TimesUp.DuePaymentFragment">
 
     <fragment
         android:id="@+id/search_bar_timesup"
@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/fragmentListItems"
-        android:name="com.example.paybuddy.History.List.ListFragment"
+        android:name="com.example.paybuddy.History.List.ListFragmentHistory"
         android:layout_width="match_parent"
         android:layout_height="531dp"
         android:layout_marginTop="66dp"
