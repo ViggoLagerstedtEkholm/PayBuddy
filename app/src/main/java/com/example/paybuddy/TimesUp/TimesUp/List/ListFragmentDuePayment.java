@@ -19,7 +19,9 @@ import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.R;
 import com.example.paybuddy.Search.FilterViewModel;
 import com.example.paybuddy.database.DatabaseHelper;
+import com.example.paybuddy.database.FILTER_TYPE;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -60,12 +62,9 @@ public class ListFragmentDuePayment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_due_payment, container, false);
 
-        myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(databaseHelper.filterOccasion("NONE", DatabaseHelper.FILTER_TYPE.SEARCH_EXPIRED));
+        myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(new ArrayList<>());
 
-        filterViewModel.getSelected().observe(getViewLifecycleOwner(), word -> {
-            List<OccasionModel> occasionModelArrayList = databaseHelper.filterOccasion(word, DatabaseHelper.FILTER_TYPE.SEARCH_ISPAID);
-            myItemRecyclerViewAdapter.addItems(occasionModelArrayList);
-        });
+
 
         // Set the adapter
         if (view instanceof RecyclerView) {

@@ -4,20 +4,24 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.paybuddy.MainActivity;
 import com.example.paybuddy.Models.OccasionModel;
+import com.example.paybuddy.Repositories.RepositoryViewModel;
 import com.example.paybuddy.Search.FilterViewModel;
 import com.example.paybuddy.R;
 import com.example.paybuddy.database.DatabaseHelper;
+import com.example.paybuddy.database.FILTER_TYPE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +33,7 @@ public class ListFragmentHistory extends Fragment {
 
     private int mColumnCount = 1;
     private FilterViewModel filterViewModel;
+    private RepositoryViewModel repositoryViewModel;
     private MyItemRecyclerViewAdapter myItemRecyclerViewAdapter;
     private DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
     public ListFragmentHistory() {
@@ -38,19 +43,29 @@ public class ListFragmentHistory extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
+        repositoryViewModel = new ViewModelProvider(requireActivity()).get(RepositoryViewModel.class);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_history, container, false);
+        Log.d("UPDATING HISTORY", "...");
+        repositoryViewModel.init(getContext());
 
-        myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(databaseHelper.filterOccasion("NONE", DatabaseHelper.FILTER_TYPE.SEARCH_ISPAID));
+        repositoryViewModel.getOccasionList("", FILTER_TYPE.SEARCH_NOTPAID).observe(getViewLifecycleOwner(), new Observer<List<OccasionModel>>() {
+            @Override
+            public void onChanged(List<OccasionModel> occasionModels) {
+                myItemRecyclerViewAdapter.notifyDataSetChanged();
+            }
+        });
 
         filterViewModel.getSelected().observe(getViewLifecycleOwner(), word -> {
-            List<OccasionModel> occasionModelArrayList = databaseHelper.filterOccasion(word, DatabaseHelper.FILTER_TYPE.SEARCH_ISPAID);
+            List<OccasionModel> occasionModelArrayList = repositoryViewModel.getOccasionList("", FILTER_TYPE.SEARCH_ISPAID).getValue();
             myItemRecyclerViewAdapter.addItems(occasionModelArrayList);
         });
+
+        myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(repositoryViewModel.getOccasionList("", FILTER_TYPE.SEARCH_ISPAID).getValue());
 
         // Set the adapter
         if (view instanceof RecyclerView) {

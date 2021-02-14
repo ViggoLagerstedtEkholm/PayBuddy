@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.Occasions.ViewModel.CompleteListViewModel;
 import com.example.paybuddy.Occasions.ViewModel.InputToItemListViewModel;
 import com.example.paybuddy.R;
@@ -37,8 +40,8 @@ public class ItemInOccasionsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        inputToItemListViewModel = new ViewModelProvider(requireActivity()).get(InputToItemListViewModel.class);
-        completeListViewModel = new ViewModelProvider(requireActivity()).get(CompleteListViewModel.class);
+        inputToItemListViewModel = new ViewModelProvider(requireParentFragment()).get(InputToItemListViewModel.class);
+        completeListViewModel = new ViewModelProvider(requireParentFragment()).get(CompleteListViewModel.class);
 
     }
 
@@ -54,7 +57,6 @@ public class ItemInOccasionsFragment extends Fragment {
 
         myItemInOccasionRecyclerViewAdapter = new MyItemInOccasionRecyclerViewAdapter(new ArrayList<>(), completeListViewModel);
 
-        inputToItemListViewModel.getItem().removeObservers(this);
         inputToItemListViewModel.getItem().observe(getViewLifecycleOwner(), itemModelSingleEventViewModel -> {
             myItemInOccasionRecyclerViewAdapter.addItemToList(itemModelSingleEventViewModel);
         });
@@ -71,27 +73,5 @@ public class ItemInOccasionsFragment extends Fragment {
             recyclerView.setAdapter(myItemInOccasionRecyclerViewAdapter);
         }
         return view;
-    }
-
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        Log.d("Detatch", "---");
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.d("adapter destroy", "---");
-
-        inputToItemListViewModel.getItem().removeObservers(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        Log.d("Paused", "---");
-
     }
 }

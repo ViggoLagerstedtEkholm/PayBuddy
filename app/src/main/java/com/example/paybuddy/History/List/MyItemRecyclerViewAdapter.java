@@ -2,6 +2,7 @@ package com.example.paybuddy.History.List;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +41,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     public void onBindViewHolder(final ViewHolder holder, int position) {
         OccasionModel occasionModel = items.get(position);
         holder.mItem = items.get(position);
-
+        Log.d("Updating history adap", "...");
         String people = "";
         double cost = 0.0;
 

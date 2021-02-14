@@ -17,13 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-    public enum FILTER_TYPE{
-        SEARCH_WORD,
-        SEARCH_EXPIRED,
-        SEARCH_NOTEXPIRED,
-        SEARCH_ISPAID,
-        SEARCH_NOTPAID
-    }
 
     public static final String OCCASION_TABLE = "OCCASION_TABLE";
     public static final String COLUMN_OCCASION_ID = "ID";
@@ -44,7 +37,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private DatabaseHelper(@Nullable Context context) {
         super(context, "payBuddiess.db", null, 1);
         getReadableDatabase();
-        Log.d("Created db class", "...");
     }
 
     public static synchronized DatabaseHelper getInstance(Context context){
@@ -69,6 +61,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //Update if new db found.
+    }
+
+    public void updateOccasionIsPaid(int ID){
+        String query =  "UPDATE " + OCCASION_TABLE + " SET " + COLUMN_STATUS_ISPAID + " = 1" + " WHERE " + COLUMN_OCCASION_ID + " = " + ID;
+        Log.d("update: " , query);
+        SQLiteDatabase db = this.getReadableDatabase();
+        db.execSQL(query);
+    }
+
+    public void updateOccasionExpiredDate(int ID){
+
     }
 
     public List<OccasionModel> filterOccasion(String searchWord, FILTER_TYPE filter){
@@ -108,14 +111,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     boolean isExpired = cursorOccasion.getInt(3) > 0;
                     boolean isPaid = cursorOccasion.getInt(4) > 0;
                     ArrayList<ItemModel> items = getItemsForOccasion(db, OccasionID);
-                    Log.d("occasion name" , description);
                     OccasionModel primeModel = new OccasionModel(OccasionID, date,description, items, isPaid, isExpired);
                     occasionModels.add(primeModel);
                 }while(cursorOccasion.moveToNext());
             }else{
                 //don't add anything to the list.
             }
-            Log.d("ITEM_COUNT", String.valueOf(occasionModels.size()));
             cursorOccasion.close();
             db.close();
         }catch(Exception e){
@@ -158,7 +159,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public double getSumItems(){
-        String queryString = "SELECT SUM(PRICE) FROM " + ITEM_TABLE;
+        String queryString = "SELECT SUM(PRICE * QUANTITY) FROM " + ITEM_TABLE;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursorOccasion = db.rawQuery(queryString, null);
         double sumOfPrices = 0.0;

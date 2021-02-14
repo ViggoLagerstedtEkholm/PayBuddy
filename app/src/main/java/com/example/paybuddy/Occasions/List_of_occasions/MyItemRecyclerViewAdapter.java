@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,9 @@ import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.Occasions.Dialogs.DialogPreviewOccasion;
 import com.example.paybuddy.R;
+import com.example.paybuddy.Repositories.RepositoryViewModel;
 import com.example.paybuddy.database.DatabaseHelper;
+import com.example.paybuddy.database.FILTER_TYPE;
 
 import java.util.List;
 
@@ -27,14 +30,12 @@ import java.util.List;
 public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> {
     private List<OccasionModel> items;
     private final Fragment currentFragment;
-    private UpdateViewModel updateViewModel;
-    private DatabaseHelper databaseHelper;
+    private final RepositoryViewModel repositoryViewModel;
 
-    public MyItemRecyclerViewAdapter(List<OccasionModel> items, Fragment currentFragment) {
+    public MyItemRecyclerViewAdapter( List<OccasionModel> items, Fragment currentFragment, RepositoryViewModel repositoryViewModel) {
         this.items = items;
         this.currentFragment = currentFragment;
-        updateViewModel = new ViewModelProvider(currentFragment.getActivity()).get(UpdateViewModel.class);
-        databaseHelper = DatabaseHelper.getInstance(currentFragment.getContext());
+        this.repositoryViewModel = repositoryViewModel;
     }
 
     public void addItems(List<OccasionModel> occasionModels){
@@ -54,7 +55,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     public void onBindViewHolder(final ViewHolder holder, int position) {
         OccasionModel occasionModel = items.get(position);
         holder.mItem = items.get(position);
-        Log.d("AAAAAAAAA", "...");
+        Log.d("Updating occasion adap", "...");
         String people = "";
         double cost = 0.0;
 
@@ -72,10 +73,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
             @Override
             public void onClick(View v) {
                 items.remove(position);
-                databaseHelper.delete(occasionModel);
-                updateViewModel.updateTotalPrice(MainActivity.databaseHelper.getSumItems());
-                updateViewModel.updateTotalOccasion(MainActivity.databaseHelper.getAmountOfOccasion());
-                notifyDataSetChanged();
+                repositoryViewModel.deleteOccasion(occasionModel);
             }
         });
 
@@ -91,9 +89,9 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
             @Override
             public void onClick(View v) {
                 int ID = occasionModel.getID();
+                repositoryViewModel.updateOccasionIsPaid(ID);
+                repositoryViewModel.setFilterOccasionList("", FILTER_TYPE.SEARCH_NOTPAID);
                 items.remove(occasionModel);
-                notifyDataSetChanged();
-                //update database entry.
             }
         });
     }

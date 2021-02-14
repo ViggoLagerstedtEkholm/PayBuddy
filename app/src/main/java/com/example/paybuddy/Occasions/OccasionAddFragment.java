@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
@@ -23,6 +24,7 @@ import com.example.paybuddy.Occasions.Dialogs.DialogOccasionAdded;
 import com.example.paybuddy.Occasions.ViewModel.CompleteListViewModel;
 import com.example.paybuddy.Occasions.ViewModel.InputToItemListViewModel;
 import com.example.paybuddy.R;
+import com.example.paybuddy.Repositories.RepositoryViewModel;
 import com.example.paybuddy.database.DatabaseHelper;
 
 import java.util.ArrayList;
@@ -35,7 +37,7 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
     private EditText date;
     private InputToItemListViewModel inputToItemListViewModel;
     private CompleteListViewModel completeListViewModel;
-    private DatabaseHelper databaseHelper;
+    private RepositoryViewModel repositoryViewModel;
 
     public OccasionAddFragment() {
         // Required empty public constructor
@@ -46,9 +48,9 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         items = new ArrayList<>();
-        inputToItemListViewModel = new ViewModelProvider(requireActivity()).get(InputToItemListViewModel.class);
-        completeListViewModel = new ViewModelProvider(requireActivity()).get(CompleteListViewModel.class);
-        databaseHelper = DatabaseHelper.getInstance(getContext());
+        inputToItemListViewModel = new ViewModelProvider(this).get(InputToItemListViewModel.class);
+        completeListViewModel = new ViewModelProvider(this).get(CompleteListViewModel.class);
+        repositoryViewModel = new ViewModelProvider(requireActivity()).get(RepositoryViewModel.class);
     }
 
     @Override
@@ -95,11 +97,9 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
                 String occasionDate = date.getText().toString();
                 if(!occasionTitle.equals("") && !occasionDate.equals("") && items.size() != 0){
                     OccasionModel occasionModel = new OccasionModel(-1, occasionDate, occasionTitle, items, false, false);
-                    boolean success = databaseHelper.insertOccasion(occasionModel);
 
-                    if(!success){
-                        Log.d("Error can't insert!", "...");
-                    }
+                    repositoryViewModel.insertOccasion(occasionModel);
+
                     DialogOccasionAdded dialogFragment = new DialogOccasionAdded(occasionModel, currentView);
                     dialogFragment.show(getChildFragmentManager(), "Test");
                 }
@@ -126,6 +126,6 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        getActivity().getViewModelStore().clear();
+        //getActivity().getViewModelStore().
     }
 }

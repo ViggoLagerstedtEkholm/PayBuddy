@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,13 +17,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ViewSwitcher;
 
 import com.example.paybuddy.MainActivity;
 import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.Models.OccasionModel;
+import com.example.paybuddy.Repositories.RepositoryViewModel;
 import com.example.paybuddy.Search.FilterViewModel;
 import com.example.paybuddy.R;
 import com.example.paybuddy.database.DatabaseHelper;
+import com.example.paybuddy.database.FILTER_TYPE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +36,7 @@ import java.util.List;
  */
 public class ListFragmentOccasions extends Fragment {
     private int mColumnCount = 1;
-    private FilterViewModel filterViewModel;
+    private RepositoryViewModel repositoryViewModel;
     private MyItemRecyclerViewAdapter myItemRecyclerViewAdapter;
     private DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
 
@@ -42,7 +46,7 @@ public class ListFragmentOccasions extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
+        repositoryViewModel = new ViewModelProvider(requireActivity()).get(RepositoryViewModel.class);
     }
 
     @Override
@@ -54,13 +58,23 @@ public class ListFragmentOccasions extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_occasions_list, container, false);
-        Log.d("Updated occasions!!!", "...");
-        myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(databaseHelper.filterOccasion("NONE", DatabaseHelper.FILTER_TYPE.SEARCH_NOTPAID), this);
+        Log.d("OCCASIONS UPDATING", "...");
+        repositoryViewModel.init(getContext());
 
-        filterViewModel.getSelected().observe(getViewLifecycleOwner(), word -> {
-            List<OccasionModel> occasionModelArrayList = databaseHelper.filterOccasion(word, DatabaseHelper.FILTER_TYPE.SEARCH_NOTPAID);
-            myItemRecyclerViewAdapter.addItems(occasionModelArrayList);
+        repositoryViewModel.getOccasionList("", FILTER_TYPE.SEARCH_NOTPAID).observe(getViewLifecycleOwner(), new Observer<List<OccasionModel>>() {
+            @Override
+            public void onChanged(List<OccasionModel> occasionModels) {
+                Log.d("Loading occasions!", "...");
+                for(OccasionModel occasionModel : occasionModels){
+                    Log.d("Id", String.valueOf(occasionModel.getID()));
+                    Log.d("Title", occasionModel.getDescription());
+                }
+
+                myItemRecyclerViewAdapter.notifyDataSetChanged();
+            }
         });
+
+        myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(repositoryViewModel.getOccasionList("", FILTER_TYPE.SEARCH_NOTPAID).getValue(), this, repositoryViewModel);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -71,6 +85,7 @@ public class ListFragmentOccasions extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
+
             recyclerView.setAdapter(myItemRecyclerViewAdapter);
         }
         return view;

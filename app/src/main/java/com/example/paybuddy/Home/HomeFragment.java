@@ -19,7 +19,9 @@ import android.widget.TextView;
 
 import com.example.paybuddy.MainActivity;
 import com.example.paybuddy.R;
+import com.example.paybuddy.Repositories.RepositoryViewModel;
 import com.example.paybuddy.database.DatabaseHelper;
+import com.example.paybuddy.database.FILTER_TYPE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,6 +34,7 @@ public class HomeFragment extends Fragment {
     private TextView textViewCountOfOccasions;
     private boolean isSelected;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private RepositoryViewModel repositoryViewModel;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -41,6 +44,8 @@ public class HomeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         databaseHelper = DatabaseHelper.getInstance(getContext());
+        repositoryViewModel = new ViewModelProvider(requireActivity()).get(RepositoryViewModel.class);
+
     }
 
     @Override
@@ -54,24 +59,14 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Log.d("View is being created!", "...");
-        UpdateViewModel updateViewModel = new ViewModelProvider(requireActivity()).get(UpdateViewModel.class);
 
         textViewCountOfExpiredOccasions = (TextView) view.findViewById(R.id.textViewCountOfExpiredOccasions);
         textViewSumOfItems = (TextView) view.findViewById(R.id.textViewSumOfItems);
         textViewCountOfOccasions = (TextView) view.findViewById(R.id.textViewCountOfOccasions);
 
-        LiveData<Double> price = updateViewModel.getTotalPrice();
-        price.observe(getViewLifecycleOwner(), value -> {
-            textViewSumOfItems.setText(Double.toString(value));
-        });
-
-        LiveData<Integer> occasions = updateViewModel.getTotalOccasion();
-        occasions.observe(getViewLifecycleOwner(), value -> {
-            textViewCountOfOccasions.setText(String.valueOf(value));
-        });
-
-        double totalPrice = databaseHelper.getSumItems();
-        int totalOccasion = databaseHelper.getAmountOfOccasion();
+        repositoryViewModel.init(getContext());
+        double totalPrice = repositoryViewModel.getSumCost();
+        int totalOccasion = repositoryViewModel.getSumOccasions();
 
         textViewSumOfItems.setText(Double.toString(totalPrice));
         textViewCountOfOccasions.setText(String.valueOf(totalOccasion));

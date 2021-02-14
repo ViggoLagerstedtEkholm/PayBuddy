@@ -31,7 +31,7 @@ public class DialogAddItem extends DialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        inputToItemListViewModel = new ViewModelProvider(requireActivity()).get(InputToItemListViewModel.class);
+        inputToItemListViewModel = new ViewModelProvider(requireParentFragment()).get(InputToItemListViewModel.class);
     }
 
     @NonNull
@@ -73,13 +73,5 @@ public class DialogAddItem extends DialogFragment {
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
         return alertDialog;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.d("dialog destroy", "---");
-
-        inputToItemListViewModel.getItem().removeObservers(this);
     }
 }

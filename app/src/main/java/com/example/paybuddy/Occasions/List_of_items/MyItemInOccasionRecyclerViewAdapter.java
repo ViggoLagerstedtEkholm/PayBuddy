@@ -97,10 +97,5 @@ public class MyItemInOccasionRecyclerViewAdapter extends RecyclerView.Adapter<My
         }
     }
 
-    @Override
-    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
-        super.onDetachedFromRecyclerView(recyclerView);
-        items.clear();
-        notifyDataSetChanged();
-    }
+
 }
