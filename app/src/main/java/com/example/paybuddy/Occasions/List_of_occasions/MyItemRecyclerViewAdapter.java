@@ -38,12 +38,6 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         this.repositoryViewModel = repositoryViewModel;
     }
 
-    public void addItems(List<OccasionModel> occasionModels){
-        this.items = occasionModels;
-        Log.d("Searching", "...");
-        notifyDataSetChanged();
-    }
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -55,7 +49,6 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     public void onBindViewHolder(final ViewHolder holder, int position) {
         OccasionModel occasionModel = items.get(position);
         holder.mItem = items.get(position);
-        Log.d("Updating occasion adap", "...");
         String people = "";
         double cost = 0.0;
 
@@ -72,8 +65,8 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         holder.buttonRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                items.remove(position);
                 repositoryViewModel.deleteOccasion(occasionModel);
+                notifyItemRemoved(position);
             }
         });
 
@@ -90,8 +83,6 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
             public void onClick(View v) {
                 int ID = occasionModel.getID();
                 repositoryViewModel.updateOccasionIsPaid(ID);
-                repositoryViewModel.setFilterOccasionList("", FILTER_TYPE.SEARCH_NOTPAID);
-                items.remove(occasionModel);
             }
         });
     }

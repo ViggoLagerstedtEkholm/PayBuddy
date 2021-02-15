@@ -53,6 +53,11 @@ public class SectionsPagerAdapterHome extends FragmentStatePagerAdapter {
     }
 
     @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
+    }
+
+    @Override
     public int getCount() {
         return TAB_TITLES.length;
     }

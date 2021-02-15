@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,11 +22,13 @@ import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.Occasions.ViewModel.InputToItemListViewModel;
 import com.example.paybuddy.R;
+import com.example.paybuddy.Validator;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DialogAddItem extends DialogFragment {
-    private TextView totalPrice;
-    private TextView exipiringDate;
-    private OccasionModel occasionModel;
     private InputToItemListViewModel inputToItemListViewModel;
 
     @Override
@@ -41,23 +44,32 @@ public class DialogAddItem extends DialogFragment {
 
         View view = inflater.inflate(R.layout.fragment_item_input, null);
 
+        List<EditText> textList = new ArrayList<>();
+
         Button buttonAdd = (Button) view.findViewById(R.id.buttonAddItemToList);
-        TextView txfItemName = (TextView) view.findViewById(R.id.txfItemName);
-        TextView txfItemPrice = (TextView) view.findViewById(R.id.txfItemPrice);
-        TextView txfItemQuantity = (TextView) view.findViewById(R.id.txfItemQuantity);
-        TextView txfItemPersonName = (TextView) view.findViewById(R.id.txfItemPersonName);
+        EditText txfItemName = (EditText) view.findViewById(R.id.txfItemName);
+        EditText txfItemPrice = (EditText) view.findViewById(R.id.txfItemPrice);
+        EditText txfItemQuantity = (EditText) view.findViewById(R.id.txfItemQuantity);
+        EditText txfItemPersonName = (EditText) view.findViewById(R.id.txfItemPersonName);
+
+        textList.add(txfItemName);
+        textList.add(txfItemPrice);
+        textList.add(txfItemQuantity);
+        textList.add(txfItemPersonName);
 
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(txfItemName.length() > 0 && txfItemName.length() > 0 && txfItemPrice.length() > 0){
+                if(Validator.EditTextHasValues(textList))
+                {
                     String title =  txfItemName.getText().toString();
                     double price = Double.parseDouble(String.valueOf(txfItemPrice.getText()));
                     int quantity = Integer.parseInt(String.valueOf(txfItemQuantity.getText()));
                     String names = txfItemPersonName.getText().toString();
+
                     ItemModel itemModel = new ItemModel(-1, price, title, quantity);
 
-                    inputToItemListViewModel.setItem(itemModel); // add item to data.
+                    inputToItemListViewModel.setItem(itemModel);
 
                     dismiss();
                 }

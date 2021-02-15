@@ -22,34 +22,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RepositoryViewModel extends ViewModel {
-    private MutableLiveData<List<OccasionModel>> items;
     private OccasionRepository occasionRepository;
+    private MutableLiveData<List<OccasionModel>> occasions;
+    public LiveData<List<OccasionModel>> getOccasions(FILTER_TYPE filter){
+        fetchOccasions(filter);
+        return occasions;
+    }
+
+    private void fetchOccasions(FILTER_TYPE filter){
+        occasions.setValue(occasionRepository.getOccasions(filter));
+    }
 
     public void init(Context context){
-        if(items != null){
+        if(occasions != null){
             return;
         }
-        items = new MutableLiveData<>();
+        occasions = new MutableLiveData<>();
         occasionRepository = OccasionRepository.getInstance(context);
-        items.setValue(occasionRepository.getOccasion("", FILTER_TYPE.SEARCH_NOTPAID));
-    }
-
-    public LiveData<List<OccasionModel>> getOccasionList(String searchWord, FILTER_TYPE filter){
-        List<OccasionModel> models = occasionRepository.getOccasion(searchWord, filter);
-        items.setValue(models);
-        return items;
-    }
-
-    public void setFilterOccasionList(String searchWord, FILTER_TYPE filter){
-        items.setValue(occasionRepository.getOccasion(searchWord, filter));
-        Log.d("Filtering", "...");
     }
 
     public void updateOccasionIsPaid(int ID){
         occasionRepository.updateOccasionIsPaid(ID);
 
         List<OccasionModel> currentItems = new ArrayList<>();
-        items.setValue(currentItems);
+        occasions.setValue(currentItems);
     }
 
     public void updateOccasionExpiredDate(int ID){
@@ -65,16 +61,18 @@ public class RepositoryViewModel extends ViewModel {
     }
 
     public void insertOccasion(OccasionModel occasionModel){
-        List<OccasionModel> currentItems = items.getValue();
-        currentItems.add(occasionModel);
-        items.setValue(currentItems);
         occasionRepository.addOccasion(occasionModel);
+
+        List<OccasionModel> currentItems = occasions.getValue();
+        currentItems.add(occasionModel);
+        occasions.setValue(currentItems);
     }
 
     public void deleteOccasion(OccasionModel occasionModel){
-        List<OccasionModel> currentItems = items.getValue();
-        currentItems.remove(occasionModel);
-        items.setValue(currentItems);
         occasionRepository.deleteOccasion(occasionModel);
+
+        List<OccasionModel> currentItems = occasions.getValue();
+        currentItems.remove(occasionModel);
+        occasions.setValue(currentItems);
     }
 }

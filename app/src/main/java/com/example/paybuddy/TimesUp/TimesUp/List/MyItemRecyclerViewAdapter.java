@@ -16,6 +16,7 @@ import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.Occasions.Dialogs.DialogPreviewOccasion;
 import com.example.paybuddy.R;
+import com.example.paybuddy.Repositories.RepositoryViewModel;
 
 import java.util.List;
 

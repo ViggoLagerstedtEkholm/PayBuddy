@@ -25,6 +25,7 @@ import com.example.paybuddy.Occasions.ViewModel.CompleteListViewModel;
 import com.example.paybuddy.Occasions.ViewModel.InputToItemListViewModel;
 import com.example.paybuddy.R;
 import com.example.paybuddy.Repositories.RepositoryViewModel;
+import com.example.paybuddy.Validator;
 import com.example.paybuddy.database.DatabaseHelper;
 
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
     private InputToItemListViewModel inputToItemListViewModel;
     private CompleteListViewModel completeListViewModel;
     private RepositoryViewModel repositoryViewModel;
+    private List<EditText> editTexts = new ArrayList<>();
 
     public OccasionAddFragment() {
         // Required empty public constructor
@@ -79,23 +81,28 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
         Button buttonSave = (Button) view.findViewById(R.id.buttonEnter);
         Button buttonCancel = (Button) view.findViewById(R.id.buttonCancel);
         Button buttonAddItems = (Button) view.findViewById(R.id.buttonAddItems);
+        Button buttonEnterLocation = (Button) view.findViewById(R.id.buttonEnterLocation);
 
         title = (EditText) view.findViewById(R.id.FieldTitle);
         date = (EditText) view.findViewById(R.id.FieldDate);
 
+        editTexts.add(title);
+        editTexts.add(date);
+
         buttonSave.setOnClickListener(this);
         buttonCancel.setOnClickListener(this);
         buttonAddItems.setOnClickListener(this);
+        buttonEnterLocation.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         switch(view.getId()){
             case R.id.buttonEnter:
-                //fetch fields etc...
-                String occasionTitle = title.getText().toString();
-                String occasionDate = date.getText().toString();
-                if(!occasionTitle.equals("") && !occasionDate.equals("") && items.size() != 0){
+                if(Validator.EditTextHasValues(editTexts) && items.size() != 0)
+                {
+                    String occasionTitle = title.getText().toString();
+                    String occasionDate = date.getText().toString();
                     OccasionModel occasionModel = new OccasionModel(-1, occasionDate, occasionTitle, items, false, false);
 
                     repositoryViewModel.insertOccasion(occasionModel);
@@ -104,13 +111,12 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
                     dialogFragment.show(getChildFragmentManager(), "Test");
                 }
                 else{
-                    if(occasionTitle.equals("") && occasionDate.equals("")){
+                    if(!Validator.EditTextHasValues(editTexts)){
                         Toast.makeText(getActivity(), "Enter title or date!", Toast.LENGTH_SHORT).show();
                     }
                     if(items.size() == 0){
                         Toast.makeText(getActivity(), "Add atleast 1 item!", Toast.LENGTH_SHORT).show();
                     }
-
                 }
                 break;
             case R.id.buttonCancel:
@@ -120,12 +126,9 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
                     DialogAddItem dialogFragment = new DialogAddItem();
                     dialogFragment.show(getChildFragmentManager(), "Test");
                 break;
+            case R.id.buttonEnterLocation:
+                Navigation.findNavController(view).navigate(R.id.action_occasionAddFragment_to_locationHandler);
+                break;
         }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        //getActivity().getViewModelStore().
     }
 }

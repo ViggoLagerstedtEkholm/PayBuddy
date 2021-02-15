@@ -65,22 +65,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void updateOccasionIsPaid(int ID){
         String query =  "UPDATE " + OCCASION_TABLE + " SET " + COLUMN_STATUS_ISPAID + " = 1" + " WHERE " + COLUMN_OCCASION_ID + " = " + ID;
-        Log.d("update: " , query);
         SQLiteDatabase db = this.getReadableDatabase();
         db.execSQL(query);
     }
 
     public void updateOccasionExpiredDate(int ID){
-
+        String query =  "UPDATE " + OCCASION_TABLE + " SET " + COLUMN_STATUS_ISEXPIRED + " = 1" + " WHERE " + COLUMN_OCCASION_ID + " = " + ID;
+        SQLiteDatabase db = this.getReadableDatabase();
+        db.execSQL(query);
     }
 
-    public List<OccasionModel> filterOccasion(String searchWord, FILTER_TYPE filter){
+    public List<OccasionModel> filterOccasion(FILTER_TYPE filter){
         List<OccasionModel> occasionModels = new ArrayList<>();
         String queryString = "";
         try{
             switch(filter){
                 case SEARCH_WORD:
-                    queryString = "SELECT * FROM " + OCCASION_TABLE + " WHERE " +  COLUMN_OCCASION_DESCRIPTION + " LIKE '%" + searchWord + "%'";
+                    //queryString = "SELECT * FROM " + OCCASION_TABLE + " WHERE " +  COLUMN_OCCASION_DESCRIPTION + " LIKE '%" + searchWord + "%'";
                     Log.d("QUERY", queryString);
                     break;
                 case SEARCH_EXPIRED:

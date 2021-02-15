@@ -30,9 +30,20 @@
             app:launchSingleTop="true"
             app:popUpTo="@id/tabViewFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_occasionAddFragment_to_locationHandler"
+            app:destination="@id/locationHandler" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.paybuddy.Settings.SettingsFragment"
         android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/locationHandler"
+        android:name="com.example.paybuddy.Occasions.Location.LocationHandler"
+        android:label="LocationHandler" >
+        <action
+            android:id="@+id/action_locationHandler_to_occasionAddFragment"
+            app:destination="@id/occasionAddFragment" />
+    </fragment>
 </navigation>

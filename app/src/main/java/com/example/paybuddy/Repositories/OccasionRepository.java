@@ -25,8 +25,8 @@ public class OccasionRepository {
         return instance;
     }
 
-    public List<OccasionModel> getOccasion(String search, FILTER_TYPE filter){
-        return databaseHelper.filterOccasion(search, filter);
+    public List<OccasionModel> getOccasions(FILTER_TYPE filter){
+        return databaseHelper.filterOccasion(filter);
     }
 
     public void updateOccasionIsPaid(int ID){

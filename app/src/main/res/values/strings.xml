@@ -4,6 +4,7 @@
     <string name="tab_home">Home</string>
     <string name="tab_expired">Expired</string>
     <string name="Paid">Register as paid</string>
+    <string name="EnterLocation">Enter location</string>
     <string name="tab_selector">Your occasions</string>
     <string name="tab_occasions">Occasions</string>
     <string name="overview">Overview</string>

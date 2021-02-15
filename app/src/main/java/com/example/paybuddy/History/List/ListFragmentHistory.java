@@ -50,22 +50,22 @@ public class ListFragmentHistory extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_history, container, false);
-        Log.d("UPDATING HISTORY", "...");
         repositoryViewModel.init(getContext());
 
-        repositoryViewModel.getOccasionList("", FILTER_TYPE.SEARCH_NOTPAID).observe(getViewLifecycleOwner(), new Observer<List<OccasionModel>>() {
-            @Override
-            public void onChanged(List<OccasionModel> occasionModels) {
-                myItemRecyclerViewAdapter.notifyDataSetChanged();
+        repositoryViewModel.getOccasions(FILTER_TYPE.SEARCH_ISPAID).observe(getViewLifecycleOwner(), list ->{
+            Log.d("UPDATING HISTORY", String.valueOf(list.size()));
+            for(OccasionModel occasionModel : list){
+                Log.d("History items", occasionModel.getID() + " : " + occasionModel.getDescription());
             }
+            myItemRecyclerViewAdapter.notifyDataSetChanged();
         });
 
         filterViewModel.getSelected().observe(getViewLifecycleOwner(), word -> {
-            List<OccasionModel> occasionModelArrayList = repositoryViewModel.getOccasionList("", FILTER_TYPE.SEARCH_ISPAID).getValue();
+            List<OccasionModel> occasionModelArrayList = repositoryViewModel.getOccasions(FILTER_TYPE.SEARCH_ISPAID).getValue();
             myItemRecyclerViewAdapter.addItems(occasionModelArrayList);
         });
 
-        myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(repositoryViewModel.getOccasionList("", FILTER_TYPE.SEARCH_ISPAID).getValue());
+        myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(repositoryViewModel.getOccasions(FILTER_TYPE.SEARCH_ISPAID).getValue());
 
         // Set the adapter
         if (view instanceof RecyclerView) {

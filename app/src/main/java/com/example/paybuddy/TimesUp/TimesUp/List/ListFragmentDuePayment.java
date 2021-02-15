@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import com.example.paybuddy.MainActivity;
 import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.R;
+import com.example.paybuddy.Repositories.RepositoryViewModel;
 import com.example.paybuddy.Search.FilterViewModel;
 import com.example.paybuddy.database.DatabaseHelper;
 import com.example.paybuddy.database.FILTER_TYPE;
@@ -34,6 +36,7 @@ public class ListFragmentDuePayment extends Fragment {
     private int mColumnCount = 1;
     private DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
     private MyItemRecyclerViewAdapter myItemRecyclerViewAdapter;
+    private RepositoryViewModel repositoryViewModel;
 
     public ListFragmentDuePayment() {
 
@@ -52,6 +55,8 @@ public class ListFragmentDuePayment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
+        repositoryViewModel = new ViewModelProvider(requireActivity()).get(RepositoryViewModel.class);
+
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
@@ -62,9 +67,18 @@ public class ListFragmentDuePayment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_due_payment, container, false);
 
-        myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(new ArrayList<>());
+        repositoryViewModel.init(getContext());
 
+        repositoryViewModel.getOccasions(FILTER_TYPE.SEARCH_EXPIRED).observe(getViewLifecycleOwner(), new Observer<List<OccasionModel>>() {
+            @Override
+            public void onChanged(List<OccasionModel> occasionModels) {
+                Log.d("EXPIRED HISTORY", "...");
 
+                myItemRecyclerViewAdapter.notifyDataSetChanged();
+            }
+        });
+
+        myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(repositoryViewModel.getOccasions(FILTER_TYPE.SEARCH_EXPIRED).getValue());
 
         // Set the adapter
         if (view instanceof RecyclerView) {

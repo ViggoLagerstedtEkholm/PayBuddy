@@ -1,6 +1,7 @@
 package com.example.paybuddy.Occasions.List_of_occasions;
 
 import android.content.Context;
+import android.database.ContentObserver;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -58,23 +60,17 @@ public class ListFragmentOccasions extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_occasions_list, container, false);
-        Log.d("OCCASIONS UPDATING", "...");
+
         repositoryViewModel.init(getContext());
-
-        repositoryViewModel.getOccasionList("", FILTER_TYPE.SEARCH_NOTPAID).observe(getViewLifecycleOwner(), new Observer<List<OccasionModel>>() {
-            @Override
-            public void onChanged(List<OccasionModel> occasionModels) {
-                Log.d("Loading occasions!", "...");
-                for(OccasionModel occasionModel : occasionModels){
-                    Log.d("Id", String.valueOf(occasionModel.getID()));
-                    Log.d("Title", occasionModel.getDescription());
-                }
-
-                myItemRecyclerViewAdapter.notifyDataSetChanged();
+        repositoryViewModel.getOccasions(FILTER_TYPE.SEARCH_NOTPAID).observe(getViewLifecycleOwner(), list -> {
+                 Log.d("UPDATING OCCASIONS", String.valueOf(list.size()));
+                for(OccasionModel occasionModel : list){
+                Log.d("occasion items", occasionModel.getID() + " : " + occasionModel.getDescription());
             }
+                myItemRecyclerViewAdapter.notifyDataSetChanged();
         });
 
-        myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(repositoryViewModel.getOccasionList("", FILTER_TYPE.SEARCH_NOTPAID).getValue(), this, repositoryViewModel);
+        myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(repositoryViewModel.getOccasions(FILTER_TYPE.SEARCH_NOTPAID).getValue(), this, repositoryViewModel);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
