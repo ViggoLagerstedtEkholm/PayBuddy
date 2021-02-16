@@ -4,6 +4,7 @@ import android.widget.TextView;
 
 import com.example.paybuddy.R;
 
+//TODO
 public class LocationModel {
     private double latitude;
     private double longitude;

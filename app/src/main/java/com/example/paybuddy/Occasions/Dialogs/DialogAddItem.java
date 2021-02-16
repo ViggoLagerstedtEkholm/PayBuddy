@@ -67,8 +67,7 @@ public class DialogAddItem extends DialogFragment {
                     int quantity = Integer.parseInt(String.valueOf(txfItemQuantity.getText()));
                     String names = txfItemPersonName.getText().toString();
 
-                    ItemModel itemModel = new ItemModel(-1, price, title, quantity);
-
+                    ItemModel itemModel = new ItemModel(price, title, quantity);
                     inputToItemListViewModel.setItem(itemModel);
 
                     dismiss();

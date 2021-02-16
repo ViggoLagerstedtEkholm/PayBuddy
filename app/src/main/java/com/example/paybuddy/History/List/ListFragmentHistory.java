@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,16 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.paybuddy.MainActivity;
-import com.example.paybuddy.Models.OccasionModel;
-import com.example.paybuddy.Repositories.RepositoryViewModel;
-import com.example.paybuddy.Search.FilterViewModel;
+import com.example.paybuddy.MVVM.RepositoryViewModel;
 import com.example.paybuddy.R;
-import com.example.paybuddy.database.DatabaseHelper;
-import com.example.paybuddy.database.FILTER_TYPE;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A fragment representing a list of Items.
@@ -32,17 +25,15 @@ import java.util.List;
 public class ListFragmentHistory extends Fragment {
 
     private int mColumnCount = 1;
-    private FilterViewModel filterViewModel;
     private RepositoryViewModel repositoryViewModel;
     private MyItemRecyclerViewAdapter myItemRecyclerViewAdapter;
-    private DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
+
     public ListFragmentHistory() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
         repositoryViewModel = new ViewModelProvider(requireActivity()).get(RepositoryViewModel.class);
     }
 
@@ -50,22 +41,9 @@ public class ListFragmentHistory extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_history, container, false);
-        repositoryViewModel.init(getContext());
 
-        repositoryViewModel.getOccasions(FILTER_TYPE.SEARCH_ISPAID).observe(getViewLifecycleOwner(), list ->{
-            Log.d("UPDATING HISTORY", String.valueOf(list.size()));
-            for(OccasionModel occasionModel : list){
-                Log.d("History items", occasionModel.getID() + " : " + occasionModel.getDescription());
-            }
-            myItemRecyclerViewAdapter.notifyDataSetChanged();
-        });
 
-        filterViewModel.getSelected().observe(getViewLifecycleOwner(), word -> {
-            List<OccasionModel> occasionModelArrayList = repositoryViewModel.getOccasions(FILTER_TYPE.SEARCH_ISPAID).getValue();
-            myItemRecyclerViewAdapter.addItems(occasionModelArrayList);
-        });
-
-        myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(repositoryViewModel.getOccasions(FILTER_TYPE.SEARCH_ISPAID).getValue());
+        myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(new ArrayList<>());
 
         // Set the adapter
         if (view instanceof RecyclerView) {

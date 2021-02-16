@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -17,11 +16,8 @@ import android.view.ViewGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.example.paybuddy.MainActivity;
 import com.example.paybuddy.R;
-import com.example.paybuddy.Repositories.RepositoryViewModel;
-import com.example.paybuddy.database.DatabaseHelper;
-import com.example.paybuddy.database.FILTER_TYPE;
+import com.example.paybuddy.MVVM.RepositoryViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,7 +26,6 @@ import com.example.paybuddy.database.FILTER_TYPE;
 public class HomeFragment extends Fragment {
     private TextView textViewSumOfItems;
     private TextView textViewCountOfExpiredOccasions;
-    private DatabaseHelper databaseHelper;
     private TextView textViewCountOfOccasions;
     private boolean isSelected;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -43,7 +38,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        databaseHelper = DatabaseHelper.getInstance(getContext());
         repositoryViewModel = new ViewModelProvider(requireActivity()).get(RepositoryViewModel.class);
 
     }
@@ -64,12 +58,12 @@ public class HomeFragment extends Fragment {
         textViewSumOfItems = (TextView) view.findViewById(R.id.textViewSumOfItems);
         textViewCountOfOccasions = (TextView) view.findViewById(R.id.textViewCountOfOccasions);
 
-        repositoryViewModel.init(getContext());
-        double totalPrice = repositoryViewModel.getSumCost();
-        int totalOccasion = repositoryViewModel.getSumOccasions();
+        //repositoryViewModel.init(getContext());
+        //double totalPrice = repositoryViewModel.getSumCost();
+        //int totalOccasion = repositoryViewModel.getSumOccasions();
 
-        textViewSumOfItems.setText(Double.toString(totalPrice));
-        textViewCountOfOccasions.setText(String.valueOf(totalOccasion));
+        //textViewSumOfItems.setText(Double.toString(totalPrice));
+        //textViewCountOfOccasions.setText(String.valueOf(totalOccasion));
 
         Switch switchDarkModeHome = (Switch) view.findViewById(R.id.switchDarkModeHome);
         switchDarkModeHome.setOnClickListener(new View.OnClickListener() {
@@ -91,13 +85,13 @@ public class HomeFragment extends Fragment {
             @Override
             public void onRefresh() {
                 Log.d("Updating fields", "...");
-                double totalPrice = databaseHelper.getSumItems();
-                int totalOccasion = databaseHelper.getAmountOfOccasion();
-                textViewSumOfItems.setText(Double.toString(totalPrice));
-                textViewCountOfOccasions.setText(String.valueOf(totalOccasion));
-                if(swipeRefreshLayout.isRefreshing()){
-                    swipeRefreshLayout.setRefreshing(false);
-                }
+                //double totalPrice = databaseHelper.getSumItems();
+                //int totalOccasion = databaseHelper.getAmountOfOccasion();
+                //textViewSumOfItems.setText(Double.toString(totalPrice));
+                //textViewCountOfOccasions.setText(String.valueOf(totalOccasion));
+                //if(swipeRefreshLayout.isRefreshing()){
+                 //   swipeRefreshLayout.setRefreshing(false);
+                //}
             }
         });
     }

@@ -1,7 +1,5 @@
 package com.example.paybuddy.TimesUp.TimesUp.List;
 
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -10,13 +8,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.paybuddy.Home.UpdateViewModel;
-import com.example.paybuddy.MainActivity;
 import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.Models.OccasionModel;
-import com.example.paybuddy.Occasions.Dialogs.DialogPreviewOccasion;
 import com.example.paybuddy.R;
-import com.example.paybuddy.Repositories.RepositoryViewModel;
 
 import java.util.List;
 
@@ -48,9 +42,9 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
         double cost = 0.0;
 
-        for(ItemModel item : occasionModel.getItems()){
-            cost += item.getPrice() * item.getQuantity();
-        }
+//        for(ItemModel item : occasionModel.getItems()){
+         //   cost += item.getPrice() * item.getQuantity();
+        //}
 
         holder.textView_list_due_payment_title.setText(occasionModel.getDescription());
         holder.textView_list_due_payment_expiringDate_value.setText(occasionModel.getDate());

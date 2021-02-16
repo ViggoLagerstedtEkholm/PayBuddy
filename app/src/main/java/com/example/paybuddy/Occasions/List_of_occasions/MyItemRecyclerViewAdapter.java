@@ -1,26 +1,19 @@
 package com.example.paybuddy.Occasions.List_of_occasions;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.paybuddy.Home.UpdateViewModel;
-import com.example.paybuddy.MainActivity;
 import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.Occasions.Dialogs.DialogPreviewOccasion;
 import com.example.paybuddy.R;
-import com.example.paybuddy.Repositories.RepositoryViewModel;
-import com.example.paybuddy.database.DatabaseHelper;
-import com.example.paybuddy.database.FILTER_TYPE;
+import com.example.paybuddy.MVVM.RepositoryViewModel;
 
 import java.util.List;
 
@@ -38,6 +31,11 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         this.repositoryViewModel = repositoryViewModel;
     }
 
+    public void addItems(List<OccasionModel> occasionModels){
+        this.items = occasionModels;
+        notifyDataSetChanged();
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -52,9 +50,9 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         String people = "";
         double cost = 0.0;
 
-        for(ItemModel item : occasionModel.getItems()){
-            cost += item.getPrice() * item.getQuantity();
-        }
+        //for(ItemModel item : occasionModel.getItems()){
+         //   cost += item.getPrice() * item.getQuantity();
+        //}
 
         holder.titleOfMyOccasion.setText(occasionModel.getDescription());
         holder.textViewDateOccasionCard.setText(occasionModel.getDate());
@@ -65,8 +63,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         holder.buttonRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                repositoryViewModel.deleteOccasion(occasionModel);
-                notifyItemRemoved(position);
+                //TODO
             }
         });
 
@@ -81,8 +78,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         holder.buttonRegisterPaid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int ID = occasionModel.getID();
-                repositoryViewModel.updateOccasionIsPaid(ID);
+                //TODO
             }
         });
     }

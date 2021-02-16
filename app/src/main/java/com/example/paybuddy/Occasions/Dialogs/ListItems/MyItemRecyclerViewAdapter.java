@@ -1,9 +1,7 @@
-package com.example.paybuddy.Occasions.List_of_items;
+package com.example.paybuddy.Occasions.Dialogs.ListItems;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,18 +9,21 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.paybuddy.Models.ItemModel;
-import com.example.paybuddy.Occasions.ViewModel.CompleteListViewModel;
+import com.example.paybuddy.Models.OccasionModel;
+import com.example.paybuddy.Occasions.List_of_items.MyItemInOccasionRecyclerViewAdapter;
 import com.example.paybuddy.R;
 
 import java.util.List;
 
-public class MyItemInOccasionRecyclerViewAdapter extends RecyclerView.Adapter<MyItemInOccasionRecyclerViewAdapter.ViewHolder> {
-    private List<ItemModel> items;
-    private CompleteListViewModel completeListViewModel;
+/**
+ * TODO: Replace the implementation with code for your data type.
+ */
+public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> {
 
-    public MyItemInOccasionRecyclerViewAdapter(List<ItemModel> items, CompleteListViewModel completeListViewModel) {
+    private List<ItemModel> items;
+
+    public MyItemRecyclerViewAdapter(List<ItemModel> items) {
         this.items = items;
-        this.completeListViewModel = completeListViewModel;
     }
 
     public void addItems(List<ItemModel> itemModels){
@@ -30,17 +31,10 @@ public class MyItemInOccasionRecyclerViewAdapter extends RecyclerView.Adapter<My
         notifyDataSetChanged();
     }
 
-    public void addItemToList(ItemModel item){
-        items.add(item);
-        Log.d("ADAPTER SIZE: ", String.valueOf(items.size()));
-        notifyDataSetChanged();
-    }
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_list_occasion_item, parent, false);
-
         return new ViewHolder(view);
     }
 
@@ -61,7 +55,6 @@ public class MyItemInOccasionRecyclerViewAdapter extends RecyclerView.Adapter<My
             @Override
             public void onClick(View v) {
                 items.remove(position);
-                completeListViewModel.setItem(items);
                 notifyDataSetChanged();
             }
         });
@@ -96,6 +89,5 @@ public class MyItemInOccasionRecyclerViewAdapter extends RecyclerView.Adapter<My
             return super.toString() + " '" + mDescription.getText() + "'";
         }
     }
-
 
 }

@@ -1,16 +1,30 @@
 package com.example.paybuddy.Models;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName="Item_table")
 public class ItemModel {
+    @PrimaryKey(autoGenerate =true )
     private int ID;
+
     private double price;
     private String description;
     private int quantity;
+    private long occasionID;
 
-    public ItemModel(int ID, double price, String description, int quantity) {
-        this.ID = ID;
+    public ItemModel(double price, String description, int quantity) {
         this.price = price;
         this.description = description;
         this.quantity = quantity;
+    }
+
+    public long getOccasionID(){
+        return this.occasionID;
+    }
+
+    public void setOccasionID(long ID){
+        this.occasionID = ID;
     }
 
     public double getPrice() {
@@ -25,16 +39,8 @@ public class ItemModel {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public int getQuantity() {
         return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 
     public int getID() {

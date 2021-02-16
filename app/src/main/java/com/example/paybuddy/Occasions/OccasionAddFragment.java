@@ -12,11 +12,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
-import com.example.paybuddy.MainActivity;
 import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.Occasions.Dialogs.DialogAddItem;
@@ -24,9 +22,8 @@ import com.example.paybuddy.Occasions.Dialogs.DialogOccasionAdded;
 import com.example.paybuddy.Occasions.ViewModel.CompleteListViewModel;
 import com.example.paybuddy.Occasions.ViewModel.InputToItemListViewModel;
 import com.example.paybuddy.R;
-import com.example.paybuddy.Repositories.RepositoryViewModel;
+import com.example.paybuddy.MVVM.RepositoryViewModel;
 import com.example.paybuddy.Validator;
-import com.example.paybuddy.database.DatabaseHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,13 +96,13 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
     public void onClick(View view) {
         switch(view.getId()){
             case R.id.buttonEnter:
-                if(Validator.EditTextHasValues(editTexts) && items.size() != 0)
+                if(Validator.EditTextHasValues(editTexts) )
                 {
                     String occasionTitle = title.getText().toString();
                     String occasionDate = date.getText().toString();
-                    OccasionModel occasionModel = new OccasionModel(-1, occasionDate, occasionTitle, items, false, false);
-
-                    repositoryViewModel.insertOccasion(occasionModel);
+                    OccasionModel occasionModel = new OccasionModel(occasionDate, occasionTitle,false, false);
+                    occasionModel.setItems(items);
+                    repositoryViewModel.insert(occasionModel);
 
                     DialogOccasionAdded dialogFragment = new DialogOccasionAdded(occasionModel, currentView);
                     dialogFragment.show(getChildFragmentManager(), "Test");

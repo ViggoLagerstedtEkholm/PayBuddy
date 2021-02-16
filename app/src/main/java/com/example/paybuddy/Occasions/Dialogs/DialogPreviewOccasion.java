@@ -13,17 +13,23 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.Models.OccasionModel;
+import com.example.paybuddy.Occasions.ViewModel.InputToItemListViewModel;
+import com.example.paybuddy.Occasions.ViewModel.PreviewViewModel;
 import com.example.paybuddy.R;
 
 public class DialogPreviewOccasion  extends DialogFragment {
     private OccasionModel occasionModel;
+    private PreviewViewModel previewViewModel;
 
     public DialogPreviewOccasion(OccasionModel occasionModel){
         this.occasionModel = occasionModel;
+        previewViewModel = new ViewModelProvider(this).get(PreviewViewModel.class);
+
     }
 
     @NonNull
@@ -32,6 +38,8 @@ public class DialogPreviewOccasion  extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
         View view = inflater.inflate(R.layout.fragment_preview_occasion, null);
+
+        previewViewModel.setItem(occasionModel);
         //TODO - CREATE LAYOUT FOR THIS DIALOG.
 
         TextView textViewPreviewTitle = (TextView) view.findViewById(R.id.textViewPreviewTitle);
@@ -41,9 +49,9 @@ public class DialogPreviewOccasion  extends DialogFragment {
 
         double totalCost = 0.0;
 
-        for(ItemModel aModel : occasionModel.getItems()){
-            totalCost += aModel.getPrice();
-        }
+//        for(ItemModel aModel : occasionModel.getItems()){
+          //  totalCost += aModel.getPrice();
+       // }
 
         textViewPreviewTitle.setText(occasionModel.getDescription());
         textViewPreviewExpiringDate.setText(occasionModel.getDate());

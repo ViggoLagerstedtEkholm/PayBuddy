@@ -10,5 +10,4 @@
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context=".Occasions.List_of_occasions.ListFragmentOccasions"
     tools:listitem="@layout/fragment_occasion_item" />

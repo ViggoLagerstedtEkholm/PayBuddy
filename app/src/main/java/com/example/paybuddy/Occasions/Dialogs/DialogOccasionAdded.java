@@ -69,9 +69,9 @@ public class DialogOccasionAdded extends DialogFragment {
 
     private double getTotalPrice(){
         double price = 0;
-        for(ItemModel aModel : occasionModel.getItems()){
-            price += aModel.getPrice();
-        }
+//        for(ItemModel aModel : occasionModel.getItems()){
+       //     price += aModel.getPrice();
+        //}
         return price;
     }
 }

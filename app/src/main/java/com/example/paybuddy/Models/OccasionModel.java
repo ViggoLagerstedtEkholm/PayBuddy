@@ -1,20 +1,26 @@
 package com.example.paybuddy.Models;
 
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import java.util.List;
 
+@Entity(tableName="Occasions_table")
 public class OccasionModel {
+    @PrimaryKey(autoGenerate = true)
     private int ID;
     private String date;
     private String description;
+    @Ignore
     private List<ItemModel> items;
+
     private boolean isPaid;
     private boolean isExpired;
 
-    public OccasionModel(int ID, String date, String description, List<ItemModel> items, boolean isPaid, boolean isExpired) {
-        this.ID = ID;
+    public OccasionModel(String date, String description, boolean isPaid, boolean isExpired) {
         this.date = date;
         this.description = description;
-        this.items = items;
         this.isExpired = isExpired;
         this.isPaid = isPaid;
     }
@@ -23,16 +29,8 @@ public class OccasionModel {
         return date;
     }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
-
     public String getDescription() {
         return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public List<ItemModel> getItems() {
@@ -55,15 +53,8 @@ public class OccasionModel {
         return isPaid;
     }
 
-    public void setPaid(boolean paid) {
-        isPaid = paid;
-    }
-
     public boolean isExpired() {
         return isExpired;
     }
 
-    public void setExpired(boolean expired) {
-        isExpired = expired;
-    }
 }
