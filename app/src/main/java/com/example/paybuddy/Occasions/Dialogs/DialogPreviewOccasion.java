@@ -14,22 +14,35 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.paybuddy.Models.ItemModel;
+import com.example.paybuddy.MVVM.OccasionViewModel;
 import com.example.paybuddy.Models.OccasionModel;
-import com.example.paybuddy.Occasions.ViewModel.InputToItemListViewModel;
-import com.example.paybuddy.Occasions.ViewModel.PreviewViewModel;
 import com.example.paybuddy.R;
 
 public class DialogPreviewOccasion  extends DialogFragment {
     private OccasionModel occasionModel;
-    private PreviewViewModel previewViewModel;
+    private RecyclerView recyclerView;
+    private PreviewRecyclerViewAdapter recyclerViewAdapter;
+    private OccasionViewModel occasionViewModel;
+    private static final String ARG_COLUMN_COUNT = "column-count";
+    private int mColumnCount = 1;
+
+    public DialogPreviewOccasion(){}
 
     public DialogPreviewOccasion(OccasionModel occasionModel){
         this.occasionModel = occasionModel;
-        previewViewModel = new ViewModelProvider(this).get(PreviewViewModel.class);
+    }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        occasionViewModel = new ViewModelProvider(requireParentFragment()).get(OccasionViewModel.class);
+
+        if (getArguments() != null) {
+            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+        }
     }
 
     @NonNull
@@ -38,9 +51,6 @@ public class DialogPreviewOccasion  extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
         View view = inflater.inflate(R.layout.fragment_preview_occasion, null);
-
-        previewViewModel.setItem(occasionModel);
-        //TODO - CREATE LAYOUT FOR THIS DIALOG.
 
         TextView textViewPreviewTitle = (TextView) view.findViewById(R.id.textViewPreviewTitle);
         TextView textViewPreviewExpiringDate = (TextView) view.findViewById(R.id.textViewPreviewExpiringDate);
@@ -74,5 +84,13 @@ public class DialogPreviewOccasion  extends DialogFragment {
         alertDialog.show();
 
         return alertDialog;
+    }
+
+    private void instantiate(View view){
+        recyclerView = view.findViewById(R.id.activity_main_rv);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewAdapter = new PreviewRecyclerViewAdapter(occasionModel.getItems(), occasionViewModel);
+        recyclerView.setAdapter(recyclerViewAdapter);
     }
 }
