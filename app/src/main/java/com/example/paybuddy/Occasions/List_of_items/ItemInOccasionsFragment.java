@@ -6,26 +6,20 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.Occasions.ViewModel.CompleteListViewModel;
 import com.example.paybuddy.Occasions.ViewModel.InputToItemListViewModel;
-import com.example.paybuddy.Occasions.ViewModel.PreviewViewModel;
 import com.example.paybuddy.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A fragment representing a list of Items.
@@ -33,7 +27,6 @@ import java.util.List;
 public class ItemInOccasionsFragment extends Fragment {
     private InputToItemListViewModel inputToItemListViewModel;
     private CompleteListViewModel completeListViewModel;
-    private PreviewViewModel previewViewModel;
     private int mColumnCount = 1;
     private MyItemInOccasionRecyclerViewAdapter myItemInOccasionRecyclerViewAdapter;
 
@@ -61,11 +54,6 @@ public class ItemInOccasionsFragment extends Fragment {
 
         inputToItemListViewModel.getItem().observe(getViewLifecycleOwner(), itemModelSingleEventViewModel -> {
             myItemInOccasionRecyclerViewAdapter.addItemToList(itemModelSingleEventViewModel);
-        });
-
-        previewViewModel.getItem().observe(getViewLifecycleOwner(), item ->{
-            List<ItemModel> items = item.getItems();
-            myItemInOccasionRecyclerViewAdapter.addItems(items);
         });
 
         // Set the adapter

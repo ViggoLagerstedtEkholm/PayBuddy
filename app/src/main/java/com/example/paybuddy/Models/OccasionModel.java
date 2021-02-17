@@ -49,6 +49,10 @@ public class OccasionModel {
         this.ID = ID;
     }
 
+    public void setPaid(boolean isPaid){
+        this.isPaid = isPaid;
+    }
+
     public boolean isPaid() {
         return isPaid;
     }
@@ -57,4 +61,7 @@ public class OccasionModel {
         return isExpired;
     }
 
+    public void setExpired(boolean isExpired){
+        this.isExpired = isExpired;
+    }
 }

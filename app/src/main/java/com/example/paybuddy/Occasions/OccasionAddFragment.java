@@ -22,7 +22,7 @@ import com.example.paybuddy.Occasions.Dialogs.DialogOccasionAdded;
 import com.example.paybuddy.Occasions.ViewModel.CompleteListViewModel;
 import com.example.paybuddy.Occasions.ViewModel.InputToItemListViewModel;
 import com.example.paybuddy.R;
-import com.example.paybuddy.MVVM.RepositoryViewModel;
+import com.example.paybuddy.MVVM.OccasionViewModel;
 import com.example.paybuddy.Validator;
 
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
     private EditText date;
     private InputToItemListViewModel inputToItemListViewModel;
     private CompleteListViewModel completeListViewModel;
-    private RepositoryViewModel repositoryViewModel;
+    private OccasionViewModel occasionViewModel;
     private List<EditText> editTexts = new ArrayList<>();
 
     public OccasionAddFragment() {
@@ -49,7 +49,7 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
         items = new ArrayList<>();
         inputToItemListViewModel = new ViewModelProvider(this).get(InputToItemListViewModel.class);
         completeListViewModel = new ViewModelProvider(this).get(CompleteListViewModel.class);
-        repositoryViewModel = new ViewModelProvider(requireActivity()).get(RepositoryViewModel.class);
+        occasionViewModel = new ViewModelProvider(requireActivity()).get(OccasionViewModel.class);
     }
 
     @Override
@@ -102,7 +102,7 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
                     String occasionDate = date.getText().toString();
                     OccasionModel occasionModel = new OccasionModel(occasionDate, occasionTitle,false, false);
                     occasionModel.setItems(items);
-                    repositoryViewModel.insert(occasionModel);
+                    occasionViewModel.insert(occasionModel);
 
                     DialogOccasionAdded dialogFragment = new DialogOccasionAdded(occasionModel, currentView);
                     dialogFragment.show(getChildFragmentManager(), "Test");
