@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,10 +15,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.paybuddy.MVVM.RepositoryViewModel;
+import com.example.paybuddy.MVVM.OccasionViewModel;
+import com.example.paybuddy.Models.OccasionModel;
+import com.example.paybuddy.Models.OccasionWithItems;
 import com.example.paybuddy.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A fragment representing a list of Items.
@@ -25,7 +29,7 @@ import java.util.ArrayList;
 public class ListFragmentHistory extends Fragment {
 
     private int mColumnCount = 1;
-    private RepositoryViewModel repositoryViewModel;
+    private OccasionViewModel occasionViewModel;
     private MyItemRecyclerViewAdapter myItemRecyclerViewAdapter;
 
     public ListFragmentHistory() {
@@ -34,7 +38,7 @@ public class ListFragmentHistory extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        repositoryViewModel = new ViewModelProvider(requireActivity()).get(RepositoryViewModel.class);
+        occasionViewModel = new ViewModelProvider(requireActivity()).get(OccasionViewModel.class);
     }
 
     @Override
@@ -44,6 +48,22 @@ public class ListFragmentHistory extends Fragment {
 
 
         myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(new ArrayList<>());
+
+        occasionViewModel.getOccasionsWithItems().observe(getViewLifecycleOwner(), new Observer<List<OccasionWithItems>>() {
+            @Override
+            public void onChanged(List<OccasionWithItems> occasionWithItems) {
+                Log.d("History data received", "...");
+                List<OccasionModel> occasionModels = new ArrayList<>();
+                for(OccasionWithItems occasionModel : occasionWithItems){
+                    OccasionModel aOccasionModel = occasionModel.occasionModel;
+                    if(aOccasionModel.isPaid() && !aOccasionModel.isExpired()){
+                        aOccasionModel.setItems(occasionModel.itemModelList);
+                        occasionModels.add(aOccasionModel);
+                    }
+                }
+                myItemRecyclerViewAdapter.addItems(occasionModels);
+            }
+        });
 
         // Set the adapter
         if (view instanceof RecyclerView) {

@@ -16,9 +16,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.paybuddy.Models.OccasionModel;
+import com.example.paybuddy.Models.OccasionWithItems;
 import com.example.paybuddy.R;
-import com.example.paybuddy.MVVM.RepositoryViewModel;
-import com.example.paybuddy.Search.FilterViewModel;
+import com.example.paybuddy.MVVM.OccasionViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ public class ListFragmentDuePayment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     private int mColumnCount = 1;
     private MyItemRecyclerViewAdapter myItemRecyclerViewAdapter;
-    private RepositoryViewModel repositoryViewModel;
+    private OccasionViewModel occasionViewModel;
 
     public ListFragmentDuePayment() {
 
@@ -49,7 +49,7 @@ public class ListFragmentDuePayment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        repositoryViewModel = new ViewModelProvider(requireActivity()).get(RepositoryViewModel.class);
+        occasionViewModel = new ViewModelProvider(requireActivity()).get(OccasionViewModel.class);
 
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
@@ -63,6 +63,24 @@ public class ListFragmentDuePayment extends Fragment {
 
 
         myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(new ArrayList<>());
+
+        occasionViewModel.getOccasionsWithItems().observe(getViewLifecycleOwner(), new Observer<List<OccasionWithItems>>() {
+            @Override
+            public void onChanged(List<OccasionWithItems> occasionWithItems) {
+                Log.d("Due data received", "...");
+
+                List<OccasionModel> occasionModels = new ArrayList<>();
+                for(OccasionWithItems occasionModel : occasionWithItems){
+                    OccasionModel aOccasionModel = occasionModel.occasionModel;
+                    if(aOccasionModel.isExpired()){
+                        aOccasionModel.setItems(occasionModel.itemModelList);
+                        occasionModels.add(aOccasionModel);
+                    }
+                }
+                myItemRecyclerViewAdapter.addItems(occasionModels);
+            }
+        });
+
 
         // Set the adapter
         if (view instanceof RecyclerView) {

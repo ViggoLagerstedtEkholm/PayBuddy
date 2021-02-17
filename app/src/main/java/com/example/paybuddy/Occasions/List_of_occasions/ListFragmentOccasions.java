@@ -1,6 +1,5 @@
 package com.example.paybuddy.Occasions.List_of_occasions;
 
-import android.content.ContentProviderOperation;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -10,7 +9,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,15 +16,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.example.paybuddy.MVVM.RepositoryViewModel;
+import com.example.paybuddy.MVVM.ItemsViewModel;
+import com.example.paybuddy.MVVM.OccasionViewModel;
 import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.Models.OccasionWithItems;
 import com.example.paybuddy.R;
 
-import java.nio.channels.Channels;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +32,8 @@ import java.util.List;
  */
 public class ListFragmentOccasions extends Fragment {
     private int mColumnCount = 1;
-    private RepositoryViewModel repositoryViewModel;
+    private OccasionViewModel occasionViewModel;
+    private ItemsViewModel itemsViewModel;
     private MyItemRecyclerViewAdapter myItemRecyclerViewAdapter;
 
     public ListFragmentOccasions() {
@@ -45,7 +43,8 @@ public class ListFragmentOccasions extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        repositoryViewModel = new ViewModelProvider(getActivity()).get(RepositoryViewModel.class);
+        occasionViewModel = new ViewModelProvider(getActivity()).get(OccasionViewModel.class);
+        itemsViewModel = new ViewModelProvider(getActivity()).get(ItemsViewModel.class);
     }
 
     @Override
@@ -58,43 +57,25 @@ public class ListFragmentOccasions extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_occasions_list, container, false);
 
-        myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(new ArrayList<>(), this, repositoryViewModel);
+        myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(new ArrayList<>(), this, occasionViewModel, itemsViewModel);
 
-        //repositoryViewModel.getAllOccasions().observe(getViewLifecycleOwner(), new Observer<List<OccasionModel>>(){
-        //    @Override
-        //    public void onChanged(List<OccasionModel> occasionModels) {
-        //        Toast.makeText(getContext(), "Created", Toast.LENGTH_SHORT).show();
-        //        Log.d("LIVEDATA RECEIVED", "JUST OCCASIONS!");
-        //        myItemRecyclerViewAdapter.addItems(occasionModels);
-        //    }
-       // });
-
-        repositoryViewModel.getOccasionsWithItems().observe(getViewLifecycleOwner(), new Observer<List<OccasionWithItems>>() {
+        occasionViewModel.getOccasionsWithItems().observe(getViewLifecycleOwner(), new Observer<List<OccasionWithItems>>() {
             @Override
             public void onChanged(List<OccasionWithItems> occasionWithItems) {
+                Log.d("Pending data received", "...");
+
                 List<OccasionModel> occasionModels = new ArrayList<>();
-                Log.d("LIVEDATA RECEIVED", "OCCASIONS WITH ITEMS!");
-                for(OccasionWithItems occasionWithItems1 : occasionWithItems){
-                    OccasionModel occasionModel = occasionWithItems1.occasionModel;
-                    List<ItemModel> itemModels = occasionWithItems1.itemModelList;
-
-                    occasionModel.setItems(itemModels);
-                    occasionModels.add(occasionModel);
-
-                    Log.d("Occasion: " , occasionModel.getDescription());
-                    Log.d("Items: " , "...");
-
-                    for(ItemModel itemModel : occasionModel.getItems()){
-                        Log.d("Description: " , itemModel.getDescription());
+                for(OccasionWithItems occasionModel : occasionWithItems){
+                    OccasionModel aOccasionModel = occasionModel.occasionModel;
+                    if(!aOccasionModel.isPaid() && !aOccasionModel.isExpired()){
+                        aOccasionModel.setItems(occasionModel.itemModelList);
+                        occasionModels.add(aOccasionModel);
                     }
                 }
-
                 myItemRecyclerViewAdapter.addItems(occasionModels);
-
             }
         });
 
-        // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
