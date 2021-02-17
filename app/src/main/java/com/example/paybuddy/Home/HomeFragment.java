@@ -16,8 +16,14 @@ import android.view.ViewGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.example.paybuddy.MVVM.ItemsViewModel;
+import com.example.paybuddy.Models.ItemModel;
+import com.example.paybuddy.Models.OccasionModel;
+import com.example.paybuddy.Models.OccasionWithItems;
 import com.example.paybuddy.R;
-import com.example.paybuddy.MVVM.RepositoryViewModel;
+import com.example.paybuddy.MVVM.OccasionViewModel;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,9 +33,10 @@ public class HomeFragment extends Fragment {
     private TextView textViewSumOfItems;
     private TextView textViewCountOfExpiredOccasions;
     private TextView textViewCountOfOccasions;
-    private boolean isSelected;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private RepositoryViewModel repositoryViewModel;
+
+    private ItemsViewModel itemsViewModel;
+    private OccasionViewModel occasionViewModel;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -38,8 +45,8 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        repositoryViewModel = new ViewModelProvider(requireActivity()).get(RepositoryViewModel.class);
-
+        itemsViewModel = new ViewModelProvider(requireActivity()).get(ItemsViewModel.class);
+        occasionViewModel = new ViewModelProvider(requireActivity()).get(OccasionViewModel.class);
     }
 
     @Override
@@ -58,26 +65,16 @@ public class HomeFragment extends Fragment {
         textViewSumOfItems = (TextView) view.findViewById(R.id.textViewSumOfItems);
         textViewCountOfOccasions = (TextView) view.findViewById(R.id.textViewCountOfOccasions);
 
-        //repositoryViewModel.init(getContext());
-        //double totalPrice = repositoryViewModel.getSumCost();
-        //int totalOccasion = repositoryViewModel.getSumOccasions();
+        occasionViewModel.getOccasionsWithItems().observe(getActivity(), items ->{
+            int totalOccasions = items.size();
+            textViewCountOfOccasions.setText(String.valueOf(totalOccasions));
+            int totalExpired = calculateTotalExpired(items);
+            textViewCountOfExpiredOccasions.setText(String.valueOf(totalExpired));
+        });
 
-        //textViewSumOfItems.setText(Double.toString(totalPrice));
-        //textViewCountOfOccasions.setText(String.valueOf(totalOccasion));
-
-        Switch switchDarkModeHome = (Switch) view.findViewById(R.id.switchDarkModeHome);
-        switchDarkModeHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(isSelected){
-                    isSelected = false;
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                }
-                else{
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    isSelected = true;
-                }
-            }
+        itemsViewModel.getItems().observe(getActivity(), items ->{
+            double totalCost = calculateTotalCost(items);
+            textViewSumOfItems.setText(Double.toString(totalCost));
         });
 
         swipeRefreshLayout = view.findViewById(R.id.refreshHomePage);
@@ -94,5 +91,28 @@ public class HomeFragment extends Fragment {
                 //}
             }
         });
+    }
+
+    private int calculateTotalExpired(List<OccasionWithItems> occasionModels){
+        int total = 0;
+        for(OccasionWithItems occasionWithItems : occasionModels){
+            OccasionModel occasionModel = occasionWithItems.occasionModel;
+            if(occasionModel.isExpired()){
+                total++;
+            }
+        }
+
+
+        return total;
+    }
+
+    private double calculateTotalCost(List<ItemModel> items){
+        double total = 0;
+
+        for(ItemModel itemModel : items){
+            total += itemModel.getPrice() * itemModel.getQuantity();
+        }
+
+        return total;
     }
 }
