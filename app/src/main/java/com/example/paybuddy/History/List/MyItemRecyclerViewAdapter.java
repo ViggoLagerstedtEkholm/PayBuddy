@@ -28,6 +28,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     public void addItems(List<OccasionModel> items){
         this.items = items;
+        notifyDataSetChanged();
     }
 
     @Override

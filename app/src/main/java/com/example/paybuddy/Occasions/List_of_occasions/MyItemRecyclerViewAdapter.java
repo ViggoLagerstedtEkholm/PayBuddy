@@ -9,11 +9,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.paybuddy.Models.ItemModel;
+import com.example.paybuddy.MVVM.ItemsViewModel;
 import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.Occasions.Dialogs.DialogPreviewOccasion;
 import com.example.paybuddy.R;
-import com.example.paybuddy.MVVM.RepositoryViewModel;
+import com.example.paybuddy.MVVM.OccasionViewModel;
 
 import java.util.List;
 
@@ -23,12 +23,14 @@ import java.util.List;
 public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> {
     private List<OccasionModel> items;
     private final Fragment currentFragment;
-    private final RepositoryViewModel repositoryViewModel;
+    private final OccasionViewModel occasionViewModel;
+    private final ItemsViewModel itemsViewModel;
 
-    public MyItemRecyclerViewAdapter( List<OccasionModel> items, Fragment currentFragment, RepositoryViewModel repositoryViewModel) {
+    public MyItemRecyclerViewAdapter( List<OccasionModel> items, Fragment currentFragment, OccasionViewModel occasionViewModel, ItemsViewModel itemsViewModel) {
         this.items = items;
         this.currentFragment = currentFragment;
-        this.repositoryViewModel = repositoryViewModel;
+        this.occasionViewModel = occasionViewModel;
+        this.itemsViewModel = itemsViewModel;
     }
 
     public void addItems(List<OccasionModel> occasionModels){
@@ -63,7 +65,9 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         holder.buttonRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO
+                itemsViewModel.deleteAllItems();
+                occasionViewModel.delete(occasionModel);
+                itemsViewModel.delete(occasionModel.getItems());
             }
         });
 
@@ -79,6 +83,8 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
             @Override
             public void onClick(View v) {
                 //TODO
+                occasionModel.setPaid(true);
+                occasionViewModel.update(occasionModel);
             }
         });
     }

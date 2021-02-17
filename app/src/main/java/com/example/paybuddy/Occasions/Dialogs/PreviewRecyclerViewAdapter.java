@@ -1,4 +1,4 @@
-package com.example.paybuddy.Occasions.Dialogs.ListItems;
+package com.example.paybuddy.Occasions.Dialogs;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -8,9 +8,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.paybuddy.MVVM.OccasionViewModel;
 import com.example.paybuddy.Models.ItemModel;
-import com.example.paybuddy.Models.OccasionModel;
-import com.example.paybuddy.Occasions.List_of_items.MyItemInOccasionRecyclerViewAdapter;
 import com.example.paybuddy.R;
 
 import java.util.List;
@@ -18,12 +17,14 @@ import java.util.List;
 /**
  * TODO: Replace the implementation with code for your data type.
  */
-public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> {
+public class PreviewRecyclerViewAdapter extends RecyclerView.Adapter<PreviewRecyclerViewAdapter.ViewHolder> {
 
     private List<ItemModel> items;
+    private OccasionViewModel occasionViewModel;
 
-    public MyItemRecyclerViewAdapter(List<ItemModel> items) {
+    public PreviewRecyclerViewAdapter(List<ItemModel> items, OccasionViewModel occasionViewModel) {
         this.items = items;
+        this.occasionViewModel = occasionViewModel;
     }
 
     public void addItems(List<ItemModel> itemModels){
@@ -55,6 +56,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
             @Override
             public void onClick(View v) {
                 items.remove(position);
+
                 notifyDataSetChanged();
             }
         });
