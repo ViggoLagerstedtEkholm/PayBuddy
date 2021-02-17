@@ -15,19 +15,25 @@ import java.util.List;
 @Dao
 public abstract class ItemsDAO {
     @Insert
-    abstract void insert(List<ItemModel> occasionModel);
+    public abstract void insert(List<ItemModel> itemModels);
+
+    @Insert
+    public abstract void insert(ItemModel itemModel);
 
     @Update
-    abstract void update(ItemModel occasionModel);
+    public abstract void update(ItemModel itemModel);
 
     @Delete
-    abstract void delete(List<ItemModel> occasionModel);
+    public abstract void delete(ItemModel itemModel);
+
+    @Delete
+    public abstract void delete(List<ItemModel> itemModel);
 
     @Query("DELETE FROM Item_table")
-    abstract void deleteAllItems();
+    public abstract void deleteAllItems();
 
     @Query("SELECT * FROM Item_table ORDER BY price DESC")
-    abstract LiveData<List<ItemModel>> getAllItems();
+    public abstract LiveData<List<ItemModel>> getAllItems();
 
     public void insertItemsAndOccasion(List<ItemModel> itemModels, long id){
         for(ItemModel itemModel : itemModels){
