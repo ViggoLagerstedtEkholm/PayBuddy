@@ -35,6 +35,9 @@ public abstract class ItemsDAO {
     @Query("SELECT * FROM Item_table ORDER BY price DESC")
     public abstract LiveData<List<ItemModel>> getAllItems();
 
+    @Query("SELECT SUM(PRICE * QUANTITY) FROM Item_table")
+    public abstract LiveData<Integer> getTotalCost();
+
     public void insertItemsAndOccasion(List<ItemModel> itemModels, long id){
         for(ItemModel itemModel : itemModels){
             itemModel.setOccasionID(id);
