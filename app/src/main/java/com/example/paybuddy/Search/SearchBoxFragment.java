@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.paybuddy.R;
+import com.example.paybuddy.ui.main.PageViewModel;
 
 public class SearchBoxFragment extends Fragment implements View.OnClickListener {
     private FilterViewModel filterViewModel;
@@ -24,6 +26,8 @@ public class SearchBoxFragment extends Fragment implements View.OnClickListener 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        filterViewModel = new ViewModelProvider(getActivity()).get(FilterViewModel.class);
+
     }
 
     @Override
@@ -42,15 +46,20 @@ public class SearchBoxFragment extends Fragment implements View.OnClickListener 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        buttonSearch = (Button) view.findViewById(R.id.buttonSearch);
         searchWord = (EditText) view.findViewById(R.id.txfItemName);
 
-        filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
+        SearchView searchView = (SearchView) view.findViewById(R.id.search);
 
-        buttonSearch.setOnClickListener(new View.OnClickListener() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void onClick(View v) {
-                filterViewModel.select(searchWord.getText().toString());
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterViewModel.select(newText);
+                return false;
             }
         });
     }
