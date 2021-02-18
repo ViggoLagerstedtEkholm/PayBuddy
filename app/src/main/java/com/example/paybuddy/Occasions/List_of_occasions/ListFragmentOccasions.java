@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import com.example.paybuddy.MVVM.ItemsViewModel;
 import com.example.paybuddy.MVVM.OccasionViewModel;
@@ -23,6 +25,7 @@ import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.Models.OccasionWithItems;
 import com.example.paybuddy.R;
+import com.example.paybuddy.Search.FilterViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +37,7 @@ public class ListFragmentOccasions extends Fragment {
     private int mColumnCount = 1;
     private OccasionViewModel occasionViewModel;
     private ItemsViewModel itemsViewModel;
+    private FilterViewModel filterViewModel;
     private MyItemRecyclerViewAdapter myItemRecyclerViewAdapter;
 
     public ListFragmentOccasions() {
@@ -45,6 +49,8 @@ public class ListFragmentOccasions extends Fragment {
         super.onCreate(savedInstanceState);
         occasionViewModel = new ViewModelProvider(getActivity()).get(OccasionViewModel.class);
         itemsViewModel = new ViewModelProvider(getActivity()).get(ItemsViewModel.class);
+        filterViewModel = new ViewModelProvider(getActivity()).get(FilterViewModel.class);
+
     }
 
     @Override
@@ -59,7 +65,7 @@ public class ListFragmentOccasions extends Fragment {
 
         myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(new ArrayList<>(), this, occasionViewModel, itemsViewModel);
 
-        occasionViewModel.getOccasionsWithItems().observe(getViewLifecycleOwner(), new Observer<List<OccasionWithItems>>() {
+        occasionViewModel.getActiveOccasions().observe(getViewLifecycleOwner(), new Observer<List<OccasionWithItems>>() {
             @Override
             public void onChanged(List<OccasionWithItems> occasionWithItems) {
                 Log.d("Pending data received", "...");
@@ -67,13 +73,16 @@ public class ListFragmentOccasions extends Fragment {
                 List<OccasionModel> occasionModels = new ArrayList<>();
                 for(OccasionWithItems occasionModel : occasionWithItems){
                     OccasionModel aOccasionModel = occasionModel.occasionModel;
-                    if(!aOccasionModel.isPaid() && !aOccasionModel.isExpired()){
-                        aOccasionModel.setItems(occasionModel.itemModelList);
-                        occasionModels.add(aOccasionModel);
-                    }
+                    aOccasionModel.setItems(occasionModel.itemModelList);
+
+                    occasionModels.add(aOccasionModel);
                 }
                 myItemRecyclerViewAdapter.addItems(occasionModels);
             }
+        });
+
+        filterViewModel.getSelected().observe(getViewLifecycleOwner(), searchWord ->{
+            myItemRecyclerViewAdapter.getFilter().filter(searchWord);
         });
 
         if (view instanceof RecyclerView) {
