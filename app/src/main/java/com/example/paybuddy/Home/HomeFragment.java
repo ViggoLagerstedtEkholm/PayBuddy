@@ -65,16 +65,20 @@ public class HomeFragment extends Fragment {
         textViewSumOfItems = (TextView) view.findViewById(R.id.textViewSumOfItems);
         textViewCountOfOccasions = (TextView) view.findViewById(R.id.textViewCountOfOccasions);
 
-        occasionViewModel.getOccasionsWithItems().observe(getActivity(), items ->{
+        occasionViewModel.getAllOccasions().observe(getActivity(), items ->{
             int totalOccasions = items.size();
             textViewCountOfOccasions.setText(String.valueOf(totalOccasions));
             int totalExpired = calculateTotalExpired(items);
             textViewCountOfExpiredOccasions.setText(String.valueOf(totalExpired));
         });
 
-        itemsViewModel.getItems().observe(getActivity(), items ->{
-            double totalCost = calculateTotalCost(items);
-            textViewSumOfItems.setText(Double.toString(totalCost));
+        itemsViewModel.getTotalCost().observe(getActivity(), items ->{
+            if(items != null){
+                textViewSumOfItems.setText(String.valueOf(items.intValue()));
+            }
+            else{
+                textViewSumOfItems.setText("0.0");
+            }
         });
 
         swipeRefreshLayout = view.findViewById(R.id.refreshHomePage);
@@ -101,18 +105,6 @@ public class HomeFragment extends Fragment {
                 total++;
             }
         }
-
-
-        return total;
-    }
-
-    private double calculateTotalCost(List<ItemModel> items){
-        double total = 0;
-
-        for(ItemModel itemModel : items){
-            total += itemModel.getPrice() * itemModel.getQuantity();
-        }
-
         return total;
     }
 }
