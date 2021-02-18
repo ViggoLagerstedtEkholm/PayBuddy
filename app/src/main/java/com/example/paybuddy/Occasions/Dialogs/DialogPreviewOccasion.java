@@ -7,18 +7,21 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.paybuddy.MVVM.OccasionViewModel;
 import com.example.paybuddy.Models.OccasionModel;
+import com.example.paybuddy.Occasions.Dialogs.PreviewRecyclerViewAdapter;
 import com.example.paybuddy.R;
 
 public class DialogPreviewOccasion  extends DialogFragment {
@@ -52,6 +55,8 @@ public class DialogPreviewOccasion  extends DialogFragment {
 
         View view = inflater.inflate(R.layout.fragment_preview_occasion, null);
 
+        instantiate(view);
+
         TextView textViewPreviewTitle = (TextView) view.findViewById(R.id.textViewPreviewTitle);
         TextView textViewPreviewExpiringDate = (TextView) view.findViewById(R.id.textViewPreviewExpiringDate);
         TextView textViewPreviewTotalCost = (TextView) view.findViewById(R.id.textViewPreviewTotalCost);
@@ -60,8 +65,8 @@ public class DialogPreviewOccasion  extends DialogFragment {
         double totalCost = 0.0;
 
 //        for(ItemModel aModel : occasionModel.getItems()){
-          //  totalCost += aModel.getPrice();
-       // }
+        //  totalCost += aModel.getPrice();
+        // }
 
         textViewPreviewTitle.setText(occasionModel.getDescription());
         textViewPreviewExpiringDate.setText(occasionModel.getDate());
