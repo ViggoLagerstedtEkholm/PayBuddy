@@ -17,12 +17,13 @@ import java.util.List;
 public class ItemsViewModel extends AndroidViewModel {
     private ItemsRepository itemsRepository;
     private LiveData<List<ItemModel>> items;
-
+    private LiveData<Integer> totalCost;
     public ItemsViewModel(@NonNull Application application) {
         super(application);
         itemsRepository = new ItemsRepository(application);
 
         items = itemsRepository.getAll();
+        totalCost = itemsRepository.getTotalCost();
     }
 
     public void insert(ItemModel itemModel){
@@ -40,6 +41,8 @@ public class ItemsViewModel extends AndroidViewModel {
     public void delete(List<ItemModel> itemModels){
         itemsRepository.delete(itemModels);
     }
+
+    public LiveData<Integer> getTotalCost(){return totalCost;}
 
     public void deleteAllItems(){
         itemsRepository.deleteAll();
