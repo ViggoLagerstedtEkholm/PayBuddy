@@ -20,13 +20,20 @@ import java.util.concurrent.ExecutionException;
 
 public class OccasionViewModel extends AndroidViewModel {
     private OccasionRepository occasionRepository;
+
     private LiveData<List<OccasionWithItems>> occasionsWithItems;
+    private LiveData<List<OccasionWithItems>> paidOccasions;
+    private LiveData<List<OccasionWithItems>> expiredOccasions;
+    private LiveData<List<OccasionWithItems>> allOccasions;
 
     public OccasionViewModel(@NonNull Application application) {
         super(application);
         occasionRepository = new OccasionRepository(application);
 
-        occasionsWithItems = occasionRepository.getOccasionsWitchItems();
+        occasionsWithItems = occasionRepository.getActiveOccasions();
+        paidOccasions = occasionRepository.getPaidOccasions();
+        expiredOccasions = occasionRepository.getExpiredOccasions();
+        allOccasions = occasionRepository.getAllOccasions();
     }
 
     public void insert(OccasionModel itemModel){
@@ -45,7 +52,13 @@ public class OccasionViewModel extends AndroidViewModel {
         occasionRepository.deleteAll();
     }
 
-    public LiveData<List<OccasionWithItems>> getOccasionsWithItems(){
+    public LiveData<List<OccasionWithItems>> getActiveOccasions(){
         return occasionsWithItems;
     }
+
+    public LiveData<List<OccasionWithItems>> getPaidOccasions(){ return paidOccasions;}
+
+    public LiveData<List<OccasionWithItems>> getExpiredOccasions(){return expiredOccasions;}
+
+    public LiveData<List<OccasionWithItems>> getAllOccasions(){return allOccasions;}
 }
