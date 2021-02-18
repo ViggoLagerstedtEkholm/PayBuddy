@@ -18,7 +18,11 @@ public class OccasionRepository extends Repository<OccasionModel>{
     private final OccasionDAO occasionDao;
     private final ItemsDAO itemsDAO;
     private final OccasionWithItemsDAO occasionWithItemsDAO;
-    private LiveData<List<OccasionWithItems>> occasionsWithItems;
+
+    private LiveData<List<OccasionWithItems>> activeOccasions;
+    private LiveData<List<OccasionWithItems>> paidOccasions;
+    private LiveData<List<OccasionWithItems>> expiredOccasions;
+    private LiveData<List<OccasionWithItems>> allOccasions;
 
     public OccasionRepository(Application application){
         DatabaseHelper database = DatabaseHelper.getInstance(application);
@@ -27,7 +31,10 @@ public class OccasionRepository extends Repository<OccasionModel>{
         itemsDAO = database.itemsDao();
         occasionWithItemsDAO = database.occasionWithItemsDAO();
 
-        occasionsWithItems = occasionWithItemsDAO.loadOccasionsWithItems();
+        activeOccasions = occasionWithItemsDAO.getActiveOccasions();
+        paidOccasions = occasionWithItemsDAO.getPaidOccasions();
+        expiredOccasions = occasionWithItemsDAO.getExpiredOccasions();
+        allOccasions = occasionWithItemsDAO.getAllOccasions();
     }
 
     @Override
@@ -52,7 +59,7 @@ public class OccasionRepository extends Repository<OccasionModel>{
 
     @Override
     void delete(List<OccasionModel> entity) {
-
+        //TODO
     }
 
     @Override
@@ -60,9 +67,16 @@ public class OccasionRepository extends Repository<OccasionModel>{
         new DeleteAllOccasionAsyncTask(occasionDao, itemsDAO).execute();
     }
 
-    public LiveData<List<OccasionWithItems>> getOccasionsWitchItems(){
-        return occasionsWithItems;
+    public LiveData<List<OccasionWithItems>> getActiveOccasions(){
+        return activeOccasions;
     }
+    public LiveData<List<OccasionWithItems>> getPaidOccasions(){
+        return paidOccasions;
+    }
+    public LiveData<List<OccasionWithItems>> getExpiredOccasions(){
+        return expiredOccasions;
+    }
+    public LiveData<List<OccasionWithItems>> getAllOccasions(){return allOccasions;}
 
     @Override
     LiveData<List<OccasionModel>> getAll() {

@@ -14,13 +14,15 @@ import java.util.List;
 
 public class ItemsRepository extends Repository<ItemModel>{
     private final ItemsDAO itemsDAO;
-    private LiveData<List<ItemModel>> items;
+    private final LiveData<List<ItemModel>> items;
+    private final LiveData<Integer> totalCost;
 
     public ItemsRepository(Application application){
         DatabaseHelper database = DatabaseHelper.getInstance(application);
         itemsDAO = database.itemsDao();
 
         items = itemsDAO.getAllItems();
+        totalCost = itemsDAO.getTotalCost();
     }
 
     @Override
@@ -47,6 +49,9 @@ public class ItemsRepository extends Repository<ItemModel>{
         new DeleteItemsTaskAsync(itemsDAO).execute(entites);
     }
 
+    public LiveData<Integer> getTotalCost(){
+        return totalCost;
+    }
 
     @Override
     public LiveData<List<ItemModel>> getAll() {
