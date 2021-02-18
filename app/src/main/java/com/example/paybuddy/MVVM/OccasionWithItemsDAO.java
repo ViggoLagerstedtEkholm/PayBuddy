@@ -12,6 +12,18 @@ import java.util.List;
 @Dao
 public interface OccasionWithItemsDAO {
     @Transaction
-    @Query("SELECT * FROM OCCASIONS_TABLE")
-    LiveData<List<OccasionWithItems>> loadOccasionsWithItems();
+    @Query("SELECT * FROM OCCASIONS_TABLE WHERE IsPaid = 0 AND IsExpired = 0")
+    LiveData<List<OccasionWithItems>> getActiveOccasions();
+
+    @Transaction
+    @Query("SELECT * FROM OCCASIONS_TABLE WHERE IsPaid = 1")
+    LiveData<List<OccasionWithItems>> getPaidOccasions();
+
+    @Transaction
+    @Query("SELECT * FROM OCCASIONS_TABLE WHERE IsExpired = 1")
+    LiveData<List<OccasionWithItems>> getExpiredOccasions();
+
+    @Transaction
+    @Query("SELECT * FROM OCCASIONS_TABLE WHERE IsExpired = 1")
+    LiveData<List<OccasionWithItems>> getAllOccasions();
 }
