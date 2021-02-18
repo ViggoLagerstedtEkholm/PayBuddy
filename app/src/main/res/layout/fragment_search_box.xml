@@ -13,38 +13,20 @@
     android:background="@drawable/rounded_border_standard"
     android:minWidth="385dp">
 
-    <EditText
-        android:id="@+id/txfItemName"
-        android:layout_width="215dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:ems="10"
-        android:hint="Search name"
-        android:inputType="textPersonName"
-        android:textColor="@color/mainText"
-        android:textColorHint="@color/mainText"
-        app:layout_constraintBottom_toBottomOf="@+id/buttonSearch"
-        app:layout_constraintEnd_toStartOf="@+id/buttonSearch"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/buttonSearch" />
-
-    <Button
-        android:id="@+id/buttonSearch"
-        android:layout_width="99dp"
-        android:layout_height="49dp"
+    <SearchView
+        android:id="@+id/search"
+        android:layout_width="311dp"
+        android:layout_height="57dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="9dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="27dp"
-        android:text="Search"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/cardBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/txfItemName"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -66,12 +66,14 @@
                 android:id="@+id/buttonRemoveItem"
                 android:layout_width="136dp"
                 android:layout_height="37dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginBottom="16dp"
                 android:background="@drawable/button_background"
                 android:text="@string/remove"
                 android:textColor="@color/mainText"
+                app:layout_constraintBottom_toTopOf="@+id/buttonRegisterPaid"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -124,19 +126,6 @@
                 app:layout_constraintStart_toEndOf="@+id/textView21"
                 app:layout_constraintTop_toTopOf="@+id/textView21" />
 
-            <Button
-                android:id="@+id/buttonPreview"
-                android:layout_width="136dp"
-                android:layout_height="37dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/button_background"
-                android:text="@string/preview"
-                android:textColor="@color/mainText"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/buttonRemoveItem" />
-
             <TextView
                 android:id="@+id/textView23"
                 android:layout_width="wrap_content"
@@ -154,7 +143,7 @@
                 android:id="@+id/buttonRegisterPaid"
                 android:layout_width="136dp"
                 android:layout_height="42dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="15dp"
@@ -163,7 +152,7 @@
                 android:textColor="@color/mainText"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/buttonPreview" />
+                app:layout_constraintTop_toBottomOf="@+id/buttonRemoveItem" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </RelativeLayout>
