@@ -24,6 +24,6 @@ public interface OccasionWithItemsDAO {
     LiveData<List<OccasionWithItems>> getExpiredOccasions();
 
     @Transaction
-    @Query("SELECT * FROM OCCASIONS_TABLE WHERE IsExpired = 1")
+    @Query("SELECT * FROM OCCASIONS_TABLE")
     LiveData<List<OccasionWithItems>> getAllOccasions();
 }
