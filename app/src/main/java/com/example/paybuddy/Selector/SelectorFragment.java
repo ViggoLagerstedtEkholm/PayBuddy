@@ -47,7 +47,7 @@ public class SelectorFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        SectionsPagerAdapterHome sectionsPagerAdapter = new SectionsPagerAdapterHome(getContext(), getParentFragmentManager());
+        SectionsPagerAdapterHome sectionsPagerAdapter = new SectionsPagerAdapterHome(getContext(), getChildFragmentManager());
         ViewPager viewPager = view.findViewById(R.id.view_pagerHome);
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = view.findViewById(R.id.tabsHome);
