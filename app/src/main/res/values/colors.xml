@@ -9,6 +9,8 @@
 
     <color name="overviewTabColor">#454F87</color>
 
+    <color name="searchBar">#5573AF</color>
+
     <color name="mainBackground">#ffffff</color>
     <color name="cardBackground">#E2ECEC</color>
 

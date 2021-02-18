@@ -12,6 +12,9 @@
     <color name="mainBackground">#2D313D</color>
     <color name="cardBackground">#232525</color>
 
+    <color name="searchBar">#1C273C</color>
+
+
     <color name="hintText">#676464</color>
 
     <color name="overViewBackground">#322F2F</color>
