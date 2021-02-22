@@ -14,6 +14,8 @@ public class OccasionModel {
     private String description;
     @Ignore
     private List<ItemModel> items;
+    @Ignore
+    private LocationModel locationModel;
 
     private boolean isPaid;
     private boolean isExpired;
@@ -23,6 +25,10 @@ public class OccasionModel {
         this.description = description;
         this.isExpired = isExpired;
         this.isPaid = isPaid;
+    }
+
+    public LocationModel getLocationModel(){
+        return this.locationModel;
     }
 
     public String getDate() {
@@ -63,5 +69,9 @@ public class OccasionModel {
 
     public void setExpired(boolean isExpired){
         this.isExpired = isExpired;
+    }
+
+    public void setLocationModel(LocationModel locationModel){
+        this.locationModel = locationModel;
     }
 }
