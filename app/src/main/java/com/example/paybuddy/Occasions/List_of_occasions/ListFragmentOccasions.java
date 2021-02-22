@@ -74,6 +74,7 @@ public class ListFragmentOccasions extends Fragment {
                 for(OccasionWithItems occasionModel : occasionWithItems){
                     OccasionModel aOccasionModel = occasionModel.occasionModel;
                     aOccasionModel.setItems(occasionModel.itemModelList);
+                    aOccasionModel.setLocationModel(occasionModel.locationModel);
 
                     occasionModels.add(aOccasionModel);
                 }
