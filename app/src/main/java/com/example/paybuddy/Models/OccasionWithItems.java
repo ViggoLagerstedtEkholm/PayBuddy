@@ -15,4 +15,9 @@ public class OccasionWithItems {
     )
     public List<ItemModel> itemModelList;
 
+    @Relation(
+            parentColumn = "ID",
+            entityColumn = "occasionID"
+    )
+    public LocationModel locationModel;
 }
