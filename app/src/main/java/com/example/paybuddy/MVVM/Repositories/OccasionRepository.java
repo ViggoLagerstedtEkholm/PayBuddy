@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 
 import com.example.paybuddy.MVVM.DatabaseHelper;
 import com.example.paybuddy.MVVM.ItemsDAO;
+import com.example.paybuddy.MVVM.LocationDAO;
 import com.example.paybuddy.MVVM.OccasionDAO;
 import com.example.paybuddy.MVVM.OccasionWithItemsDAO;
 import com.example.paybuddy.Models.OccasionModel;
@@ -17,6 +18,7 @@ import java.util.List;
 public class OccasionRepository extends Repository<OccasionModel>{
     private final OccasionDAO occasionDao;
     private final ItemsDAO itemsDAO;
+    private final LocationDAO locationDAO;
     private final OccasionWithItemsDAO occasionWithItemsDAO;
 
     private LiveData<List<OccasionWithItems>> activeOccasions;
@@ -30,6 +32,7 @@ public class OccasionRepository extends Repository<OccasionModel>{
         occasionDao = database.occasionDao();
         itemsDAO = database.itemsDao();
         occasionWithItemsDAO = database.occasionWithItemsDAO();
+        locationDAO = database.locationDAO();
 
         activeOccasions = occasionWithItemsDAO.getActiveOccasions();
         paidOccasions = occasionWithItemsDAO.getPaidOccasions();
@@ -39,7 +42,7 @@ public class OccasionRepository extends Repository<OccasionModel>{
 
     @Override
     public void insert(OccasionModel... entity) {
-        new InsertOccasionAsyncTask(occasionDao, itemsDAO).execute(entity);
+        new InsertOccasionAsyncTask(occasionDao, itemsDAO, locationDAO).execute(entity);
     }
 
     @Override
@@ -86,15 +89,18 @@ public class OccasionRepository extends Repository<OccasionModel>{
     private static class InsertOccasionAsyncTask extends AsyncTask<OccasionModel, Void, Void> {
         private final OccasionDAO occasionDao;
         private final ItemsDAO itemsDao;
+        private final LocationDAO locationDAO;
 
-        private InsertOccasionAsyncTask(OccasionDAO occasionDao, ItemsDAO itemsDAO){
+        private InsertOccasionAsyncTask(OccasionDAO occasionDao, ItemsDAO itemsDAO, LocationDAO locationDAO){
             this.occasionDao = occasionDao;
             this.itemsDao = itemsDAO;
+            this.locationDAO = locationDAO;
         }
         @Override
         protected Void doInBackground(OccasionModel... occasionModels) {
             long id  = occasionDao.insert(occasionModels[0]); //Insert occasion
             itemsDao.insertItemsAndOccasion(occasionModels[0].getItems(), id);
+            locationDAO.insertLocation(occasionModels[0].getLocationModel(), id);
             return null;
         }
     }
