@@ -1,7 +1,11 @@
-package com.example.paybuddy.Occasions.Location;
+package com.example.paybuddy.Occasions.Dialogs;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -9,7 +13,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -18,12 +21,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
+import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
 
 import com.example.paybuddy.Models.LocationModel;
-import com.example.paybuddy.Occasions.ViewModel.InputToItemListViewModel;
 import com.example.paybuddy.Occasions.ViewModel.LocationViewModel;
 import com.example.paybuddy.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -36,8 +37,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import java.io.IOException;
 import java.util.List;
 
-public class LocationHandler extends Fragment implements View.OnClickListener, OnSuccessListener {
-
+public class DialogAddLocation extends DialogFragment implements View.OnClickListener, OnSuccessListener {
     private static final int PERMISSION_FOR_FINE_LOCATION = 100;
 
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -62,17 +62,28 @@ public class LocationHandler extends Fragment implements View.OnClickListener, O
     private Switch slideLocationMode;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         locationViewModel = new ViewModelProvider(requireParentFragment()).get(LocationViewModel.class);
         initializeLocationAPI();
         initializeGPSCapabilities();
     }
 
+    @NonNull
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_location, container, false);
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View view = inflater.inflate(R.layout.fragment_location, null);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        alertDialogBuilder.setView(view);
+
+        final AlertDialog alertDialog= alertDialogBuilder.create();
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
+        initializeFields(view);
+
+        return alertDialog;
     }
 
     @Override
@@ -80,19 +91,16 @@ public class LocationHandler extends Fragment implements View.OnClickListener, O
         super.onViewCreated(view, savedInstanceState);
 
         currentView = view;
-
-        initializeFields(view);
     }
 
     private void initializeFields(View view) {
-
         Button backButton = (Button) view.findViewById(R.id.buttonBackLocation);
         Button saveButton = (Button) view.findViewById(R.id.buttonSaveLocation);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(currentView).navigate(R.id.action_locationHandler_to_occasionAddFragment);
+                dismiss();
             }
         });
 
@@ -107,6 +115,8 @@ public class LocationHandler extends Fragment implements View.OnClickListener, O
 
                 LocationModel model = new LocationModel(latitude, longitude, altitude, accuracy, address);
                 locationViewModel.setLocation(model);
+                stopLocationUpdate();
+                dismiss();
             }
         });
 
@@ -200,7 +210,9 @@ public class LocationHandler extends Fragment implements View.OnClickListener, O
         } catch (IOException e) {
             valueAdress.setText("Adress failed to fetch.");
         }
-
+        catch(Exception e){
+            valueAdress.setText("Loading...");
+        }
     }
 
     @Override
@@ -244,17 +256,5 @@ public class LocationHandler extends Fragment implements View.OnClickListener, O
         valueAdress.setText("Updates off.");
         valueAltitude.setText("Updates off");
         fusedLocationProviderClient.removeLocationUpdates(locationCallBack);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        stopLocationUpdate();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        startLocationUpdate();
     }
 }
