@@ -5,12 +5,12 @@ import androidx.lifecycle.ViewModel;
 import com.example.paybuddy.Models.LocationModel;
 
 public class LocationViewModel extends ViewModel {
-    private final MutableLiveData<LocationModel> itemToAddList = new MutableLiveData<>();
+    private final MutableLiveData<LocationModel> locationData = new MutableLiveData<>();
 
     public void setLocation(LocationModel location){
-        itemToAddList.setValue(location);
+        locationData.setValue(location);
     }
     public MutableLiveData<LocationModel> getLocation() {
-        return itemToAddList;
+        return locationData;
     }
 }
