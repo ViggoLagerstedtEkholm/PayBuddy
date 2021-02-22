@@ -10,14 +10,16 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.paybuddy.Models.ItemModel;
+import com.example.paybuddy.Models.LocationModel;
 import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.Models.OccasionWithItems;
 
-@Database(entities = {OccasionModel.class, ItemModel.class}, version = 3)
+@Database(entities = {OccasionModel.class, ItemModel.class, LocationModel.class}, version = 3)
 public abstract class DatabaseHelper extends RoomDatabase {
    private static DatabaseHelper instance;
    public abstract OccasionDAO occasionDao();
    public abstract ItemsDAO itemsDao();
+   public abstract LocationDAO locationDAO();
    public abstract OccasionWithItemsDAO occasionWithItemsDAO();
 
    public static synchronized DatabaseHelper getInstance(Context context){
