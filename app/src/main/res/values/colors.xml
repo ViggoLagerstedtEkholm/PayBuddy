@@ -11,8 +11,12 @@
 
     <color name="searchBar">#5573AF</color>
 
+    <color name="outline">#000000</color>
+
     <color name="mainBackground">#ffffff</color>
-    <color name="cardBackground">#E2ECEC</color>
+    <color name="cardBackground">#FFFFFF</color>
+
+    <color name="tab_colors">#FFFFFF</color>
 
     <color name="hintText">#7C7777</color>
 

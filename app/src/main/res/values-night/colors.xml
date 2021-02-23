@@ -14,6 +14,9 @@
 
     <color name="searchBar">#1C273C</color>
 
+    <color name="outline">#FFFFFF</color>
+
+    <color name="tab_colors">#232222</color>
 
     <color name="hintText">#676464</color>
 
@@ -22,7 +25,7 @@
     <color name="buttonText">#FFFFFF</color>
     <color name="buttonBackground">#191818</color>
 
-    <color name="iconBackground">#1D2020</color>
+    <color name="iconBackground">#303535</color>
     <color name="tabTint">#FFFFFF</color>
     <color name="tabTintOverview">#151414</color>
 

@@ -8,6 +8,7 @@
     android:layout_marginTop="24dp"
     android:layout_marginRight="10dp"
     android:elevation="5dp"
+    app:cardBackgroundColor="@color/cardBackground"
     app:cardCornerRadius="16dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,6 +24,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:text="Lat:"
+            android:textColor="@color/mainText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,6 +36,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginTop="16dp"
             android:text="0.00"
+            android:textColor="@color/mainText"
             app:layout_constraintStart_toEndOf="@+id/labelLatitude"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,6 +48,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:text="lon:"
+            android:textColor="@color/mainText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/labelLatitude" />
 
@@ -56,6 +60,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginTop="16dp"
             android:text="0.00"
+            android:textColor="@color/mainText"
             app:layout_constraintStart_toEndOf="@+id/labelLongitude"
             app:layout_constraintTop_toBottomOf="@+id/valueLatitude" />
 
@@ -67,6 +72,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:text="Altitude:"
+            android:textColor="@color/mainText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/labelLongitude" />
 
@@ -77,6 +83,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:text="0.00"
+            android:textColor="@color/mainText"
             app:layout_constraintStart_toEndOf="@+id/labelAltitude"
             app:layout_constraintTop_toTopOf="@+id/labelAltitude" />
 
@@ -88,6 +95,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:text="Accuracy:"
+            android:textColor="@color/mainText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/labelAltitude" />
 
@@ -98,6 +106,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:text="0.00"
+            android:textColor="@color/mainText"
             app:layout_constraintStart_toEndOf="@+id/labelAccuracy"
             app:layout_constraintTop_toTopOf="@+id/labelAccuracy" />
 
@@ -109,6 +118,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
             android:text="Sensor mode:"
+            android:textColor="@color/mainText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/slideLocationMode" />
 
@@ -119,6 +129,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginLeft="4dp"
             android:text="Highest location acccuracy"
+            android:textColor="@color/mainText"
             app:layout_constraintStart_toEndOf="@+id/labelSensor"
             app:layout_constraintTop_toTopOf="@+id/labelSensor" />
 
@@ -130,6 +141,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
             android:text="Updates:"
+            android:textColor="@color/mainText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/slideLocation" />
 
@@ -140,6 +152,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginLeft="4dp"
             android:text="Off"
+            android:textColor="@color/mainText"
             app:layout_constraintStart_toEndOf="@+id/labelUpdate"
             app:layout_constraintTop_toTopOf="@+id/labelUpdate" />
 
@@ -152,6 +165,7 @@
             android:layout_marginTop="8dp"
             android:checked="true"
             android:text="Location Updates"
+            android:textColor="@color/mainText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/labelSensor" />
 
@@ -163,6 +177,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
             android:text="High/Low"
+            android:textColor="@color/mainText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/labelAdress" />
 
@@ -181,6 +196,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:text="Address:"
+            android:textColor="@color/mainText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/labelAccuracy" />
 
@@ -191,6 +207,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:text="No adress found"
+            android:textColor="@color/mainText"
             app:layout_constraintStart_toEndOf="@+id/labelAdress"
             app:layout_constraintTop_toTopOf="@+id/labelAdress" />
 
@@ -205,6 +222,7 @@
             android:layout_marginBottom="22dp"
             android:background="@drawable/button_background"
             android:text="@string/Back"
+            android:textColor="@color/mainText"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/buttonSaveLocation"
             app:layout_constraintStart_toStartOf="parent" />
@@ -220,6 +238,7 @@
             android:layout_marginBottom="22dp"
             android:background="@drawable/button_background"
             android:text="@string/OK"
+            android:textColor="@color/mainText"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/buttonBackLocation" />

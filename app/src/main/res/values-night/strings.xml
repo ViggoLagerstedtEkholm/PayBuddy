@@ -48,6 +48,7 @@
     <string name="Delete">Delete</string>
     <string name="decision_cancel">Cancel</string>
     <string name="warning_text">Are you sure?</string>
+    <string name="search">Search</string>
 
     <string name="no_location_added">No location added!</string>
     <string name="total_items">Total items: 0</string>
