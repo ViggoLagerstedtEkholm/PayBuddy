@@ -50,9 +50,9 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         String people = "";
         double cost = 0.0;
 
-        //for(ItemModel item : occasionModel.getItems()){
-        //    cost += item.getPrice() * item.getQuantity();
-        //}
+        for(ItemModel item : occasionModel.getItems()){
+            cost += item.getPrice() * item.getQuantity();
+        }
 
         holder.textView_list_history_title.setText(occasionModel.getDescription());
         holder.textView_list_history_expiringDate_value.setText(occasionModel.getDate());

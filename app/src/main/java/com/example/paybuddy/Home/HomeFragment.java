@@ -80,21 +80,6 @@ public class HomeFragment extends Fragment {
                 textViewSumOfItems.setText("0.0");
             }
         });
-
-        swipeRefreshLayout = view.findViewById(R.id.refreshHomePage);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                Log.d("Updating fields", "...");
-                //double totalPrice = databaseHelper.getSumItems();
-                //int totalOccasion = databaseHelper.getAmountOfOccasion();
-                //textViewSumOfItems.setText(Double.toString(totalPrice));
-                //textViewCountOfOccasions.setText(String.valueOf(totalOccasion));
-                //if(swipeRefreshLayout.isRefreshing()){
-                 //   swipeRefreshLayout.setRefreshing(false);
-                //}
-            }
-        });
     }
 
     private int calculateTotalExpired(List<OccasionWithItems> occasionModels){

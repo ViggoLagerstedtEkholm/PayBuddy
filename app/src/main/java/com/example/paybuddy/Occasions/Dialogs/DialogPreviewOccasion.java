@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.paybuddy.MVVM.OccasionViewModel;
+import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.Occasions.Dialogs.PreviewRecyclerViewAdapter;
 import com.example.paybuddy.R;
@@ -64,9 +65,9 @@ public class DialogPreviewOccasion  extends DialogFragment {
 
         double totalCost = 0.0;
 
-//        for(ItemModel aModel : occasionModel.getItems()){
-        //  totalCost += aModel.getPrice();
-        // }
+        for(ItemModel aModel : occasionModel.getItems()){
+          totalCost += aModel.getPrice() * aModel.getQuantity();
+        }
 
         textViewPreviewTitle.setText(occasionModel.getDescription());
         textViewPreviewExpiringDate.setText(occasionModel.getDate());

@@ -11,9 +11,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.paybuddy.MVVM.ItemsViewModel;
+import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.Occasions.Dialogs.DialogPreviewOccasion;
 import com.example.paybuddy.R;
@@ -31,8 +33,27 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     private final Fragment currentFragment;
     private final OccasionViewModel occasionViewModel;
     private final ItemsViewModel itemsViewModel;
+    private TextView imageView;
+    private RecyclerView recyclerView;
 
-    public MyItemRecyclerViewAdapter( List<OccasionModel> items, Fragment currentFragment, OccasionViewModel occasionViewModel,
+    private RecyclerView.AdapterDataObserver emptyObserver = new RecyclerView.AdapterDataObserver() {
+        @Override
+        public void onChanged() {
+            super.onChanged();
+            if(getItemCount() == 0) {
+                //imageView.setVisibility(View.VISIBLE);
+                //recyclerView.setVisibility(View.GONE);
+            }
+            else {
+                //imageView.setVisibility(View.GONE);
+                //recyclerView.setVisibility(View.VISIBLE);
+            }
+        }
+    };
+
+    public MyItemRecyclerViewAdapter( List<OccasionModel> items,
+                                      Fragment currentFragment,
+                                      OccasionViewModel occasionViewModel,
                                       ItemsViewModel itemsViewModel) {
         this.items = items;
         this.currentFragment = currentFragment;
@@ -61,9 +82,9 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         String people = "";
         double cost = 0.0;
 
-        //for(ItemModel item : occasionModel.getItems()){
-         //   cost += item.getPrice() * item.getQuantity();
-        //}
+        for(ItemModel item : occasionModel.getItems()){
+            cost += item.getPrice() * item.getQuantity();
+        }
 
         holder.titleOfMyOccasion.setText(occasionModel.getDescription());
         holder.textViewDateOccasionCard.setText(occasionModel.getDate());

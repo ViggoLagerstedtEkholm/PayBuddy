@@ -46,15 +46,5 @@ public class TabViewFragment extends Fragment {
         viewPager.setCurrentItem(1);
         TabLayout tabs = getActivity().findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
-
-        FloatingActionButton fab = view.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                
-            }
-        });
     }
-
-
 }

@@ -39,7 +39,6 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
     private List<ItemModel> items;
     private LocationModel location;
     private EditText title;
-    private TextView date;
     private InputToItemListViewModel inputToItemListViewModel;
     private CompleteListViewModel completeListViewModel;
     private OccasionViewModel occasionViewModel;
@@ -137,11 +136,10 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
     public void onClick(View view) {
         switch(view.getId()){
             case R.id.buttonEnter:
-                if(Validator.EditTextHasValues(editTexts) )
+                if(Validator.EditTextHasValues(editTexts) && location != null && selectedDate != "")
                 {
                     String occasionTitle = title.getText().toString();
-                    String occasionDate = date.getText().toString();
-                    OccasionModel occasionModel = new OccasionModel(occasionDate, occasionTitle,false, false);
+                    OccasionModel occasionModel = new OccasionModel(selectedDate, occasionTitle,false, false);
                     occasionModel.setItems(items);
                     occasionModel.setLocationModel(location);
                     occasionViewModel.insert(occasionModel);
