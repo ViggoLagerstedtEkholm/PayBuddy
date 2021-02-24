@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -13,15 +12,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Switch;
 import android.widget.TextView;
 
-import com.example.paybuddy.MVVM.ItemsViewModel;
-import com.example.paybuddy.Models.ItemModel;
+import com.example.paybuddy.Viewmodels.ItemsViewModel;
 import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.Models.OccasionWithItems;
 import com.example.paybuddy.R;
-import com.example.paybuddy.MVVM.OccasionViewModel;
+import com.example.paybuddy.Viewmodels.OccasionViewModel;
 
 import java.util.List;
 
@@ -65,10 +62,13 @@ public class HomeFragment extends Fragment {
         textViewSumOfItems = (TextView) view.findViewById(R.id.textViewSumOfItems);
         textViewCountOfOccasions = (TextView) view.findViewById(R.id.textViewCountOfOccasions);
 
-        occasionViewModel.getAllOccasions().observe(getActivity(), items ->{
+        occasionViewModel.getActiveOccasions().observe(getActivity(), items ->{
             int totalOccasions = items.size();
             textViewCountOfOccasions.setText(String.valueOf(totalOccasions));
-            int totalExpired = calculateTotalExpired(items);
+        });
+
+        occasionViewModel.getExpiredOccasions().observe(getActivity(), items->{
+            int totalExpired = items.size();
             textViewCountOfExpiredOccasions.setText(String.valueOf(totalExpired));
         });
 
@@ -80,16 +80,5 @@ public class HomeFragment extends Fragment {
                 textViewSumOfItems.setText("0.0");
             }
         });
-    }
-
-    private int calculateTotalExpired(List<OccasionWithItems> occasionModels){
-        int total = 0;
-        for(OccasionWithItems occasionWithItems : occasionModels){
-            OccasionModel occasionModel = occasionWithItems.occasionModel;
-            if(occasionModel.isExpired()){
-                total++;
-            }
-        }
-        return total;
     }
 }
