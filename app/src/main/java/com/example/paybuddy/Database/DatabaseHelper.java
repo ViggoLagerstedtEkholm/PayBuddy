@@ -1,4 +1,4 @@
-package com.example.paybuddy.MVVM;
+package com.example.paybuddy.Database;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -9,10 +9,13 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.example.paybuddy.DAO.ItemsDAO;
+import com.example.paybuddy.DAO.LocationDAO;
+import com.example.paybuddy.DAO.OccasionDAO;
+import com.example.paybuddy.DAO.OccasionWithItemsDAO;
 import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.Models.LocationModel;
 import com.example.paybuddy.Models.OccasionModel;
-import com.example.paybuddy.Models.OccasionWithItems;
 
 @Database(entities = {OccasionModel.class, ItemModel.class, LocationModel.class}, version = 3)
 public abstract class DatabaseHelper extends RoomDatabase {
@@ -49,9 +52,9 @@ public abstract class DatabaseHelper extends RoomDatabase {
       }
       @Override
       protected Void doInBackground(Void... voids) {
-         occasionDao.insert(new OccasionModel("2021", "test1", false, false));
+         occasionDao.insert(new OccasionModel("2021", "test1", false, true));
          occasionDao.insert(new OccasionModel("2021", "test2", false, false));
-         occasionDao.insert(new OccasionModel("2021", "test3", false, false));
+         occasionDao.insert(new OccasionModel("2021", "test3", false, true));
          return null;
       }
    }
