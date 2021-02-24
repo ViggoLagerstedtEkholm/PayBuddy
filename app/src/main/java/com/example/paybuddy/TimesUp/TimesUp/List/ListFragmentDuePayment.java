@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.Models.OccasionWithItems;
 import com.example.paybuddy.R;
-import com.example.paybuddy.MVVM.OccasionViewModel;
+import com.example.paybuddy.Viewmodels.OccasionViewModel;
 import com.example.paybuddy.Search.FilterViewModel;
 
 import java.util.ArrayList;
