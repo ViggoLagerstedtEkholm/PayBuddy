@@ -13,11 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Switch;
-import android.widget.Toast;
 
-import com.example.paybuddy.MVVM.ItemsViewModel;
-import com.example.paybuddy.MVVM.OccasionViewModel;
-import com.example.paybuddy.Occasions.Dialogs.DialogAddItem;
+import com.example.paybuddy.Viewmodels.ItemsViewModel;
+import com.example.paybuddy.Viewmodels.OccasionViewModel;
 import com.example.paybuddy.R;
 
 /**
@@ -54,12 +52,23 @@ public class ManageFragment extends Fragment {
         //LoadingDialog loadingDialog = new LoadingDialog(getActivity());
 
         Button buttonDeleteAllOccasions = (Button) view.findViewById(R.id.buttonDeleteAllOccasions);
+        Button buttonDeleteHistory = (Button) view.findViewById(R.id.buttonDeleteHistory);
+        Button buttonDeleteExpired = (Button) view.findViewById(R.id.buttonDeleteAllExpired);
+
+        buttonDeleteHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogDeleteHistoryConfirm dialogFragment = new DialogDeleteHistoryConfirm();
+                dialogFragment.show(getChildFragmentManager(), "Test");
+            }
+        });
+
         buttonDeleteAllOccasions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //loadingDialog.startLoading();
 
-                DialogConfirm dialogFragment = new DialogConfirm();
+                DialogDeleteOccasionsConfirm dialogFragment = new DialogDeleteOccasionsConfirm();
                 dialogFragment.show(getChildFragmentManager(), "Test");
             }
         });
