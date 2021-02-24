@@ -1,4 +1,4 @@
-package com.example.paybuddy.MVVM;
+package com.example.paybuddy.DAO;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;

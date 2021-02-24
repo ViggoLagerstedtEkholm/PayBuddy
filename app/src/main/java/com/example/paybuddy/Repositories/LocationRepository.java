@@ -1,12 +1,12 @@
-package com.example.paybuddy.MVVM.Repositories;
+package com.example.paybuddy.Repositories;
 
 import android.app.Application;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.paybuddy.MVVM.DatabaseHelper;
-import com.example.paybuddy.MVVM.LocationDAO;
+import com.example.paybuddy.Database.DatabaseHelper;
+import com.example.paybuddy.DAO.LocationDAO;
 import com.example.paybuddy.Models.LocationModel;
 
 import java.util.List;
@@ -47,7 +47,7 @@ public class LocationRepository extends Repository<LocationModel> {
     }
 
     @Override
-    void deleteAll() {
+    void deleteAll(DELETE_TYPE delete_type) {
 
     }
 

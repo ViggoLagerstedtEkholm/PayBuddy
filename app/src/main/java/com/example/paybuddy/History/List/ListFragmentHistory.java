@@ -15,7 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.paybuddy.MVVM.OccasionViewModel;
+import com.example.paybuddy.Viewmodels.OccasionViewModel;
 import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.Models.OccasionWithItems;
 import com.example.paybuddy.R;

@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.paybuddy.MVVM.OccasionViewModel;
+import com.example.paybuddy.Viewmodels.OccasionViewModel;
 import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.R;
 

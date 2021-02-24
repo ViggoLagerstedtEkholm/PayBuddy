@@ -1,25 +1,22 @@
 package com.example.paybuddy.Occasions.List_of_occasions;
 
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.paybuddy.MVVM.ItemsViewModel;
+import com.example.paybuddy.Viewmodels.ItemsViewModel;
 import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.Occasions.Dialogs.DialogPreviewOccasion;
 import com.example.paybuddy.R;
-import com.example.paybuddy.MVVM.OccasionViewModel;
+import com.example.paybuddy.Viewmodels.OccasionViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,7 +100,6 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         holder.buttonRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                itemsViewModel.deleteAllItems();
                 occasionViewModel.delete(occasionModel);
                 itemsViewModel.delete(occasionModel.getItems());
             }

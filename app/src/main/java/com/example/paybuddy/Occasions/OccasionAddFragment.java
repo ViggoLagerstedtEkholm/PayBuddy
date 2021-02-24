@@ -22,13 +22,12 @@ import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.Occasions.Dialogs.DialogAddItem;
 import com.example.paybuddy.Occasions.Dialogs.DialogAddLocation;
 import com.example.paybuddy.Occasions.Dialogs.DialogDatePicker;
-import com.example.paybuddy.Occasions.Dialogs.DialogOccasionAdded;
 import com.example.paybuddy.Occasions.ViewModel.CompleteListViewModel;
 import com.example.paybuddy.Occasions.ViewModel.DateViewModel;
 import com.example.paybuddy.Occasions.ViewModel.InputToItemListViewModel;
 import com.example.paybuddy.Occasions.ViewModel.LocationViewModel;
 import com.example.paybuddy.R;
-import com.example.paybuddy.MVVM.OccasionViewModel;
+import com.example.paybuddy.Viewmodels.OccasionViewModel;
 import com.example.paybuddy.Validator;
 
 import java.util.ArrayList;
@@ -144,8 +143,8 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
                     occasionModel.setLocationModel(location);
                     occasionViewModel.insert(occasionModel);
 
-                    DialogOccasionAdded dialogFragment = new DialogOccasionAdded(occasionModel, currentView);
-                    dialogFragment.show(getChildFragmentManager(), "Test");
+                    Navigation.findNavController(currentView).navigate(R.id.action_occasionAddFragment_to_tabViewFragment);
+
                 }
                 else{
                     if(!Validator.EditTextHasValues(editTexts)){
