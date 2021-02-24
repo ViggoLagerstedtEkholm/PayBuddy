@@ -20,10 +20,17 @@
 
     <color name="hintText">#7C7777</color>
 
+    <color name="card_occasion_outline">#1B4A06</color>
+    <color name="card_history_outline">#60540A</color>
+    <color name="card_expired_outline">#570808</color>
+
     <color name="overViewBackground">#ffffff</color>
 
     <color name="buttonText">#000000</color>
     <color name="buttonBackground">#2E7A7A</color>
+
+    <color name="buttonColor">#5395F8</color>
+
 
     <color name="iconBackground">#5395F8</color>
     <color name="tabTint">#000000</color>

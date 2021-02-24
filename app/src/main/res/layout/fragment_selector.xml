@@ -23,8 +23,8 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
-        android:layout_width="372dp"
-        android:layout_height="512dp"
+        android:layout_width="385dp"
+        android:layout_height="542dp"
         android:layout_marginTop="8dp"
         android:background="@color/mainBackground"
         app:cardBackgroundColor="@color/mainBackground"
@@ -53,8 +53,8 @@
                     <fragment
                         android:id="@+id/searchFragment"
                         android:name="com.example.paybuddy.Search.SearchBoxFragment"
-                        android:layout_width="358dp"
-                        android:layout_height="72dp"
+                        android:layout_width="360dp"
+                        android:layout_height="80dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginLeft="8dp"
                         android:layout_marginTop="8dp"

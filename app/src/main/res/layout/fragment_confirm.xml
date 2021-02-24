@@ -12,6 +12,7 @@
         android:layout_marginTop="200dp"
         android:layout_marginBottom="331dp"
         android:background="@drawable/dialog_design"
+        app:cardBackgroundColor="@color/cardBackground"
         app:cardCornerRadius="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -33,6 +34,7 @@
                 android:layout_marginRight="16dp"
                 android:background="@drawable/button_background"
                 android:text="@string/decision_cancel"
+                android:textColor="@color/mainText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/buttonConfirmDelete"
                 app:layout_constraintTop_toBottomOf="@+id/textView30" />
@@ -48,6 +50,7 @@
                 android:layout_marginRight="16dp"
                 android:background="@drawable/button_background"
                 android:text="@string/Delete"
+                android:textColor="@color/mainText"
                 app:layout_constraintEnd_toStartOf="@+id/buttonCancelDelete"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView30" />

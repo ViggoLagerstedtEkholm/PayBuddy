@@ -25,7 +25,13 @@
     <color name="buttonText">#FFFFFF</color>
     <color name="buttonBackground">#191818</color>
 
-    <color name="iconBackground">#303535</color>
+    <color name="card_occasion_outline">#0C2E85</color>
+    <color name="card_history_outline">#185583</color>
+    <color name="card_expired_outline">#370209</color>
+
+    <color name="buttonColor">#051F45</color>
+
+    <color name="iconBackground">#303135</color>
     <color name="tabTint">#FFFFFF</color>
     <color name="tabTintOverview">#151414</color>
 
