@@ -1,4 +1,4 @@
-package com.example.paybuddy.MVVM;
+package com.example.paybuddy.DAO;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -31,6 +31,17 @@ public interface OccasionDAO {
     @Query("DELETE FROM occasions_table")
     void deleteAllOccasions();
 
+    @Query("DELETE FROM occasions_table WHERE IsExpired = " + 1)
+    void deleteAllExpired();
+
+    @Query("DELETE FROM occasions_table WHERE isPaid = " + 1)
+    void deleteAllHistory();
+
+    @Query("DELETE FROM occasions_table WHERE IsPaid = " + 0)
+    void deleteAllUnPaid();
+
     @Query("SELECT * FROM occasions_table ORDER BY date DESC")
     LiveData<List<OccasionModel>> getAllOccasions();
+
+
 }

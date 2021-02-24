@@ -1,22 +1,17 @@
-package com.example.paybuddy.MVVM;
+package com.example.paybuddy.Viewmodels;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 
-import com.example.paybuddy.MVVM.Repositories.ItemsRepository;
-import com.example.paybuddy.MVVM.Repositories.OccasionRepository;
-import com.example.paybuddy.Models.ItemModel;
+import com.example.paybuddy.Repositories.OccasionRepository;
 import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.Models.OccasionWithItems;
+import com.example.paybuddy.Repositories.Repository;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class OccasionViewModel extends AndroidViewModel {
     private OccasionRepository occasionRepository;
@@ -48,8 +43,24 @@ public class OccasionViewModel extends AndroidViewModel {
         occasionRepository.delete(itemModel);
     }
 
-    public void deleteAllItems(){
-        occasionRepository.deleteAll();
+    public void deleteAll(){
+        occasionRepository.deleteAll(Repository.DELETE_TYPE.DELETE_ALL);
+    }
+
+    public void deleteAllOccasions(){
+        occasionRepository.deleteAll(Repository.DELETE_TYPE.DELETE_ALL);
+    }
+
+    public void deleteAllUnpaid(){
+        occasionRepository.deleteAll(Repository.DELETE_TYPE.DELETE_ALL_UNPAID);
+    }
+
+    public void deleteAllHistory(){
+        occasionRepository.deleteAll(Repository.DELETE_TYPE.DELETE_ALL_HISTORY);
+    }
+
+    public void deleteAllExpired(){
+        occasionRepository.deleteAll(Repository.DELETE_TYPE.DELETE_ALL_EXPIRED);
     }
 
     public LiveData<List<OccasionWithItems>> getActiveOccasions(){
