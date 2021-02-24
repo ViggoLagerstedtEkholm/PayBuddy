@@ -1,16 +1,14 @@
-package com.example.paybuddy.MVVM;
+package com.example.paybuddy.Viewmodels;
 
 import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
 
-import com.example.paybuddy.MVVM.Repositories.ItemsRepository;
-import com.example.paybuddy.MVVM.Repositories.OccasionRepository;
+import com.example.paybuddy.Repositories.ItemsRepository;
 import com.example.paybuddy.Models.ItemModel;
-import com.example.paybuddy.Models.OccasionWithItems;
+import com.example.paybuddy.Repositories.Repository;
 
 import java.util.List;
 
@@ -44,8 +42,8 @@ public class ItemsViewModel extends AndroidViewModel {
 
     public LiveData<Integer> getTotalCost(){return totalCost;}
 
-    public void deleteAllItems(){
-        itemsRepository.deleteAll();
+    public void deleteAllItems(Repository.DELETE_TYPE delete_type){
+        itemsRepository.deleteAll(delete_type);
     }
 
     public LiveData<List<ItemModel>> getItems(){
