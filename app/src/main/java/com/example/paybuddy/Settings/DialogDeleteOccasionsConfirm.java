@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,17 +15,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.paybuddy.MVVM.ItemsViewModel;
-import com.example.paybuddy.MVVM.OccasionViewModel;
-import com.example.paybuddy.Models.ItemModel;
-import com.example.paybuddy.Occasions.ViewModel.InputToItemListViewModel;
+import com.example.paybuddy.Repositories.Repository;
+import com.example.paybuddy.Viewmodels.ItemsViewModel;
+import com.example.paybuddy.Viewmodels.OccasionViewModel;
 import com.example.paybuddy.R;
-import com.example.paybuddy.Validator;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class DialogConfirm extends DialogFragment {
+public class DialogDeleteOccasionsConfirm extends DialogFragment {
     private OccasionViewModel occasionViewModel;
     private ItemsViewModel itemsViewModel;
 
@@ -57,8 +51,8 @@ public class DialogConfirm extends DialogFragment {
         confirmDeleteOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                itemsViewModel.deleteAllItems();
-                occasionViewModel.deleteAllItems();
+                itemsViewModel.deleteAllItems(Repository.DELETE_TYPE.DELETE_ALL_UNPAID);
+                occasionViewModel.deleteAllUnpaid();
                 Toast.makeText(getContext(), "Deleted all occasions!", Toast.LENGTH_SHORT).show();
                 dismiss();
             }
