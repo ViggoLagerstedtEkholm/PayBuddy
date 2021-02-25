@@ -182,36 +182,38 @@ public class DialogAddLocation extends DialogFragment implements View.OnClickLis
     }
 
     private void updateAllFields(Location location) {
-        String latitude = String.valueOf(location.getLatitude());
-        String longitude = String.valueOf(location.getLongitude());
+        if(location != null){
+            String latitude = String.valueOf(location.getLatitude());
+            String longitude = String.valueOf(location.getLongitude());
 
-        valueLatitude.setText(latitude);
-        valueLongitude.setText(longitude);
+            valueLatitude.setText(latitude);
+            valueLongitude.setText(longitude);
 
-        if (location.hasAltitude()) {
-            String altitude = String.valueOf(location.getAltitude());
-            valueAltitude.setText(altitude);
-        } else {
-            valueAltitude.setText("No altitude detected.");
-        }
+            if (location.hasAltitude()) {
+                String altitude = String.valueOf(location.getAltitude());
+                valueAltitude.setText(altitude);
+            } else {
+                valueAltitude.setText("No altitude detected.");
+            }
 
-        if (location.hasAccuracy()) {
-            String Accuracy = String.valueOf(location.getAccuracy());
-            valueAccuracy.setText(Accuracy);
-        } else {
-            valueAccuracy.setText("No accuracy detected.");
-        }
+            if (location.hasAccuracy()) {
+                String Accuracy = String.valueOf(location.getAccuracy());
+                valueAccuracy.setText(Accuracy);
+            } else {
+                valueAccuracy.setText("No accuracy detected.");
+            }
 
-        Geocoder geocoder = new Geocoder(getContext());
+            Geocoder geocoder = new Geocoder(getActivity());
 
-        try {
-            List<Address> locations = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-            valueAdress.setText(locations.get(0).getAddressLine(0));
-        } catch (IOException e) {
-            valueAdress.setText("Adress failed to fetch.");
-        }
-        catch(Exception e){
-            valueAdress.setText("Loading...");
+            try {
+                List<Address> locations = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                valueAdress.setText(locations.get(0).getAddressLine(0));
+            } catch (IOException e) {
+                valueAdress.setText("Adress failed to fetch.");
+            }
+            catch(Exception e){
+                valueAdress.setText("Loading...");
+            }
         }
     }
 
