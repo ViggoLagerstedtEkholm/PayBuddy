@@ -16,6 +16,7 @@ import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.Occasions.Dialogs.DialogPreviewOccasion;
 import com.example.paybuddy.R;
+import com.example.paybuddy.Viewmodels.LocationViewModel;
 import com.example.paybuddy.Viewmodels.OccasionViewModel;
 
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     private final Fragment currentFragment;
     private final OccasionViewModel occasionViewModel;
     private final ItemsViewModel itemsViewModel;
+    private final LocationViewModel locationViewModel;
     private TextView imageView;
     private RecyclerView recyclerView;
 
@@ -48,15 +50,17 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         }
     };
 
-    public MyItemRecyclerViewAdapter( List<OccasionModel> items,
-                                      Fragment currentFragment,
-                                      OccasionViewModel occasionViewModel,
-                                      ItemsViewModel itemsViewModel) {
+    public MyItemRecyclerViewAdapter(List<OccasionModel> items,
+                                     Fragment currentFragment,
+                                     OccasionViewModel occasionViewModel,
+                                     ItemsViewModel itemsViewModel,
+                                     LocationViewModel locationViewModel) {
         this.items = items;
         this.currentFragment = currentFragment;
         this.occasionViewModel = occasionViewModel;
         this.itemsViewModel = itemsViewModel;
         this.filteredItems = new ArrayList<>();
+        this.locationViewModel = locationViewModel;
     }
 
     public void addItems(List<OccasionModel> occasionModels){
@@ -100,6 +104,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         holder.buttonRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                locationViewModel.delete(occasionModel.getLocationModel());
                 occasionViewModel.delete(occasionModel);
                 itemsViewModel.delete(occasionModel.getItems());
             }
