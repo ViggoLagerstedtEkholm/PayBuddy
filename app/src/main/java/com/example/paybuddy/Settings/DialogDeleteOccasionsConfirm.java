@@ -17,18 +17,21 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.paybuddy.Repositories.Repository;
 import com.example.paybuddy.Viewmodels.ItemsViewModel;
+import com.example.paybuddy.Viewmodels.LocationViewModel;
 import com.example.paybuddy.Viewmodels.OccasionViewModel;
 import com.example.paybuddy.R;
 
 public class DialogDeleteOccasionsConfirm extends DialogFragment {
     private OccasionViewModel occasionViewModel;
     private ItemsViewModel itemsViewModel;
+    private LocationViewModel locationViewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         occasionViewModel = new ViewModelProvider(getActivity()).get(OccasionViewModel.class);
         itemsViewModel = new ViewModelProvider(getActivity()).get(ItemsViewModel.class);
+        locationViewModel = new ViewModelProvider(getActivity()).get(LocationViewModel.class);
     }
 
     @NonNull
@@ -51,9 +54,10 @@ public class DialogDeleteOccasionsConfirm extends DialogFragment {
         confirmDeleteOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                locationViewModel.deleteAll(Repository.DELETE_TYPE.DELETE_ALL_UNPAID);
                 itemsViewModel.deleteAllItems(Repository.DELETE_TYPE.DELETE_ALL_UNPAID);
                 occasionViewModel.deleteAllUnpaid();
-                Toast.makeText(getContext(), "Deleted all occasions!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Deleted all unpaid occasions!", Toast.LENGTH_SHORT).show();
                 dismiss();
             }
         });
