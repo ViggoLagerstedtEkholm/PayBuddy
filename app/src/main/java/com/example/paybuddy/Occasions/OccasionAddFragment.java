@@ -1,17 +1,30 @@
 package com.example.paybuddy.Occasions;
 
+import android.Manifest;
+import android.app.AlertDialog;
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -31,7 +44,10 @@ import com.example.paybuddy.Viewmodels.OccasionViewModel;
 import com.example.paybuddy.Validator;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+
+import static androidx.core.content.ContextCompat.checkSelfPermission;
 
 public class OccasionAddFragment extends Fragment implements View.OnClickListener {
     private View currentView;
@@ -47,6 +63,9 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
     public static final int REQUEST_CODE = 100;
     private String selectedDate;
     private TextView textDateDisplay;
+    private CheckBox checkBoxAddCalendar;
+
+    private static final int PERMISSION_FOR_CALENDAR = 100;
 
     public OccasionAddFragment() {
         // Required empty public constructor
@@ -75,6 +94,25 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         currentView = view;
+
+        checkBoxAddCalendar = (CheckBox) view.findViewById(R.id.checkBoxAddCalendar);
+
+        checkBoxAddCalendar.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_CALENDAR)
+                            == PackageManager.PERMISSION_GRANTED) {
+
+                        Toast.makeText(getActivity(), "You have already granted", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        checkBoxAddCalendar.setChecked(false);
+                        requestWritePermission();
+                    }
+                }
+            }
+        });
 
         TextView locationAdded = (TextView) view.findViewById(R.id.textAddedLocation);
         TextView textTotalItems = (TextView) view.findViewById(R.id.textTotalItems);
@@ -131,6 +169,43 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
         buttonEnterLocation.setOnClickListener(this);
     }
 
+    private void requestWritePermission() {
+        if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.WRITE_CALENDAR)){
+            new AlertDialog.Builder(getContext())
+                    .setTitle("Permission needed")
+                    .setMessage("This permission is required to write to calendar")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_CALENDAR}, PERMISSION_FOR_CALENDAR);
+                        }
+                    })
+                    .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .create().show();
+
+        } else{
+            Log.d("XDDDDDDD", "awdad...............");
+
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_CALENDAR}, PERMISSION_FOR_CALENDAR);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == PERMISSION_FOR_CALENDAR){
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                Toast.makeText(getActivity(), "Permission granted", Toast.LENGTH_SHORT).show();
+            }else {
+                Toast.makeText(getActivity(), "Permission denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     @Override
     public void onClick(View view) {
         switch(view.getId()){
@@ -143,8 +218,17 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
                     occasionModel.setLocationModel(location);
                     occasionViewModel.insert(occasionModel);
 
-                    Navigation.findNavController(currentView).navigate(R.id.action_occasionAddFragment_to_tabViewFragment);
+                    if(checkBoxAddCalendar.isChecked()){
+                        if (checkSelfPermission(getContext(), Manifest.permission.WRITE_CALENDAR)
+                                == PackageManager.PERMISSION_GRANTED) {
+                            insertCalendar(occasionModel);
+                        }
+                        else{
+                            Toast.makeText(getActivity(), "Could not add event in calendar", Toast.LENGTH_LONG).show();
+                        }
+                    }
 
+                    Navigation.findNavController(currentView).navigate(R.id.action_occasionAddFragment_to_tabViewFragment);
                 }
                 else{
                     if(!Validator.EditTextHasValues(editTexts)){
@@ -167,5 +251,29 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
                 dialogAddLocation.show(getChildFragmentManager(), "Test");
                 break;
         }
+    }
+
+    private void insertCalendar(OccasionModel occasionModel){
+        long calID = 3;
+        long startMillis = 0;
+        long endMillis = 0;
+        Calendar beginTime = Calendar.getInstance();
+        beginTime.set(2021, 2, 24, 0, 0);
+        startMillis = beginTime.getTimeInMillis();
+        Calendar endTime = Calendar.getInstance();
+        endTime.set(2012, 2, 24, 23, 59);
+        endMillis = endTime.getTimeInMillis();
+
+        ContentResolver cr = getContext().getContentResolver();
+        ContentValues values = new ContentValues();
+        values.put(CalendarContract.Events.DTSTART, startMillis);
+        values.put(CalendarContract.Events.DTEND, endMillis);
+        values.put(CalendarContract.Events.TITLE, "Jazzercise");
+        values.put(CalendarContract.Events.DESCRIPTION, "Group workout");
+        values.put(CalendarContract.Events.CALENDAR_ID, calID);
+        values.put(CalendarContract.Events.EVENT_TIMEZONE, "America/Los_Angeles");
+        Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
+
+        long eventID = Long.parseLong(uri.getLastPathSegment());
     }
 }
