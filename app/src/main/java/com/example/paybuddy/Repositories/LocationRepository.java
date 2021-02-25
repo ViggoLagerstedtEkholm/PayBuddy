@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 
 import com.example.paybuddy.Database.DatabaseHelper;
 import com.example.paybuddy.DAO.LocationDAO;
+import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.Models.LocationModel;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class LocationRepository extends Repository<LocationModel> {
     }
 
     @Override
-    void insert(LocationModel... entity) {
+    public void insert(LocationModel... entity) {
         new InsertLocationAsyncTask(locationDAO).doInBackground(entity);
     }
 
@@ -31,24 +32,24 @@ public class LocationRepository extends Repository<LocationModel> {
     }
 
     @Override
-    void update(LocationModel entity) {
+    public void update(LocationModel entity) {
         new UpdateLocationAsyncTask(locationDAO).doInBackground(entity);
 
     }
 
     @Override
-    void delete(LocationModel entity) {
+    public void delete(LocationModel entity) {
         new DeleteLocationAsyncTask(locationDAO).doInBackground(entity);
     }
 
     @Override
-    void delete(List<LocationModel> entity) {
+    public void delete(List<LocationModel> entity) {
 
     }
 
     @Override
-    void deleteAll(DELETE_TYPE delete_type) {
-
+    public void deleteAll(DELETE_TYPE delete_type) {
+       new DeleteAllLocationAsyncTask(locationDAO, delete_type).execute();
     }
 
     @Override
@@ -92,6 +93,35 @@ public class LocationRepository extends Repository<LocationModel> {
         @Override
         protected Void doInBackground(LocationModel... locationModels) {
             locationDAO.delete(locationModels[0]);
+            return null;
+        }
+    }
+
+    private static class DeleteAllLocationAsyncTask extends AsyncTask<Void, Void, Void>{
+        private final LocationDAO locationDAO;
+        private DELETE_TYPE delete_type;
+
+        private DeleteAllLocationAsyncTask(LocationDAO locationDAO, DELETE_TYPE delete_type){
+            this.locationDAO = locationDAO;
+            this.delete_type = delete_type;
+        }
+
+        @Override
+        protected Void doInBackground(Void... itemModels) {
+            switch(delete_type){
+                case DELETE_ALL:
+                    locationDAO.deleteAllLocations();
+                    break;
+                case DELETE_ALL_HISTORY:
+                    locationDAO.deleteLocationPaid();
+                    break;
+                case DELETE_ALL_EXPIRED:
+                    locationDAO.deleteLocationExpired();
+                    break;
+                case DELETE_ALL_UNPAID:
+                    locationDAO.deleteLocationUnPaid();
+                    break;
+            }
             return null;
         }
     }

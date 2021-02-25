@@ -23,7 +23,31 @@ public abstract class LocationDAO {
     public abstract void delete(LocationModel occasionModel);
 
     @Query("DELETE FROM location_table")
-    public abstract void deleteAllOccasions();
+    public abstract void deleteAllLocations();
+
+    @Query("DELETE " +
+            "FROM location_table " +
+            "WHERE occasionID = (" +
+                                "SELECT ID " +
+                                "FROM occasions_table " +
+                                "WHERE IsExpired = " + 1 + " AND IsPaid = " + 0 + ")")
+    public abstract void deleteLocationExpired();
+
+    @Query("DELETE " +
+            "FROM location_table " +
+            "WHERE occasionID = (" +
+                                "SELECT ID " +
+                                "FROM occasions_table " +
+                                "WHERE IsPaid = " + 1 + " AND IsExpired = " + 0 + ")")
+    public abstract void deleteLocationPaid();
+
+    @Query("DELETE " +
+            "FROM location_table " +
+            "WHERE occasionID = (" +
+                                "SELECT ID " +
+                                "FROM occasions_table " +
+                                "WHERE IsPaid = " + 0 + " AND IsExpired = " + 0 + ")")
+    public abstract void deleteLocationUnPaid();
 
     @Query("SELECT * FROM location_table ORDER BY ID DESC")
     public abstract LiveData<List<LocationModel>> getAllOccasions();
