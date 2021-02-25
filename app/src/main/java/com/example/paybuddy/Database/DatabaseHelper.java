@@ -17,7 +17,7 @@ import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.Models.LocationModel;
 import com.example.paybuddy.Models.OccasionModel;
 
-@Database(entities = {OccasionModel.class, ItemModel.class, LocationModel.class}, version = 3)
+@Database(entities = {OccasionModel.class, ItemModel.class, LocationModel.class}, version = 4)
 public abstract class DatabaseHelper extends RoomDatabase {
    private static DatabaseHelper instance;
    public abstract OccasionDAO occasionDao();
