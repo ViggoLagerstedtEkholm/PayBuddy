@@ -1,6 +1,7 @@
 package com.example.paybuddy.Occasions.List_of_occasions;
 
 import android.content.Context;
+import android.location.Location;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.paybuddy.Viewmodels.ItemsViewModel;
+import com.example.paybuddy.Viewmodels.LocationViewModel;
 import com.example.paybuddy.Viewmodels.OccasionViewModel;
 import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.Models.OccasionWithItems;
@@ -35,6 +37,7 @@ public class ListFragmentOccasions extends Fragment {
     private OccasionViewModel occasionViewModel;
     private ItemsViewModel itemsViewModel;
     private FilterViewModel filterViewModel;
+    private LocationViewModel locationViewModel;
     private MyItemRecyclerViewAdapter myItemRecyclerViewAdapter;
 
     public ListFragmentOccasions() {
@@ -47,7 +50,7 @@ public class ListFragmentOccasions extends Fragment {
         occasionViewModel = new ViewModelProvider(getActivity()).get(OccasionViewModel.class);
         itemsViewModel = new ViewModelProvider(getActivity()).get(ItemsViewModel.class);
         filterViewModel = new ViewModelProvider(getActivity()).get(FilterViewModel.class);
-
+        locationViewModel = new ViewModelProvider(getActivity()).get(LocationViewModel.class);
     }
 
     @Override
@@ -60,7 +63,7 @@ public class ListFragmentOccasions extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_occasions_list, container, false);
 
-        myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(new ArrayList<>(), this, occasionViewModel, itemsViewModel);
+        myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(new ArrayList<>(), this, occasionViewModel, itemsViewModel, locationViewModel);
 
         occasionViewModel.getActiveOccasions().observe(getViewLifecycleOwner(), new Observer<List<OccasionWithItems>>() {
             @Override

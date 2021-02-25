@@ -40,8 +40,8 @@ public class ListFragmentHistory extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        occasionViewModel = new ViewModelProvider(requireActivity()).get(OccasionViewModel.class);
-        filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
+        occasionViewModel = new ViewModelProvider(this).get(OccasionViewModel.class);
+        filterViewModel = new ViewModelProvider(this).get(FilterViewModel.class);
     }
 
     @Override
@@ -62,6 +62,8 @@ public class ListFragmentHistory extends Fragment {
 
                     occasionModels.add(aOccasionModel);
                 }
+                Log.d("History data size", String.valueOf(occasionModels.size()));
+
                 myItemRecyclerViewAdapter.addItems(occasionModels);
             }
         });
