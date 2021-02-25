@@ -5,10 +5,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/addItemFragment"
-    android:tag="OCCASION_ADD"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mainBackground"
+    android:background="@color/cardBackground"
+    android:tag="OCCASION_ADD"
     tools:context=".MainActivity">
 
     <!-- TODO: Update blank fragment layout -->
@@ -42,7 +42,6 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:background="@drawable/card_outline"
         android:elevation="5dp"
         app:cardBackgroundColor="@color/cardBackground"
         app:cardCornerRadius="16dp"
@@ -52,7 +51,9 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            android:background="@drawable/card_outline">>
 
             <Button
                 android:id="@+id/buttonEnterLocation"
@@ -63,11 +64,9 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="69dp"
                 android:layout_marginRight="69dp"
-                android:layout_marginBottom="8dp"
                 android:background="@drawable/button_background"
                 android:text="@string/EnterLocation"
                 android:textColor="@color/mainText"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textAddedLocation" />
@@ -89,25 +88,12 @@
                 app:layout_constraintTop_toBottomOf="@+id/textTotalItems" />
 
             <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/Title"
-                android:textColor="@color/mainText"
-                android:textSize="18dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-            <TextView
                 android:id="@+id/textDateDisplay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="148dp"
                 android:layout_marginLeft="148dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginEnd="150dp"
                 android:layout_marginRight="150dp"
                 android:text="@string/pick_a_date"
@@ -117,39 +103,23 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/FieldTitle" />
 
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="22dp"
-                android:layout_marginLeft="22dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="22dp"
-                android:layout_marginRight="22dp"
-                android:text="@string/Register_new_occasion"
-                android:textColor="@color/mainText"
-                android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <EditText
                 android:id="@+id/FieldTitle"
-                android:layout_width="258dp"
-                android:layout_height="44dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginEnd="24dp"
-                android:layout_marginRight="24dp"
+                android:layout_width="280dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="34dp"
+                android:layout_marginLeft="34dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="31dp"
+                android:layout_marginRight="31dp"
                 android:ems="10"
                 android:hint="@string/title"
                 android:inputType="textPersonName"
                 android:textColor="@color/mainText"
-                android:textColorHint="@color/hintText"
-                app:layout_constraintBottom_toBottomOf="@+id/textView"
+                android:textColorHint="@color/text_title"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textView"
-                app:layout_constraintTop_toTopOf="@+id/textView" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textAddedLocation"
@@ -157,7 +127,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="137dp"
                 android:layout_marginLeft="137dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginEnd="132dp"
                 android:layout_marginRight="132dp"
                 android:text="@string/no_location_added"
@@ -173,7 +143,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="149dp"
                 android:layout_marginLeft="149dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginEnd="154dp"
                 android:layout_marginRight="154dp"
                 android:text="@string/total_items"
@@ -198,6 +168,24 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textDateDisplay" />
+
+            <CheckBox
+                android:id="@+id/checkBoxAddCalendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="87dp"
+                android:layout_marginLeft="87dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="78dp"
+                android:layout_marginRight="78dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/book_calendar"
+                android:textColor="@color/mainText"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonEnterLocation"
+                app:layout_constraintVertical_bias="0.0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
@@ -233,18 +221,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView6">
 
-        <fragment
-            android:id="@+id/fragment3"
-            android:name="com.example.paybuddy.Occasions.List_of_items.ItemInOccasionsFragment"
-            android:layout_width="338dp"
-            android:layout_height="232dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            app:layout_constraintEnd_toEndOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            android:background="@drawable/card_outline">>
+
+            <fragment
+                android:id="@+id/fragment3"
+                android:name="com.example.paybuddy.Occasions.List_of_items.ItemInOccasionsFragment"
+                android:layout_width="338dp"
+                android:layout_height="232dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

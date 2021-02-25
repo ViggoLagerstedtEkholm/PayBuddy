@@ -36,7 +36,7 @@
     <string name="preview">Preview</string>
     <string name="quantity">Quantity:</string>
     <string name="price">Price:</string>
-    <string name="title">Title</string>
+    <string name="title">Enter title</string>
     <string name="call">Call</string>
     <string name="postpone">Postpone</string>
     <string name="SUM_OF_ITEMS_COST">Sum of items cost</string>

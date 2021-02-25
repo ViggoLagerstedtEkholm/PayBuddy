@@ -36,7 +36,7 @@
     <string name="preview">Preview</string>
     <string name="quantity">Quantity:</string>
     <string name="price">Price:</string>
-    <string name="title">Title</string>
+    <string name="title">Enter title</string>
     <string name="call">Call</string>
     <string name="postpone">Postpone</string>
     <string name="SUM_OF_ITEMS_COST">Sum of items cost</string>
@@ -51,6 +51,8 @@
     <string name="decision_cancel">Cancel</string>
     <string name="warning_text">Are you sure?</string>
     <string name="search">Search</string>
+
+    <string name="book_calendar">Book event in calendar?</string>
 
     <string name="no_location_added">No location added!</string>
     <string name="total_items">Total items: 0</string>

@@ -14,6 +14,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="420dp"
+        android:background="@drawable/card_outline"
+        android:layout_margin="4dp"
         tools:context=".MainActivity">
 
         <TextView
@@ -190,7 +192,7 @@
 
         <TextView
             android:id="@+id/labelAdress"
-            android:layout_width="100dp"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"

@@ -8,6 +8,7 @@
     <color name="textAlt">#8D8F97</color>
 
     <color name="overviewTabColor">#010C43</color>
+    <color name="text_title">#DFDEDE</color>
 
     <color name="mainBackground">#2D313D</color>
     <color name="cardBackground">#232525</color>

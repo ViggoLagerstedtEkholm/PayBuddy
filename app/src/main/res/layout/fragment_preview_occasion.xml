@@ -12,11 +12,11 @@
         android:id="@+id/textView27"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="26dp"
-        android:layout_marginLeft="26dp"
+        android:layout_marginStart="164dp"
+        android:layout_marginLeft="164dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="311dp"
-        android:layout_marginRight="311dp"
+        android:layout_marginEnd="173dp"
+        android:layout_marginRight="173dp"
         android:text="@string/Items"
         android:textColor="@color/mainText"
         android:textSize="25dp"
@@ -62,7 +62,9 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            android:background="@drawable/card_outline">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/activity_main_rv"
@@ -96,7 +98,9 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            android:background="@drawable/card_outline">
 
             <TextView
                 android:id="@+id/textViewPreviewExpiringDate"
@@ -191,7 +195,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/Title"
                 android:textColor="@color/mainText"
                 android:textSize="20dp"
