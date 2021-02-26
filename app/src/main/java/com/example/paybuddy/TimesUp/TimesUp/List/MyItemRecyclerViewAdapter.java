@@ -15,6 +15,9 @@ import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.R;
 import com.example.paybuddy.Search.FilterViewModel;
+import com.example.paybuddy.Viewmodels.ItemsViewModel;
+import com.example.paybuddy.Viewmodels.LocationViewModel;
+import com.example.paybuddy.Viewmodels.OccasionViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +28,16 @@ import java.util.List;
 public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> implements Filterable {
     private List<OccasionModel> items;
     private List<OccasionModel> filteredItems;
+    private OccasionViewModel occasionViewModel;
+    private LocationViewModel locationViewModel;
+    private ItemsViewModel itemsViewModel;
 
-
-    public MyItemRecyclerViewAdapter(List<OccasionModel> items) {
+    public MyItemRecyclerViewAdapter(List<OccasionModel> items, OccasionViewModel occasionViewModel, ItemsViewModel itemsViewModel, LocationViewModel locationViewModel) {
         this.items = items;
         this.filteredItems = new ArrayList<>();
+        this.occasionViewModel = occasionViewModel;
+        this.itemsViewModel = itemsViewModel;
+        this.locationViewModel = locationViewModel;
     }
 
     public void addItems(List<OccasionModel> items){
@@ -52,9 +60,32 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
         double cost = 0.0;
 
-//        for(ItemModel item : occasionModel.getItems()){
-         //   cost += item.getPrice() * item.getQuantity();
-        //}
+        for(ItemModel item : occasionModel.getItems()){
+            cost += item.getPrice() * item.getQuantity();
+        }
+
+        holder.buttonRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemsViewModel.delete(occasionModel.getItems());
+                locationViewModel.delete(occasionModel.getLocationModel());
+                occasionViewModel.delete(occasionModel);
+            }
+        });
+
+        holder.buttonPostPone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //add 2 days and push to unpaid occasions.
+            }
+        });
+
+        holder.buttonCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Call phone!!!
+            }
+        });
 
         holder.textView_list_due_payment_title.setText(occasionModel.getDescription());
         holder.textView_list_due_payment_expiringDate_value.setText(occasionModel.getDate());
