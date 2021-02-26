@@ -51,7 +51,8 @@
     <string name="decision_cancel">Cancel</string>
     <string name="warning_text">Are you sure?</string>
     <string name="search">Search</string>
-
+    <string name="expire">Expire occasion</string>
+    <string name="expire_the_occasion">Expire occasion?</string>
     <string name="book_calendar">Book event in calendar?</string>
 
     <string name="no_location_added">No location added!</string>

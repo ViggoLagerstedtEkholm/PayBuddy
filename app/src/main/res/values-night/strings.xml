@@ -43,12 +43,17 @@
     <string name="SUM_OF_OCCASIONS">Sum of occasions</string>
     <string name="SUM_OF_EXPIRED">Sum of expired</string>
     <string name="Delete_all_occasions">Delete all occasions</string>
+    <string name="Delete_history">Delete history</string>
+    <string name="Delete_all_expired">Delete all expired</string>
     <string name="Manage_layout_style">Layout style</string>
     <string name="handle_app">Settings</string>
     <string name="Delete">Delete</string>
     <string name="decision_cancel">Cancel</string>
     <string name="warning_text">Are you sure?</string>
     <string name="search">Search</string>
+    <string name="expire">Expire occasion</string>
+    <string name="expire_the_occasion">Expire occasion?</string>
+    <string name="book_calendar">Book event in calendar?</string>
 
     <string name="no_location_added">No location added!</string>
     <string name="total_items">Total items: 0</string>
