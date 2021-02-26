@@ -33,13 +33,13 @@ public class LocationRepository extends Repository<LocationModel> {
 
     @Override
     public void update(LocationModel entity) {
-        new UpdateLocationAsyncTask(locationDAO).doInBackground(entity);
+        new UpdateLocationAsyncTask(locationDAO).execute(entity);
 
     }
 
     @Override
     public void delete(LocationModel entity) {
-        new DeleteLocationAsyncTask(locationDAO).doInBackground(entity);
+        new DeleteLocationAsyncTask(locationDAO).execute(entity);
     }
 
     @Override

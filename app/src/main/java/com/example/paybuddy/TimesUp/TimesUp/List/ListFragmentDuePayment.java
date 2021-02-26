@@ -18,6 +18,8 @@ import android.view.ViewGroup;
 import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.Models.OccasionWithItems;
 import com.example.paybuddy.R;
+import com.example.paybuddy.Viewmodels.ItemsViewModel;
+import com.example.paybuddy.Viewmodels.LocationViewModel;
 import com.example.paybuddy.Viewmodels.OccasionViewModel;
 import com.example.paybuddy.Search.FilterViewModel;
 
@@ -33,6 +35,8 @@ public class ListFragmentDuePayment extends Fragment {
     private int mColumnCount = 1;
     private MyItemRecyclerViewAdapter myItemRecyclerViewAdapter;
     private OccasionViewModel occasionViewModel;
+    private LocationViewModel locationViewModel;
+    private ItemsViewModel itemsViewModel;
     private FilterViewModel filterViewModel;
 
     public ListFragmentDuePayment() {
@@ -51,8 +55,12 @@ public class ListFragmentDuePayment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        occasionViewModel = new ViewModelProvider(requireActivity()).get(OccasionViewModel.class);
-        filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
+        occasionViewModel = new ViewModelProvider(this).get(OccasionViewModel.class);
+        locationViewModel = new ViewModelProvider(this).get(LocationViewModel.class);
+        itemsViewModel = new ViewModelProvider(this).get(ItemsViewModel.class);
+
+        filterViewModel = new ViewModelProvider(getActivity()).get(FilterViewModel.class);
+
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
@@ -64,7 +72,7 @@ public class ListFragmentDuePayment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_list_due_payment, container, false);
 
 
-        myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(new ArrayList<>());
+        myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(new ArrayList<>(), occasionViewModel, itemsViewModel, locationViewModel);
 
         filterViewModel.getSelected().observe(getViewLifecycleOwner(), searchWord ->{
             myItemRecyclerViewAdapter.getFilter().filter(searchWord);

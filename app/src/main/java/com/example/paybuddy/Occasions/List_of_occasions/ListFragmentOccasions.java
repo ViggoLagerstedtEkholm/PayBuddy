@@ -47,10 +47,10 @@ public class ListFragmentOccasions extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        occasionViewModel = new ViewModelProvider(getActivity()).get(OccasionViewModel.class);
-        itemsViewModel = new ViewModelProvider(getActivity()).get(ItemsViewModel.class);
+        occasionViewModel = new ViewModelProvider(this).get(OccasionViewModel.class);
+        itemsViewModel = new ViewModelProvider(this).get(ItemsViewModel.class);
         filterViewModel = new ViewModelProvider(getActivity()).get(FilterViewModel.class);
-        locationViewModel = new ViewModelProvider(getActivity()).get(LocationViewModel.class);
+        locationViewModel = new ViewModelProvider(this).get(LocationViewModel.class);
     }
 
     @Override

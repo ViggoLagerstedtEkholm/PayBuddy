@@ -41,7 +41,7 @@ public class ListFragmentHistory extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         occasionViewModel = new ViewModelProvider(this).get(OccasionViewModel.class);
-        filterViewModel = new ViewModelProvider(this).get(FilterViewModel.class);
+        filterViewModel = new ViewModelProvider(getActivity()).get(FilterViewModel.class);
     }
 
     @Override

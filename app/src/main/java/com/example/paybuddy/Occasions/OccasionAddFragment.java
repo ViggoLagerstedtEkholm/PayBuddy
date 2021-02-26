@@ -107,7 +107,6 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
                         Toast.makeText(getActivity(), "You have already granted", Toast.LENGTH_SHORT).show();
                     }
                     else {
-                        checkBoxAddCalendar.setChecked(false);
                         requestWritePermission();
                     }
                 }
@@ -184,6 +183,7 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
+                            checkBoxAddCalendar.setChecked(false);
                         }
                     })
                     .create().show();
@@ -202,6 +202,7 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
                 Toast.makeText(getActivity(), "Permission granted", Toast.LENGTH_SHORT).show();
             }else {
                 Toast.makeText(getActivity(), "Permission denied", Toast.LENGTH_SHORT).show();
+                checkBoxAddCalendar.setChecked(false);
             }
         }
     }
@@ -222,6 +223,8 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
                         if (checkSelfPermission(getContext(), Manifest.permission.WRITE_CALENDAR)
                                 == PackageManager.PERMISSION_GRANTED) {
                             insertCalendar(occasionModel);
+                            Toast.makeText(getActivity(), "Added event in calendar.", Toast.LENGTH_LONG).show();
+
                         }
                         else{
                             Toast.makeText(getActivity(), "Could not add event in calendar", Toast.LENGTH_LONG).show();

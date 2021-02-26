@@ -11,6 +11,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
+import com.example.paybuddy.Occasions.Dialogs.DialogMakeExpired;
 import com.example.paybuddy.Viewmodels.ItemsViewModel;
 import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.Models.OccasionModel;
@@ -34,21 +35,6 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     private final LocationViewModel locationViewModel;
     private TextView imageView;
     private RecyclerView recyclerView;
-
-    private RecyclerView.AdapterDataObserver emptyObserver = new RecyclerView.AdapterDataObserver() {
-        @Override
-        public void onChanged() {
-            super.onChanged();
-            if(getItemCount() == 0) {
-                //imageView.setVisibility(View.VISIBLE);
-                //recyclerView.setVisibility(View.GONE);
-            }
-            else {
-                //imageView.setVisibility(View.GONE);
-                //recyclerView.setVisibility(View.VISIBLE);
-            }
-        }
-    };
 
     public MyItemRecyclerViewAdapter(List<OccasionModel> items,
                                      Fragment currentFragment,
@@ -92,6 +78,15 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
         holder.textViewSumOfItemsOccasionCard.setText(Double.toString(cost));
         holder.textViewPeopleOccasionCard.setText("TODO");
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                DialogMakeExpired dialogMakeExpired = new DialogMakeExpired(occasionModel);
+                dialogMakeExpired.show(currentFragment.getChildFragmentManager(), "Test");
+                return false;
+            }
+        });
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

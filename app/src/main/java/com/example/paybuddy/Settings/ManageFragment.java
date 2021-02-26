@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import com.example.paybuddy.Viewmodels.ItemsViewModel;
@@ -23,7 +24,6 @@ import com.example.paybuddy.R;
  * create an instance of this fragment.
  */
 public class ManageFragment extends Fragment {
-    private boolean isSelected;
     private OccasionViewModel occasionViewModel;
     private ItemsViewModel itemsViewModel;
 
@@ -74,16 +74,15 @@ public class ManageFragment extends Fragment {
         });
 
         Switch switchDarkModeHome = (Switch) view.findViewById(R.id.switchDarkModeHome);
-        switchDarkModeHome.setOnClickListener(new View.OnClickListener() {
+
+        switchDarkModeHome.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                if(isSelected){
-                    isSelected = false;
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 }
                 else{
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    isSelected = true;
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 }
             }
         });
