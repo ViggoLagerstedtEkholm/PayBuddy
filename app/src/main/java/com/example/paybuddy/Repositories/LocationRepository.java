@@ -23,12 +23,12 @@ public class LocationRepository extends Repository<LocationModel> {
 
     @Override
     public void insert(LocationModel... entity) {
-        new InsertLocationAsyncTask(locationDAO).doInBackground(entity);
+        new InsertLocationAsyncTask(locationDAO).execute(entity);
     }
 
     @Override
     void insert(List<LocationModel> entities) {
-
+        //TODO
     }
 
     @Override
@@ -44,7 +44,7 @@ public class LocationRepository extends Repository<LocationModel> {
 
     @Override
     public void delete(List<LocationModel> entity) {
-
+        //TODO
     }
 
     @Override

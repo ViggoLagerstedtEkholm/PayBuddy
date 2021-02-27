@@ -1,5 +1,6 @@
 package com.example.paybuddy.TimesUp.TimesUp.List;
 
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ContentProviderOperation;
@@ -83,7 +84,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         holder.buttonCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Call phone!!!
+                Navigation.findNavController(holder.mView).navigate(R.id.action_tabViewFragment_to_historyCallFragment);
             }
         });
 
