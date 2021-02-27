@@ -1,5 +1,7 @@
 package com.example.paybuddy.Home;
 
+import android.animation.ValueAnimator;
+import android.graphics.Interpolator;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,6 +22,8 @@ import com.example.paybuddy.Models.OccasionWithItems;
 import com.example.paybuddy.R;
 import com.example.paybuddy.Viewmodels.OccasionViewModel;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 /**
@@ -30,6 +34,7 @@ public class HomeFragment extends Fragment {
     private TextView textViewSumOfItems;
     private TextView textViewCountOfExpiredOccasions;
     private TextView textViewCountOfOccasions;
+    private TextView textViewCountOfPaidOccasions;
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private ItemsViewModel itemsViewModel;
@@ -61,24 +66,43 @@ public class HomeFragment extends Fragment {
         textViewCountOfExpiredOccasions = (TextView) view.findViewById(R.id.textViewCountOfExpiredOccasions);
         textViewSumOfItems = (TextView) view.findViewById(R.id.textViewSumOfItems);
         textViewCountOfOccasions = (TextView) view.findViewById(R.id.textViewCountOfOccasions);
+        textViewCountOfPaidOccasions = (TextView) view.findViewById(R.id.textViewCountOfPaidOccasions);
 
         occasionViewModel.getActiveOccasions().observe(getActivity(), items ->{
             int totalOccasions = items.size();
-            textViewCountOfOccasions.setText(String.valueOf(totalOccasions));
+            animate(0, totalOccasions, textViewCountOfOccasions);
         });
 
         occasionViewModel.getExpiredOccasions().observe(getActivity(), items->{
             int totalExpired = items.size();
-            textViewCountOfExpiredOccasions.setText(String.valueOf(totalExpired));
+            animate(0, totalExpired, textViewCountOfExpiredOccasions);
+        });
+
+        occasionViewModel.getPaidOccasions().observe(getActivity(), items ->{
+            int totalPaid = items.size();
+            animate(0, totalPaid, textViewCountOfPaidOccasions);
         });
 
         itemsViewModel.getTotalCost().observe(getActivity(), items ->{
             if(items != null){
-                textViewSumOfItems.setText(String.valueOf(items.intValue()));
+                animate(0, items.intValue(), textViewSumOfItems);
             }
             else{
                 textViewSumOfItems.setText("0.0");
             }
         });
+    }
+
+    private void animate(int start, int end, TextView view)
+    {
+        ValueAnimator animator = new ValueAnimator();
+        animator.setObjectValues(start, end);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                view.setText(String.valueOf(animation.getAnimatedValue()));
+            }
+        });
+        animator.setDuration(600);
+        animator.start();
     }
 }
