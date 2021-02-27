@@ -15,14 +15,14 @@
             app:popUpTo="@id/occasionAddFragment"
             app:popUpToInclusive="true" />
         <action
-            android:id="@+id/action_tabViewFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
-        <action
             android:id="@+id/action_tabViewFragment_to_previewOccasionFragment"
             app:destination="@id/previewOccasionFragment" />
         <action
             android:id="@+id/action_tabViewFragment_to_previewOccasionFragment2"
             app:destination="@id/previewOccasionFragment" />
+        <action
+            android:id="@+id/action_tabViewFragment_to_historyCallFragment"
+            app:destination="@id/historyCallFragment" />
     </fragment>
     <fragment
         android:id="@+id/occasionAddFragment"
@@ -36,21 +36,6 @@
             app:launchSingleTop="true"
             app:popUpTo="@id/tabViewFragment"
             app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_occasionAddFragment_to_locationHandler"
-            app:destination="@id/locationHandler" />
-    </fragment>
-    <fragment
-        android:id="@+id/settingsFragment"
-        android:name="com.example.paybuddy.Settings.SettingsFragment"
-        android:label="SettingsFragment" />
-    <fragment
-        android:id="@+id/locationHandler"
-        android:name="com.example.paybuddy.Occasions.Location.LocationHandler"
-        android:label="LocationHandler" >
-        <action
-            android:id="@+id/action_locationHandler_to_occasionAddFragment"
-            app:destination="@id/occasionAddFragment" />
     </fragment>
     <fragment
         android:id="@+id/previewOccasionFragment"
@@ -59,5 +44,26 @@
         <action
             android:id="@+id/action_previewOccasionFragment_to_tabViewFragment"
             app:destination="@id/tabViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/historyCallFragment"
+        android:name="com.example.paybuddy.PhoneCall.HistoryCallFragment"
+        android:label="fragment_history_call"
+        tools:layout="@layout/fragment_history_call" >
+        <action
+            android:id="@+id/action_historyCallFragment_to_tabViewFragment"
+            app:destination="@id/tabViewFragment" />
+        <action
+            android:id="@+id/action_historyCallFragment_to_contactManageFragment"
+            app:destination="@id/contactManageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactManageFragment"
+        android:name="com.example.paybuddy.Contacts.ContactManageFragment"
+        android:label="fragment_contact_manage"
+        tools:layout="@layout/fragment_contact_manage" >
+        <action
+            android:id="@+id/action_contactManageFragment_to_historyCallFragment"
+            app:destination="@id/historyCallFragment" />
     </fragment>
 </navigation>

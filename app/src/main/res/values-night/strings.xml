@@ -42,6 +42,7 @@
     <string name="SUM_OF_ITEMS_COST">Sum of items cost</string>
     <string name="SUM_OF_OCCASIONS">Sum of occasions</string>
     <string name="SUM_OF_EXPIRED">Sum of expired</string>
+    <string name="SUM_OF_PAID_OCCASIONS">History count</string>
     <string name="Delete_all_occasions">Delete all occasions</string>
     <string name="Delete_history">Delete history</string>
     <string name="Delete_all_expired">Delete all expired</string>
@@ -54,6 +55,11 @@
     <string name="expire">Expire occasion</string>
     <string name="expire_the_occasion">Expire occasion?</string>
     <string name="book_calendar">Book event in calendar?</string>
+    <string name="call_history">Call History</string>
+    <string name="contacts">Contacts</string>
+    <string name="Date">Date</string>
+    <string name="Time">Time</string>
+    <string name="Contacts">Contacts</string>
 
     <string name="no_location_added">No location added!</string>
     <string name="total_items">Total items: 0</string>
