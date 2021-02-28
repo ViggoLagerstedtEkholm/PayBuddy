@@ -107,11 +107,11 @@ public class DialogAddLocation extends DialogFragment implements View.OnClickLis
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                double latitude = Double.valueOf(String.valueOf(valueLatitude.getText()));
-                double longitude = Double.valueOf(String.valueOf(valueLongitude.getText()));
-                double altitude = Double.valueOf(String.valueOf(valueAltitude.getText()));
-                double accuracy = Double.valueOf(String.valueOf(valueAccuracy.getText()));
-                String address = valueAdress.getText().toString();
+                double latitude = valueLatitude.getText() == "No latitude detected" ? Double.valueOf(String.valueOf(valueLatitude.getText())) : 0.0;
+                double longitude = valueLongitude.getText() == "No longitude detected" ? Double.valueOf(String.valueOf(valueLongitude.getText())) : 0.0;
+                double altitude = valueAltitude.getText() == "No altitude detected" ? Double.valueOf(String.valueOf(valueAltitude.getText())): 0.0;
+                double accuracy = valueAccuracy.getText() == "No accuracy detected" ? Double.valueOf(String.valueOf(valueAccuracy.getText())) : 0.0;
+                String address = valueAdress.getText() == "No accuracy detected" ? valueAdress.getText().toString() : "No address";
 
                 LocationModel model = new LocationModel(latitude, longitude, altitude, accuracy, address);
                 locationViewModel.setLocation(model);
