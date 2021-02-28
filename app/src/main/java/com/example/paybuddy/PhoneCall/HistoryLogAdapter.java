@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,20 +17,30 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import android.view.View.OnClickListener;
 
+import com.example.paybuddy.Models.Contact;
 import com.example.paybuddy.Models.HistoryModel;
 import com.example.paybuddy.R;
 
-public class HistoryLogAdapter extends RecyclerView.Adapter<HistoryLogAdapter.MyViewHolder> {
+public class HistoryLogAdapter extends RecyclerView.Adapter<HistoryLogAdapter.MyViewHolder> implements Filterable {
     private Context context;
-    private ArrayList<HistoryModel> callingHistory;
+    private List<HistoryModel> callingHistory;
+    private List<HistoryModel> filteredItems;
 
-    public HistoryLogAdapter(Context context, ArrayList<HistoryModel> callingHistory) {
+    public HistoryLogAdapter(Context context) {
         Log.d("CREATED_ADAPTER", "...");
 
         this.context = context;
-        this.callingHistory = callingHistory;
+        this.filteredItems = new ArrayList<>();
+    }
+
+    public void addItems(List<HistoryModel> items) {
+        this.callingHistory = items;
+        this.filteredItems = new ArrayList<>(items);
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -65,6 +77,41 @@ public class HistoryLogAdapter extends RecyclerView.Adapter<HistoryLogAdapter.My
     public int getItemCount() {
         return callingHistory == null ? 0 : callingHistory.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
+    private Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<HistoryModel> filteredList = new ArrayList<>();
+
+            if(constraint == null || constraint.length() == 0){
+                filteredList.addAll(filteredItems);
+            }else{
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for(HistoryModel item : filteredItems){
+                    if(item.getNumber().toLowerCase().contains(filterPattern)){
+                        filteredList.add(item);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            callingHistory.clear();
+            callingHistory.addAll((List)results.values);
+            notifyDataSetChanged();
+        }
+    };
 
     /**
      * This class will represent our holder of values passed from our custom HistoryModel.

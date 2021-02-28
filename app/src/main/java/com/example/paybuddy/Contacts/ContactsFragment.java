@@ -24,68 +24,43 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.paybuddy.Models.Contact;
 import com.example.paybuddy.R;
+import com.example.paybuddy.Search.FilterViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A fragment representing a list of Items.
- */
 public class ContactsFragment extends Fragment {
 
     private int mColumnCount = 1;
 
-    private LiveData<String> searchFilter;
-    private String searchWord;
-
+    private FilterViewModel filterViewModel;
     private List<Contact> contacts;
 
     private MyItemRecyclerViewAdapter adapter;
     private static final int REQUEST_RUNTIME_PERMISSION = 100;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public ContactsFragment() { }
 
-    /**
-     * OnCreate is called once the Fragment is first created.
-     * @param savedInstanceState We pass a Bundle to this method so we can get the most recent saved instance.
-     * @return void
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         contacts = new ArrayList<>();
+        filterViewModel = new ViewModelProvider(getActivity()).get(FilterViewModel.class);
     }
 
-    /**
-     * This method is called once the view is created.
-     * We add our observer here to get the value passed from our ViewModel.
-     * @Override We override to add specific behavior.
-     * @param view This is the view reference passed from the event.
-     * @param savedInstanceState The most recent saved instance.
-     * @return void
-     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
     }
 
-    /**
-     * This method return the inflated view of our fragment.
-     * Our ItemRecyclerView is created here. We also use our getContacts to fill this adapter with items.
-     * @Override We override to add specific behavior.
-     * @param inflater The layoutinflated used to inflate any view in a fragment.
-     * @param container The parent view the fragment UI should be attached to if not null.
-     * @param savedInstanceState The most recent saved instance.
-     * @return View , the inflated view with our item XML.
-     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contacts_list, container, false);
+
+        filterViewModel.getSelected().observe(getViewLifecycleOwner(), searchWord ->{
+            adapter.getFilter().filter(searchWord);
+        });
 
         adapter = new MyItemRecyclerViewAdapter(getContext());
         adapter.addItems(getContacts());

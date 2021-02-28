@@ -12,15 +12,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.paybuddy.Models.HistoryModel;
 import com.example.paybuddy.R;
+import com.example.paybuddy.Search.FilterViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,6 +43,8 @@ public class ListLogAdapter extends Fragment implements SwipeRefreshLayout.OnRef
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
+    private FilterViewModel filterViewModel;
+
     //The permissions we need to make the app work
     String[] appPermissions = {
             Manifest.permission.READ_CALL_LOG,
@@ -49,6 +54,14 @@ public class ListLogAdapter extends Fragment implements SwipeRefreshLayout.OnRef
     };
 
     private final int PERMISSION_REQUEST_CODE = 101;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        filterViewModel = new ViewModelProvider(getActivity()).get(FilterViewModel.class);
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,8 +84,8 @@ public class ListLogAdapter extends Fragment implements SwipeRefreshLayout.OnRef
         recyclerView = view.findViewById(R.id.activity_main_rv);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        callHistoryAdapter = new HistoryLogAdapter(getContext());
         callHistoryModels = new ArrayList<>();
-        callHistoryAdapter = new HistoryLogAdapter(getContext(), callHistoryModels);
         recyclerView.setAdapter(callHistoryAdapter);
     }
 
@@ -84,6 +97,15 @@ public class ListLogAdapter extends Fragment implements SwipeRefreshLayout.OnRef
             populateCallhistory();
             swipeRefreshLayout.setRefreshing(false);
         }
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        filterViewModel.getSelected().observe(getViewLifecycleOwner(), searchWord ->{
+            callHistoryAdapter.getFilter().filter(searchWord);
+        });
     }
 
     /**
@@ -188,6 +210,6 @@ public class ListLogAdapter extends Fragment implements SwipeRefreshLayout.OnRef
             callHistoryModels.add(historyModel);
             Log.d("COUNT: ", String.valueOf(callHistoryModels.size()));
         }
-        callHistoryAdapter.notifyDataSetChanged();
+        callHistoryAdapter.addItems(callHistoryModels);
     }
 }
