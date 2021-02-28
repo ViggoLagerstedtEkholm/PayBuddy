@@ -9,80 +9,9 @@
     <!-- TODO: Update blank fragment layout -->
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardRemoveAllOccasions"
-        android:layout_width="384dp"
-        android:layout_height="130dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:elevation="15dp"
-        app:cardBackgroundColor="@color/cardBackground"
-        app:cardCornerRadius="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardRemoveHistory">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/home_card">
-
-            <TextView
-                android:id="@+id/textView13"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="189dp"
-                android:layout_marginRight="189dp"
-                android:text="@string/Delete_all_occasions"
-                android:textColor="@color/mainText"
-                android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/buttonDeleteAllOccasions"
-                android:layout_width="351dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="17dp"
-                android:layout_marginRight="17dp"
-                android:background="@drawable/button_background"
-                android:text="@string/Delete"
-                android:textColor="@color/mainText"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView13" />
-
-            <ImageView
-                android:id="@+id/imageView4"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_marginStart="127dp"
-                android:layout_marginLeft="127dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="4dp"
-                app:srcCompat="@drawable/ic_baseline_delete_forever_24"
-                app:layout_constraintBottom_toTopOf="@+id/buttonDeleteAllOccasions"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textView13"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
         android:id="@+id/cardRemoveHistory"
         android:layout_width="384dp"
-        android:layout_height="130dp"
+        android:layout_height="400dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
@@ -90,7 +19,7 @@
         android:layout_marginRight="8dp"
         android:elevation="15dp"
         app:cardBackgroundColor="@color/cardBackground"
-        app:cardCornerRadius="16dp"
+        app:cardCornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView10">
@@ -123,9 +52,9 @@
                 android:layout_height="48dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="17dp"
-                android:layout_marginRight="17dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
                 android:background="@drawable/button_background"
                 android:text="@string/Delete"
                 android:textColor="@color/mainText"
@@ -137,56 +66,54 @@
                 android:id="@+id/imageView5"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:layout_marginStart="185dp"
-                android:layout_marginLeft="185dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="4dp"
-                app:srcCompat="@drawable/ic_baseline_delete_forever_24"
                 app:layout_constraintBottom_toTopOf="@+id/buttonDeleteHistory"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textViewDeleteHistory"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_baseline_delete_forever_24" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardRemoveExpired"
-        android:layout_width="384dp"
-        android:layout_height="130dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:elevation="15dp"
-        app:cardBackgroundColor="@color/cardBackground"
-        app:cardCornerRadius="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardRemoveAllOccasions">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/home_card">
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/Delete_all_occasions"
+                android:textColor="@color/mainText"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonDeleteHistory" />
 
             <Button
-                android:id="@+id/buttonDeleteAllExpired"
+                android:id="@+id/buttonDeleteAllOccasions"
                 android:layout_width="351dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="17dp"
-                android:layout_marginRight="17dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
                 android:background="@drawable/button_background"
                 android:text="@string/Delete"
                 android:textColor="@color/mainText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewDeleteExpired" />
+                app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonDeleteHistory"
+                app:srcCompat="@drawable/ic_baseline_delete_forever_24" />
 
             <TextView
                 android:id="@+id/textViewDeleteExpired"
@@ -194,31 +121,39 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="189dp"
-                android:layout_marginRight="189dp"
+                android:layout_marginTop="24dp"
                 android:text="@string/Delete_all_expired"
                 android:textColor="@color/mainText"
                 android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/buttonDeleteAllOccasions" />
 
             <ImageView
                 android:id="@+id/imageView6"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:layout_marginStart="140dp"
-                android:layout_marginLeft="140dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginBottom="4dp"
-                app:srcCompat="@drawable/ic_baseline_delete_forever_24"
-                app:layout_constraintBottom_toTopOf="@+id/buttonDeleteAllExpired"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textViewDeleteExpired"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/buttonDeleteAllOccasions"
+                app:srcCompat="@drawable/ic_baseline_delete_forever_24" />
+
+            <Button
+                android:id="@+id/buttonDeleteAllExpired"
+                android:layout_width="351dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/button_background"
+                android:text="@string/Delete"
+                android:textColor="@color/mainText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewDeleteExpired" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
@@ -233,7 +168,7 @@
         android:layout_marginRight="8dp"
         android:elevation="20dp"
         app:cardBackgroundColor="@color/cardBackground"
-        app:cardCornerRadius="16dp"
+        app:cardCornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -266,13 +201,14 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="19dp"
-                android:layout_marginEnd="253dp"
-                android:layout_marginRight="253dp"
+                android:layout_marginEnd="205dp"
+                android:layout_marginRight="205dp"
                 android:layout_marginBottom="61dp"
                 android:text="@string/dark_mode"
                 android:textColor="@color/mainText"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView19" />
 
@@ -280,17 +216,12 @@
                 android:id="@+id/imageView7"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:layout_marginStart="192dp"
-                android:layout_marginLeft="192dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginBottom="75dp"
-                android:src="@drawable/ic_baseline_handyman_24"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/switchDarkModeHome"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_baseline_handyman_24" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
