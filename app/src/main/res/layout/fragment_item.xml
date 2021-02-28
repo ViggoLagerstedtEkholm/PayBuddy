@@ -42,7 +42,6 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:elevation="5dp"
         app:cardBackgroundColor="@color/cardBackground"
         app:cardCornerRadius="16dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -53,8 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="4dp"
-            android:background="@drawable/card_outline">>
-
+            android:background="@drawable/card_outline">
             <Button
                 android:id="@+id/buttonEnterLocation"
                 android:layout_width="300dp"
@@ -119,7 +117,8 @@
                 android:textColorHint="@color/text_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:autofillHints="" />
 
             <TextView
                 android:id="@+id/textAddedLocation"
@@ -225,9 +224,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="4dp"
-            android:background="@drawable/card_outline">>
+            android:background="@drawable/card_outline">
 
-            <fragment
+            <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragment3"
                 android:name="com.example.paybuddy.Occasions.List_of_items.ItemInOccasionsFragment"
                 android:layout_width="338dp"

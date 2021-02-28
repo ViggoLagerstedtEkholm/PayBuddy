@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardView"
@@ -10,7 +11,6 @@
     android:layout_marginTop="8dp"
     android:layout_marginRight="10dp"
     android:layout_marginBottom="8dp"
-    android:elevation="5dp"
     app:cardBackgroundColor="@color/card_occasion_outline"
     app:cardCornerRadius="16dp">
 
@@ -111,7 +111,7 @@
                 android:layout_marginLeft="16dp"
                 android:text="@string/Title"
                 android:textColor="@color/mainText"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="@+id/titleOfMyOccasion2"
                 app:layout_constraintStart_toEndOf="@+id/titleOfMyOccasion2"
                 app:layout_constraintTop_toTopOf="@+id/titleOfMyOccasion2" />
@@ -165,6 +165,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="120dp"
+                android:contentDescription="@string/occasion_icon"
                 app:layout_constraintBottom_toTopOf="@+id/buttonRegisterPaid"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

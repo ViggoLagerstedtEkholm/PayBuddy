@@ -25,7 +25,8 @@
         android:textColorHint="@color/hintText"
         app:layout_constraintBottom_toBottomOf="@+id/textView5"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView5" />
+        app:layout_constraintTop_toTopOf="@+id/textView5"
+        android:autofillHints="" />
 
     <Button
         android:id="@+id/buttonAddItemToList"
@@ -83,7 +84,8 @@
         android:textColorHint="@color/hintText"
         app:layout_constraintBottom_toBottomOf="@+id/textView8"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView8" />
+        app:layout_constraintTop_toTopOf="@+id/textView8"
+        android:autofillHints="" />
 
     <TextView
         android:id="@+id/textView9"
@@ -110,7 +112,8 @@
         android:textColorHint="@color/hintText"
         app:layout_constraintBottom_toBottomOf="@+id/textView9"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView9" />
+        app:layout_constraintTop_toTopOf="@+id/textView9"
+        android:autofillHints="" />
 
     <TextView
         android:id="@+id/textView10"
@@ -137,6 +140,7 @@
         android:textColorHint="@color/hintText"
         app:layout_constraintBottom_toBottomOf="@+id/textView10"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView10" />
+        app:layout_constraintTop_toTopOf="@+id/textView10"
+        android:autofillHints="" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

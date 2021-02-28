@@ -31,7 +31,6 @@
                 android:layout_margin="@dimen/text_margin"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
-                android:text="0"
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:textColor="@color/mainText"
                 app:layout_constraintBottom_toBottomOf="@+id/textView31"
@@ -45,7 +44,6 @@
                 android:layout_margin="@dimen/text_margin"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
-                android:text="0"
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:textColor="@color/mainText"
                 app:layout_constraintBottom_toBottomOf="@+id/textView29"
@@ -101,6 +99,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
+                android:contentDescription="@string/calling_phone_icon"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_baseline_phone_24" />

@@ -7,7 +7,6 @@
     android:layout_marginLeft="10dp"
     android:layout_marginTop="24dp"
     android:layout_marginRight="10dp"
-    android:elevation="5dp"
     app:cardBackgroundColor="@color/cardBackground"
     app:cardCornerRadius="16dp">
 
@@ -25,7 +24,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
-            android:text="Lat:"
+            android:text="@string/lat"
             android:textColor="@color/mainText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -37,7 +36,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="16dp"
-            android:text="0.00"
+            android:text="@string/_0_00"
             android:textColor="@color/mainText"
             app:layout_constraintStart_toEndOf="@+id/labelLatitude"
             app:layout_constraintTop_toTopOf="parent" />
@@ -49,7 +48,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
-            android:text="lon:"
+            android:text="@string/lon"
             android:textColor="@color/mainText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/labelLatitude" />
@@ -61,7 +60,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="16dp"
-            android:text="0.00"
+            android:text="@string/_0_00"
             android:textColor="@color/mainText"
             app:layout_constraintStart_toEndOf="@+id/labelLongitude"
             app:layout_constraintTop_toBottomOf="@+id/valueLatitude" />
@@ -73,7 +72,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
-            android:text="Altitude:"
+            android:text="@string/altitude"
             android:textColor="@color/mainText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/labelLongitude" />
@@ -84,7 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:text="0.00"
+            android:text="@string/_0_00"
             android:textColor="@color/mainText"
             app:layout_constraintStart_toEndOf="@+id/labelAltitude"
             app:layout_constraintTop_toTopOf="@+id/labelAltitude" />
@@ -96,7 +95,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
-            android:text="Accuracy:"
+            android:text="@string/accuracy"
             android:textColor="@color/mainText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/labelAltitude" />
@@ -107,7 +106,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:text="0.00"
+            android:text="@string/_0_00"
             android:textColor="@color/mainText"
             app:layout_constraintStart_toEndOf="@+id/labelAccuracy"
             app:layout_constraintTop_toTopOf="@+id/labelAccuracy" />
@@ -119,7 +118,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
-            android:text="Sensor mode:"
+            android:text="@string/sensor_mode"
             android:textColor="@color/mainText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/slideLocationMode" />
@@ -130,7 +129,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginLeft="4dp"
-            android:text="Highest location acccuracy"
+            android:text="@string/highest_location_accuracy"
             android:textColor="@color/mainText"
             app:layout_constraintStart_toEndOf="@+id/labelSensor"
             app:layout_constraintTop_toTopOf="@+id/labelSensor" />
@@ -142,7 +141,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
-            android:text="Updates:"
+            android:text="@string/updates"
             android:textColor="@color/mainText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/slideLocation" />
@@ -153,12 +152,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginLeft="4dp"
-            android:text="Off"
+            android:text="@string/off"
             android:textColor="@color/mainText"
             app:layout_constraintStart_toEndOf="@+id/labelUpdate"
             app:layout_constraintTop_toTopOf="@+id/labelUpdate" />
 
-        <Switch
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/slideLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -166,19 +165,19 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
             android:checked="true"
-            android:text="Location Updates"
+            android:text="@string/location_updates"
             android:textColor="@color/mainText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/labelSensor" />
 
-        <Switch
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/slideLocationMode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
-            android:text="High/Low"
+            android:text="@string/high_low"
             android:textColor="@color/mainText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/labelAdress" />
@@ -197,7 +196,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
-            android:text="Address:"
+            android:text="@string/address"
             android:textColor="@color/mainText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/labelAccuracy" />
@@ -208,7 +207,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:text="No adress found"
+            android:text="@string/no_address_found"
             android:textColor="@color/mainText"
             app:layout_constraintStart_toEndOf="@+id/labelAdress"
             app:layout_constraintTop_toTopOf="@+id/labelAdress" />

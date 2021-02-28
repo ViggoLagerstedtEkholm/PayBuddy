@@ -39,10 +39,10 @@
     <string name="title">Enter title</string>
     <string name="call">Contact</string>
     <string name="postpone">Postpone</string>
-    <string name="SUM_OF_ITEMS_COST">Sum of items cost</string>
-    <string name="SUM_OF_OCCASIONS">Sum of occasions</string>
-    <string name="SUM_OF_EXPIRED">Sum of expired</string>
-    <string name="SUM_OF_PAID_OCCASIONS">History count</string>
+    <string name="SUM_OF_ITEMS_COST">Total item costs</string>
+    <string name="SUM_OF_OCCASIONS">Active occasions</string>
+    <string name="SUM_OF_EXPIRED">Total expired occasions</string>
+    <string name="SUM_OF_PAID_OCCASIONS">History occasions count</string>
     <string name="Delete_all_occasions">Delete all occasions</string>
     <string name="Delete_history">Delete history</string>
     <string name="Delete_all_expired">Delete all expired</string>
@@ -60,7 +60,18 @@
     <string name="Date">Date</string>
     <string name="Time">Time</string>
     <string name="Contacts">Contacts</string>
+    <string name="phone_number">Phone number</string>
+    <string name="call_text">Call</string>
+    <string name="type">Type</string>
+    <string name="calling_phone_icon">Calling phone icon</string>
+    <string name="money_icon">Money icon</string>
+    <string name="style_icon">Style icon</string>
 
+    <string name="warning_icon">Warning icon</string>
+    <string name="occasion_icon">Active occasion icon</string>
+    <string name="history_icon">History icon</string>
+    <string name="remove_icon">Remove icon</string>
+    <string name="loading">Loading...</string>
     <string name="no_location_added">No location added!</string>
     <string name="total_items">Total items: 0</string>
     <string name="pick_a_date">Pick a date</string>
@@ -76,7 +87,7 @@
     <string name="reply_title">Default reply action</string>
 
     <!-- Sync Preferences -->
-    <string name="dark_mode">Dark mode</string>
+    <string name="dark_mode">Enable dark mode</string>
     <string name="attachment_title">Download incoming attachments</string>
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
@@ -86,4 +97,17 @@
     <!-- Sync Preferences -->
     <string name="sync_title">Sync email periodically</string>
     <string name="title_activity_settings">SettingsActivity</string>
+    <string name="lat">Lat:</string>
+    <string name="_0_00">0.00</string>
+    <string name="lon">lon:</string>
+    <string name="altitude">Altitude:</string>
+    <string name="accuracy">Accuracy:</string>
+    <string name="sensor_mode">Sensor mode:</string>
+    <string name="highest_location_accuracy">Highest location accuracy</string>
+    <string name="updates">Updates:</string>
+    <string name="off">Off</string>
+    <string name="location_updates">Location Updates</string>
+    <string name="high_low">High/Low</string>
+    <string name="no_address_found">No address found</string>
+    <string name="address">Address:</string>
 </resources>

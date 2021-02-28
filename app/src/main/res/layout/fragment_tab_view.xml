@@ -17,16 +17,11 @@
             android:background="@color/mainBackground"
             android:theme="@style/AppTheme">
 
-            <TextView
-                android:id="@+id/title_selector"
+            <ImageView
+                android:id="@+id/imageView16"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:minHeight="?actionBarSize"
-                android:padding="@dimen/appbar_padding"
-                android:text="@string/app_name"
-                android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
-                android:textColor="@color/mainText" />
+                app:srcCompat="@drawable/ic_group_1" />
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabs"
@@ -36,6 +31,7 @@
                 app:tabIconTint="@color/tabTint"
                 app:tabIndicatorColor="@color/tabTint"
                 app:tabTextColor="@color/tabTint" />
+
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.viewpager.widget.ViewPager
@@ -43,8 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/mainBackground"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" >
-        </androidx.viewpager.widget.ViewPager>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

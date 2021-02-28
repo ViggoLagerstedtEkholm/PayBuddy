@@ -12,7 +12,7 @@
         parent="Theme.AppCompat.Light.NoActionBar">
         <item
             name="android:windowBackground">
-            @drawable/splash_screen_background
+            @drawable/ic_google_pixel_4__4xl___1
         </item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>

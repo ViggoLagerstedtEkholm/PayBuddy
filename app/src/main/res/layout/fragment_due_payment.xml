@@ -8,7 +8,7 @@
     android:theme="@style/AppTheme"
     tools:context=".TimesUp.TimesUp.DuePaymentFragment">
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/search_bar_timesup"
         android:name="com.example.paybuddy.Search.SearchBoxFragment"
         android:layout_width="369dp"
@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentListItems"
         android:name="com.example.paybuddy.History.List.ListFragmentHistory"
         android:layout_width="match_parent"

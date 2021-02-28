@@ -41,7 +41,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/card_outline">
 
-            <fragment
+            <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentHistoryList"
                 android:name="com.example.paybuddy.PhoneCall.ListLogAdapter"
                 android:layout_width="match_parent"
@@ -113,7 +113,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/card_outline">
 
-            <fragment
+            <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/searchFragment2"
                 android:name="com.example.paybuddy.Search.SearchBoxFragment"
                 android:layout_width="360dp"
