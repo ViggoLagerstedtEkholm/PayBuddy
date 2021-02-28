@@ -5,12 +5,10 @@ import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,22 +17,20 @@ import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.paybuddy.Models.ItemModel;
-import com.example.paybuddy.Models.OccasionModel;
-import com.example.paybuddy.Occasions.ViewModel.InputToItemListViewModel;
 import com.example.paybuddy.R;
 import com.example.paybuddy.Validator;
+import com.example.paybuddy.Viewmodels.ItemsViewModel;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DialogAddItem extends DialogFragment {
-    private InputToItemListViewModel inputToItemListViewModel;
+    private ItemsViewModel itemsViewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        inputToItemListViewModel = new ViewModelProvider(requireParentFragment()).get(InputToItemListViewModel.class);
+        itemsViewModel = new ViewModelProvider(this).get(ItemsViewModel.class);
     }
 
     @NonNull
@@ -68,7 +64,8 @@ public class DialogAddItem extends DialogFragment {
                     String names = txfItemPersonName.getText().toString();
 
                     ItemModel itemModel = new ItemModel(price, title, quantity);
-                    inputToItemListViewModel.setItem(itemModel);
+                    itemModel.setOccasionID(-1);
+                    itemsViewModel.insert(itemModel);
 
                     dismiss();
                 }
