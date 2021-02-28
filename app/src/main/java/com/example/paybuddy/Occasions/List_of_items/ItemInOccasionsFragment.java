@@ -15,9 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.paybuddy.Occasions.ViewModel.CompleteListViewModel;
-import com.example.paybuddy.Occasions.ViewModel.InputToItemListViewModel;
 import com.example.paybuddy.R;
+import com.example.paybuddy.Viewmodels.ItemsViewModel;
 
 import java.util.ArrayList;
 
@@ -25,8 +24,7 @@ import java.util.ArrayList;
  * A fragment representing a list of Items.
  */
 public class ItemInOccasionsFragment extends Fragment {
-    private InputToItemListViewModel inputToItemListViewModel;
-    private CompleteListViewModel completeListViewModel;
+    private ItemsViewModel itemsViewModel;
     private int mColumnCount = 1;
     private MyItemInOccasionRecyclerViewAdapter myItemInOccasionRecyclerViewAdapter;
 
@@ -36,8 +34,8 @@ public class ItemInOccasionsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        inputToItemListViewModel = new ViewModelProvider(requireParentFragment()).get(InputToItemListViewModel.class);
-        completeListViewModel = new ViewModelProvider(requireParentFragment()).get(CompleteListViewModel.class);
+
+        itemsViewModel = new ViewModelProvider(requireParentFragment()).get(ItemsViewModel.class);
     }
 
     @Override
@@ -50,10 +48,10 @@ public class ItemInOccasionsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_occasion, container, false);
 
-        myItemInOccasionRecyclerViewAdapter = new MyItemInOccasionRecyclerViewAdapter(new ArrayList<>(), completeListViewModel);
+        myItemInOccasionRecyclerViewAdapter = new MyItemInOccasionRecyclerViewAdapter(new ArrayList<>(), itemsViewModel);
 
-        inputToItemListViewModel.getItem().observe(getViewLifecycleOwner(), itemModelSingleEventViewModel -> {
-            myItemInOccasionRecyclerViewAdapter.addItemToList(itemModelSingleEventViewModel);
+        itemsViewModel.getPendingItems().observe(getActivity(), itemModels -> {
+            myItemInOccasionRecyclerViewAdapter.addItems(itemModels);
         });
 
         // Set the adapter
