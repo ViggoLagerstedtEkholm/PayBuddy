@@ -15,6 +15,7 @@ public class ItemsRepository extends Repository<ItemModel>{
     private final ItemsDAO itemsDAO;
     private final LiveData<List<ItemModel>> items;
     private final LiveData<Integer> totalCost;
+    private final LiveData<List<ItemModel>> pendingItems;
 
     public ItemsRepository(Application application){
         DatabaseHelper database = DatabaseHelper.getInstance(application);
@@ -22,6 +23,7 @@ public class ItemsRepository extends Repository<ItemModel>{
 
         items = itemsDAO.getAllItems();
         totalCost = itemsDAO.getTotalCost();
+        pendingItems = itemsDAO.getPendingItems();
     }
 
     @Override
@@ -43,6 +45,10 @@ public class ItemsRepository extends Repository<ItemModel>{
         new DeleteItemTaskAsync(itemsDAO).execute(itemModel);
     }
 
+    public void deletePending() {
+        new DeletePendingItemsTaskAsync(itemsDAO).execute();
+    }
+
     @Override
     public void delete(List<ItemModel> entites) {
         new DeleteItemsTaskAsync(itemsDAO).execute(entites);
@@ -51,6 +57,8 @@ public class ItemsRepository extends Repository<ItemModel>{
     public LiveData<Integer> getTotalCost(){
         return totalCost;
     }
+
+    public LiveData<List<ItemModel>> getPendingItems(){return pendingItems;}
 
     @Override
     public LiveData<List<ItemModel>> getAll() {
@@ -128,6 +136,20 @@ public class ItemsRepository extends Repository<ItemModel>{
         @Override
         protected Void doInBackground(List<ItemModel>... itemModels) {
             itemsDao.delete(itemModels[0]);
+            return null;
+        }
+    }
+
+    private static class DeletePendingItemsTaskAsync extends AsyncTask<Void, Void, Void> {
+        private final ItemsDAO itemsDao;
+
+        private DeletePendingItemsTaskAsync(ItemsDAO itemsDao) {
+            this.itemsDao = itemsDao;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            itemsDao.deletePending();
             return null;
         }
     }

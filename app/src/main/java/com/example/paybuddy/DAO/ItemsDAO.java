@@ -23,8 +23,14 @@ public abstract class ItemsDAO {
     @Update
     public abstract void update(ItemModel itemModel);
 
+    @Update
+    public abstract void update(List<ItemModel> itemModel);
+
     @Delete
     public abstract void delete(ItemModel itemModel);
+
+    @Query("DELETE FROM Item_table WHERE occasionID = '-1'")
+    public abstract void deletePending();
 
     @Delete
     public abstract void delete(List<ItemModel> itemModel);
@@ -66,10 +72,13 @@ public abstract class ItemsDAO {
             "WHERE IsPaid = "+ '0')
     public abstract LiveData<Integer> getTotalCost();
 
-    public void insertItemsAndOccasion(List<ItemModel> itemModels, long id){
+    @Query("SELECT * FROM ITEM_TABLE WHERE occasionID = '-1'")
+    public abstract LiveData<List<ItemModel>> getPendingItems();
+
+    public void updateItemsAndOccasion(List<ItemModel> itemModels, long id){
         for(ItemModel itemModel : itemModels){
             itemModel.setOccasionID(id);
         }
-        insert(itemModels);
+        update(itemModels);
     }
 }

@@ -16,12 +16,15 @@ public class ItemsViewModel extends AndroidViewModel {
     private ItemsRepository itemsRepository;
     private LiveData<List<ItemModel>> items;
     private LiveData<Integer> totalCost;
+    private LiveData<List<ItemModel>> pendingItems;
+
     public ItemsViewModel(@NonNull Application application) {
         super(application);
         itemsRepository = new ItemsRepository(application);
 
         items = itemsRepository.getAll();
         totalCost = itemsRepository.getTotalCost();
+        pendingItems = itemsRepository.getPendingItems();
     }
 
     public void insert(ItemModel itemModel){
@@ -40,7 +43,11 @@ public class ItemsViewModel extends AndroidViewModel {
         itemsRepository.delete(itemModels);
     }
 
+    public void deletePendingItems(){itemsRepository.deletePending();}
+
     public LiveData<Integer> getTotalCost(){return totalCost;}
+
+    public LiveData<List<ItemModel>> getPendingItems(){return pendingItems;}
 
     public void deleteAllItems(Repository.DELETE_TYPE delete_type){
         itemsRepository.deleteAll(delete_type);
