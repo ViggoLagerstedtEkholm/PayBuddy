@@ -3,6 +3,8 @@ package com.example.paybuddy.History.List;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -24,15 +26,14 @@ import com.example.paybuddy.Search.FilterViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A fragment representing a list of Items.
- */
+
 public class ListFragmentHistory extends Fragment {
 
     private int mColumnCount = 1;
     private OccasionViewModel occasionViewModel;
     private FilterViewModel filterViewModel;
     private MyItemRecyclerViewAdapter myItemRecyclerViewAdapter;
+    private List<OccasionModel> occasionModels;
 
     public ListFragmentHistory() {
     }
@@ -42,6 +43,8 @@ public class ListFragmentHistory extends Fragment {
         super.onCreate(savedInstanceState);
         occasionViewModel = new ViewModelProvider(this).get(OccasionViewModel.class);
         filterViewModel = new ViewModelProvider(getActivity()).get(FilterViewModel.class);
+        occasionModels = new ArrayList<>();
+        myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(getContext(), occasionModels);
     }
 
     @Override
@@ -49,27 +52,21 @@ public class ListFragmentHistory extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_history, container, false);
 
-        myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(new ArrayList<>());
-
-        occasionViewModel.getPaidOccasions().observe(getViewLifecycleOwner(), new Observer<List<OccasionWithItems>>() {
+        occasionViewModel.getPaidOccasions().observe(getActivity(), new Observer<List<OccasionWithItems>>() {
             @Override
             public void onChanged(List<OccasionWithItems> occasionWithItems) {
-                Log.d("History data received", "...");
+                Log.d("History data received", "..." + String.valueOf(occasionWithItems.size()));
                 List<OccasionModel> occasionModels = new ArrayList<>();
+
                 for(OccasionWithItems occasionModel : occasionWithItems){
                     OccasionModel aOccasionModel = occasionModel.occasionModel;
                     aOccasionModel.setItems(occasionModel.itemModelList);
 
                     occasionModels.add(aOccasionModel);
                 }
-                Log.d("History data size", String.valueOf(occasionModels.size()));
 
                 myItemRecyclerViewAdapter.addItems(occasionModels);
             }
-        });
-
-        filterViewModel.getSelected().observe(getViewLifecycleOwner(), searchWord ->{
-            myItemRecyclerViewAdapter.getFilter().filter(searchWord);
         });
 
         // Set the adapter
@@ -83,6 +80,20 @@ public class ListFragmentHistory extends Fragment {
             }
             recyclerView.setAdapter(myItemRecyclerViewAdapter);
         }
+
+
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        filterViewModel.getSelected().observe(getActivity(), new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String searchWord) {
+                myItemRecyclerViewAdapter.getFilter().filter(searchWord);
+            };
+        });
     }
 }

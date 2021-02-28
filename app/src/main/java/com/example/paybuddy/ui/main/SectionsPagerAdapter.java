@@ -21,14 +21,14 @@ import com.example.paybuddy.R;
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
  * one of the sections/tabs/pages.
  */
-public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
+public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
     private static final int[] TAB_TITLES = new int[]{R.string.handle_app, R.string.tab_home, R.string.tab_selector};
     private final Context mContext;
 
-    public SectionsPagerAdapter(Context context, FragmentManager fm) {
-        super(fm);
+    public SectionsPagerAdapter(Context context, FragmentManager fm, int behavior) {
+        super(fm, behavior);
         mContext = context;
     }
 

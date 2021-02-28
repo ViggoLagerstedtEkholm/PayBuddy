@@ -11,18 +11,18 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.paybuddy.Models.ItemModel;
-import com.example.paybuddy.Occasions.ViewModel.CompleteListViewModel;
 import com.example.paybuddy.R;
+import com.example.paybuddy.Viewmodels.ItemsViewModel;
 
 import java.util.List;
 
 public class MyItemInOccasionRecyclerViewAdapter extends RecyclerView.Adapter<MyItemInOccasionRecyclerViewAdapter.ViewHolder> {
     private List<ItemModel> items;
-    private CompleteListViewModel completeListViewModel;
+    private ItemsViewModel itemsViewModel;
 
-    public MyItemInOccasionRecyclerViewAdapter(List<ItemModel> items, CompleteListViewModel completeListViewModel) {
+    public MyItemInOccasionRecyclerViewAdapter(List<ItemModel> items, ItemsViewModel itemsViewModel) {
         this.items = items;
-        this.completeListViewModel = completeListViewModel;
+        this.itemsViewModel = itemsViewModel;
     }
 
     public void addItems(List<ItemModel> itemModels){
@@ -30,17 +30,9 @@ public class MyItemInOccasionRecyclerViewAdapter extends RecyclerView.Adapter<My
         notifyDataSetChanged();
     }
 
-    public void addItemToList(ItemModel item){
-        items.add(item);
-        Log.d("ADAPTER SIZE: ", String.valueOf(items.size()));
-        notifyDataSetChanged();
-    }
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_list_occasion_item, parent, false);
-
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_list_occasion_item, parent, false);
         return new ViewHolder(view);
     }
 
@@ -60,8 +52,7 @@ public class MyItemInOccasionRecyclerViewAdapter extends RecyclerView.Adapter<My
         holder.deleteItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                items.remove(position);
-                completeListViewModel.setItem(items);
+                itemsViewModel.delete(itemModel);
                 notifyDataSetChanged();
             }
         });

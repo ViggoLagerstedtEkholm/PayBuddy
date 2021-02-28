@@ -2,6 +2,7 @@ package com.example.paybuddy.History.List;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,33 +19,31 @@ import com.example.paybuddy.R;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * TODO: Replace the implementation with code for your data type.
- */
 public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> implements Filterable {
     private List<OccasionModel> filteredItems;
     private List<OccasionModel> items;
+    private Context context;
 
-    public MyItemRecyclerViewAdapter(List<OccasionModel> items) {
-        this.items = items;
+    public MyItemRecyclerViewAdapter(Context context, List<OccasionModel> items) {
         this.filteredItems = new ArrayList<>();
+        this.context = context;
+        this.items = items;
     }
 
     public void addItems(List<OccasionModel> items){
         this.items = items;
-        this.filteredItems = new ArrayList<>(items);
-        notifyDataSetChanged();
+        this.notifyDataSetChanged();
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_list_history_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.fragment_list_history_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+        Log.d("count", String.valueOf(items.size()));
         OccasionModel occasionModel = items.get(position);
         holder.mItem = items.get(position);
         String people = "";
@@ -62,7 +61,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return items == null ? 0 : items.size();
     }
 
     @Override
@@ -75,7 +74,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         protected FilterResults performFiltering(CharSequence constraint) {
             List<OccasionModel> filteredList = new ArrayList<>();
 
-            if(constraint == null || constraint.length() == 0){
+            if(constraint == null || constraint.length() == 0 || constraint.equals("")){
                 filteredList.addAll(filteredItems);
             }else{
                 String filterPattern = constraint.toString().toLowerCase().trim();
@@ -94,9 +93,12 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            items.clear();
-            items.addAll((List)results.values);
-            notifyDataSetChanged();
+            Log.d(String.valueOf(((List) results.values).size()), "  Size");
+            if(((List) results.values).size() != 0){
+                items.clear();
+                items.addAll((List)results.values);
+                notifyDataSetChanged();
+            }
         }
     };
 

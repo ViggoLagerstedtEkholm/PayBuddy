@@ -3,6 +3,7 @@ package com.example.paybuddy.Occasions.List_of_occasions;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.paybuddy.Occasions.Dialogs.DialogMakeExpired;
 import com.example.paybuddy.Viewmodels.ItemsViewModel;
@@ -130,7 +132,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         protected FilterResults performFiltering(CharSequence constraint) {
             List<OccasionModel> filteredList = new ArrayList<>();
 
-            if(constraint == null || constraint.length() == 0){
+            if(constraint == null || constraint.length() == 0 || constraint.equals("")){
                 filteredList.addAll(filteredItems);
             }else{
                 String filterPattern = constraint.toString().toLowerCase().trim();
@@ -149,9 +151,12 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            items.clear();
-            items.addAll((List)results.values);
-            notifyDataSetChanged();
+            Log.d(String.valueOf(((List) results.values).size()), "  Size");
+            if(((List) results.values).size() != 0){
+                items.clear();
+                items.addAll((List)results.values);
+                notifyDataSetChanged();
+            }
         }
     };
 

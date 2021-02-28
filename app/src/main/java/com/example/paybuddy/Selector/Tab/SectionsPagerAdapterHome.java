@@ -10,22 +10,28 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.example.paybuddy.History.List.ListFragmentHistory;
+import com.example.paybuddy.Home.HomeFragment;
 import com.example.paybuddy.Occasions.List_of_occasions.ListFragmentOccasions;
 import com.example.paybuddy.R;
+import com.example.paybuddy.Selector.SelectorFragment;
+import com.example.paybuddy.Settings.ManageFragment;
 import com.example.paybuddy.TimesUp.TimesUp.List.ListFragmentDuePayment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
  * one of the sections/tabs/pages.
  */
-public class SectionsPagerAdapterHome extends FragmentStatePagerAdapter {
+public class SectionsPagerAdapterHome extends FragmentPagerAdapter {
 
     @StringRes
     private static final int[] TAB_TITLES = new int[]{R.string.tab_occasions, R.string.tab_history, R.string.tab_expired};
     private final Context mContext;
 
-    public SectionsPagerAdapterHome(Context context, FragmentManager fm) {
-        super(fm);
+    public SectionsPagerAdapterHome(Context context, FragmentManager fm, int behavior) {
+        super(fm, behavior);
         mContext = context;
     }
 
@@ -33,8 +39,7 @@ public class SectionsPagerAdapterHome extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         Fragment routedFragment = null;
         switch(position){
-            case 0:
-                routedFragment = new ListFragmentOccasions();
+            case 0: routedFragment = new ListFragmentOccasions();
                 break;
             case 1:
                 routedFragment = new ListFragmentHistory();

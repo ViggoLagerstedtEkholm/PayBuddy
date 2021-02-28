@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.navigation.Navigation;
 import androidx.viewpager.widget.ViewPager;
 
@@ -32,7 +33,6 @@ public class SelectorFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);
     }
 
     @Override
@@ -47,11 +47,12 @@ public class SelectorFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        SectionsPagerAdapterHome sectionsPagerAdapter = new SectionsPagerAdapterHome(getContext(), getChildFragmentManager());
+        SectionsPagerAdapterHome sectionsPagerAdapter = new SectionsPagerAdapterHome(getActivity(), getChildFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         ViewPager viewPager = view.findViewById(R.id.view_pagerHome);
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = view.findViewById(R.id.tabsHome);
         tabs.setupWithViewPager(viewPager);
+        viewPager.setCurrentItem(0);
 
         buttonAdd = (Button) view.findViewById(R.id.buttonAdd);
         buttonAdd.setOnClickListener(new View.OnClickListener(){

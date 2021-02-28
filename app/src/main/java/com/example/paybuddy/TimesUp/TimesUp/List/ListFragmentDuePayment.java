@@ -3,6 +3,8 @@ package com.example.paybuddy.TimesUp.TimesUp.List;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -38,18 +40,10 @@ public class ListFragmentDuePayment extends Fragment {
     private LocationViewModel locationViewModel;
     private ItemsViewModel itemsViewModel;
     private FilterViewModel filterViewModel;
+    private List<OccasionModel> occasionModels;
 
     public ListFragmentDuePayment() {
 
-    }
-
-    @SuppressWarnings("unused")
-    public static ListFragmentDuePayment newInstance(int columnCount) {
-        ListFragmentDuePayment fragment = new ListFragmentDuePayment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -58,8 +52,10 @@ public class ListFragmentDuePayment extends Fragment {
         occasionViewModel = new ViewModelProvider(this).get(OccasionViewModel.class);
         locationViewModel = new ViewModelProvider(this).get(LocationViewModel.class);
         itemsViewModel = new ViewModelProvider(this).get(ItemsViewModel.class);
-
         filterViewModel = new ViewModelProvider(getActivity()).get(FilterViewModel.class);
+        occasionModels = new ArrayList<>();
+
+        myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(occasionModels, occasionViewModel, itemsViewModel, locationViewModel, getContext());
 
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
@@ -70,30 +66,21 @@ public class ListFragmentDuePayment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_due_payment, container, false);
-
-
-        myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(new ArrayList<>(), occasionViewModel, itemsViewModel, locationViewModel);
-
-        filterViewModel.getSelected().observe(getViewLifecycleOwner(), searchWord ->{
-            myItemRecyclerViewAdapter.getFilter().filter(searchWord);
-        });
-
         occasionViewModel.getExpiredOccasions().observe(getViewLifecycleOwner(), new Observer<List<OccasionWithItems>>() {
             @Override
             public void onChanged(List<OccasionWithItems> occasionWithItems) {
-                Log.d("Due data received", "...");
-
+                Log.d("Due data received", "..." + String.valueOf(occasionWithItems.size()));
                 List<OccasionModel> occasionModels = new ArrayList<>();
                 for(OccasionWithItems occasionModel : occasionWithItems){
                     OccasionModel aOccasionModel = occasionModel.occasionModel;
                     aOccasionModel.setItems(occasionModel.itemModelList);
+                    Log.d("Due data :", aOccasionModel.getDescription());
 
                     occasionModels.add(aOccasionModel);
                 }
                 myItemRecyclerViewAdapter.addItems(occasionModels);
             }
         });
-
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -106,6 +93,19 @@ public class ListFragmentDuePayment extends Fragment {
             }
             recyclerView.setAdapter(myItemRecyclerViewAdapter);
         }
+
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        filterViewModel.getSelected().observe(getActivity(), new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String searchWord) {
+                myItemRecyclerViewAdapter.getFilter().filter(searchWord);
+            };
+        });
     }
 }

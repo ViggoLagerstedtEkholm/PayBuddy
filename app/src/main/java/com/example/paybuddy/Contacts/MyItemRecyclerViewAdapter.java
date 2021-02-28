@@ -7,36 +7,35 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.paybuddy.Models.Contact;
+import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> {
+public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> implements Filterable {
     private Context context;
     private List<Contact> contacts;
+    private List<Contact> filteredItems;
 
-    public MyItemRecyclerViewAdapter(Context context) { this.context = context; }
-
-    /**
-     * Constructor that takes an array of models that should be mapped to our adapter.
-     */
-    public void addItems(List<Contact> items) {
-        contacts = items;
+    public MyItemRecyclerViewAdapter(Context context) {
+        this.context = context;
+        this.filteredItems = new ArrayList<>();
     }
 
-    /**
-     * Called when we create the ViewHolder.
-     * We return a ViewHolder that has our fragment_contacts XML inflated.
-     * @Override We override to add specific behavior.
-     * @param parent The parent ViewGroup.
-     * @param viewType The most recent saved instance.
-     * @return ViewHolder
-     */
+    public void addItems(List<Contact> items) {
+        this.contacts = items;
+        this.filteredItems = new ArrayList<>(items);
+        notifyDataSetChanged();
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -44,13 +43,6 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         return new ViewHolder(view);
     }
 
-    /**
-     * Called when we want to bind items to the view holder.
-     * @Override We override to add specific behavior.
-     * @param holder the holder that will hold item data.
-     * @param position the position of specific item.
-     * @return void
-     */
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Contact aContact = contacts.get(position);
@@ -70,20 +62,46 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         });
     }
 
-    /**
-     * Returns the list size.
-     * @Override We override to add specific behavior.
-     * @return int
-     */
     @Override
     public int getItemCount() {
         return contacts.size();
     }
 
-    /**
-     * This class represent all data that each item should contain.
-     * We use this class to contain all of our data of contacts.
-     */
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
+    private Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Contact> filteredList = new ArrayList<>();
+
+            if(constraint == null || constraint.length() == 0){
+                filteredList.addAll(filteredItems);
+            }else{
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for(Contact item : filteredItems){
+                    if(item.getName().toLowerCase().contains(filterPattern)){
+                        filteredList.add(item);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            contacts.clear();
+            contacts.addAll((List)results.values);
+            notifyDataSetChanged();
+        }
+    };
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mIdView;

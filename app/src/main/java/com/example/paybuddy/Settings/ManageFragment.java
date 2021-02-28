@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -73,7 +74,7 @@ public class ManageFragment extends Fragment {
             }
         });
 
-        Switch switchDarkModeHome = (Switch) view.findViewById(R.id.switchDarkModeHome);
+        SwitchCompat switchDarkModeHome = (SwitchCompat) view.findViewById(R.id.switchDarkModeHome);
 
         switchDarkModeHome.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

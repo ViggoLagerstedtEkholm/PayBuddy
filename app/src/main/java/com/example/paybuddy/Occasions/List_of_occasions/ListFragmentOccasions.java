@@ -40,9 +40,7 @@ public class ListFragmentOccasions extends Fragment {
     private LocationViewModel locationViewModel;
     private MyItemRecyclerViewAdapter myItemRecyclerViewAdapter;
 
-    public ListFragmentOccasions() {
-    }
-
+    public ListFragmentOccasions() { }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,11 +49,6 @@ public class ListFragmentOccasions extends Fragment {
         itemsViewModel = new ViewModelProvider(this).get(ItemsViewModel.class);
         filterViewModel = new ViewModelProvider(getActivity()).get(FilterViewModel.class);
         locationViewModel = new ViewModelProvider(this).get(LocationViewModel.class);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override
@@ -68,7 +61,7 @@ public class ListFragmentOccasions extends Fragment {
         occasionViewModel.getActiveOccasions().observe(getViewLifecycleOwner(), new Observer<List<OccasionWithItems>>() {
             @Override
             public void onChanged(List<OccasionWithItems> occasionWithItems) {
-                Log.d("Pending data received", "...");
+                Log.d("Occasion data received", "..." + String.valueOf(occasionWithItems.size()));
 
                 List<OccasionModel> occasionModels = new ArrayList<>();
                 for(OccasionWithItems occasionModel : occasionWithItems){
@@ -82,10 +75,6 @@ public class ListFragmentOccasions extends Fragment {
             }
         });
 
-        filterViewModel.getSelected().observe(getViewLifecycleOwner(), searchWord ->{
-            myItemRecyclerViewAdapter.getFilter().filter(searchWord);
-        });
-
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
@@ -97,6 +86,19 @@ public class ListFragmentOccasions extends Fragment {
 
             recyclerView.setAdapter(myItemRecyclerViewAdapter);
         }
+
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        filterViewModel.getSelected().observe(getActivity(), new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String searchWord) {
+                myItemRecyclerViewAdapter.getFilter().filter(searchWord);
+            };
+        });
     }
 }

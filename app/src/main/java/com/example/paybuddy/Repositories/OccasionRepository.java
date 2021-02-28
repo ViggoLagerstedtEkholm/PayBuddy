@@ -102,7 +102,7 @@ public class OccasionRepository extends Repository<OccasionModel>{
         @Override
         protected Void doInBackground(OccasionModel... occasionModels) {
             long id  = occasionDao.insert(occasionModels[0]); //Insert occasion
-            itemsDao.insertItemsAndOccasion(occasionModels[0].getItems(), id);
+            itemsDao.updateItemsAndOccasion(occasionModels[0].getItems(), id);
             locationDAO.insertLocation(occasionModels[0].getLocationModel(), id);
             return null;
         }
