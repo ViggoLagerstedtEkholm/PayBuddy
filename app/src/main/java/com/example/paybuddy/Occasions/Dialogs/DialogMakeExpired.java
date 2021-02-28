@@ -8,24 +8,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.Models.OccasionModel;
-import com.example.paybuddy.Occasions.ViewModel.DateViewModel;
-import com.example.paybuddy.Occasions.ViewModel.InputToItemListViewModel;
 import com.example.paybuddy.R;
-import com.example.paybuddy.Validator;
 import com.example.paybuddy.Viewmodels.OccasionViewModel;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class DialogMakeExpired extends DialogFragment {
     private OccasionViewModel occasionViewModel;
