@@ -1,5 +1,7 @@
 package com.example.paybuddy.Models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.widget.TextView;
 
 import androidx.room.Entity;
