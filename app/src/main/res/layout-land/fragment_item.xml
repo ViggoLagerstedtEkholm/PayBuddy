@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/addItemFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cardBackground"
+    android:tag="OCCASION_ADD"
+    tools:context=".MainActivity">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <Button
+        android:id="@+id/buttonEnter"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/button_background"
+        android:text="@string/OK"
+        android:textColor="@color/mainText"
+        app:layout_constraintEnd_toStartOf="@+id/buttonCancel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView6" />
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView6"
+        android:layout_width="700dp"
+        android:layout_height="300dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:cardBackgroundColor="@color/cardBackground"
+        app:cardCornerRadius="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            android:background="@drawable/card_outline">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView7"
+                android:layout_width="340dp"
+                android:layout_height="190dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                app:cardBackgroundColor="@color/cardBackground"
+                app:cardCornerRadius="16dp"
+                app:layout_constraintEnd_toStartOf="@+id/divider3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonAddItems">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/card_outline">
+
+                    <androidx.fragment.app.FragmentContainerView
+                        android:id="@+id/fragment3"
+                        android:name="com.example.paybuddy.Occasions.List_of_items.ItemInOccasionsFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginBottom="8dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/buttonEnterLocation"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/button_background"
+                android:text="@string/EnterLocation"
+                android:textColor="@color/mainText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textAddedLocation" />
+
+            <Button
+                android:id="@+id/buttonAddItems"
+                android:layout_width="340dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/button_background"
+                android:text="@string/AddItems"
+                android:textColor="@color/mainText"
+                app:layout_constraintEnd_toStartOf="@+id/divider3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textTotalItems" />
+
+            <TextView
+                android:id="@+id/textDateDisplay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="120dp"
+                android:layout_marginRight="120dp"
+                android:text="@string/pick_a_date"
+                android:textColor="@color/mainText"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/FieldTitle" />
+
+            <EditText
+                android:id="@+id/FieldTitle"
+                android:layout_width="250dp"
+                android:layout_height="42dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="44dp"
+                android:layout_marginRight="44dp"
+                android:autofillHints=""
+                android:ems="10"
+                android:hint="@string/title"
+                android:inputType="textPersonName"
+                android:textColor="@color/mainText"
+                android:textColorHint="@color/text_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textAddedLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="96dp"
+                android:layout_marginRight="96dp"
+                android:text="@string/no_location_added"
+                android:textColor="@color/mainText"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonPickADate" />
+
+            <TextView
+                android:id="@+id/textTotalItems"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="128dp"
+                android:layout_marginLeft="128dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/total_items"
+                android:textColor="@color/mainText"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/buttonPickADate"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/button_background"
+                android:text="@string/pick_a_date"
+                android:textColor="@color/mainText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textDateDisplay" />
+
+            <CheckBox
+                android:id="@+id/checkBoxAddCalendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="80dp"
+                android:layout_marginRight="80dp"
+                android:text="@string/book_calendar"
+                android:textColor="@color/mainText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonEnterLocation" />
+
+            <View
+                android:id="@+id/divider3"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="5dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/buttonPickADate"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/buttonCancel"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/button_background"
+        android:text="@string/CANCEL"
+        android:textColor="@color/mainText"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonEnter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/buttonEnter"
+        app:layout_constraintTop_toTopOf="@+id/buttonEnter" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

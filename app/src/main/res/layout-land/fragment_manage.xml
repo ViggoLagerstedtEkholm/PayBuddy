@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Settings.ManageFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardRemoveHistory"
+        android:layout_width="700dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:cardBackgroundColor="@color/cardBackground"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView10">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/home_card">
+
+            <TextView
+                android:id="@+id/textViewDeleteHistory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="189dp"
+                android:layout_marginRight="189dp"
+                android:text="@string/Delete_history"
+                android:textColor="@color/mainText"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/buttonDeleteHistory"
+                android:layout_width="351dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/button_background"
+                android:text="@string/Delete"
+                android:textColor="@color/mainText"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewDeleteHistory" />
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginLeft="24dp"
+                android:contentDescription="@string/remove_icon"
+                app:layout_constraintBottom_toBottomOf="@+id/buttonDeleteHistory"
+                app:layout_constraintStart_toEndOf="@+id/buttonDeleteHistory"
+                app:layout_constraintTop_toTopOf="@+id/buttonDeleteHistory"
+                app:srcCompat="@drawable/ic_baseline_delete_forever_24" />
+
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="5dp"
+                android:text="@string/Delete_all_occasions"
+                android:textColor="@color/mainText"
+                android:textSize="13sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonDeleteHistory" />
+
+            <Button
+                android:id="@+id/buttonDeleteAllOccasions"
+                android:layout_width="351dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/button_background"
+                android:text="@string/Delete"
+                android:textColor="@color/mainText"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginLeft="24dp"
+                android:contentDescription="@string/remove_icon"
+                app:layout_constraintBottom_toBottomOf="@+id/buttonDeleteAllOccasions"
+                app:layout_constraintStart_toEndOf="@+id/buttonDeleteAllOccasions"
+                app:layout_constraintTop_toTopOf="@+id/buttonDeleteAllOccasions"
+                app:srcCompat="@drawable/ic_baseline_delete_forever_24" />
+
+            <TextView
+                android:id="@+id/textViewDeleteExpired"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="5dp"
+                android:text="@string/Delete_all_expired"
+                android:textColor="@color/mainText"
+                android:textSize="13sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonDeleteAllOccasions" />
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginLeft="24dp"
+                android:contentDescription="@string/remove_icon"
+                app:layout_constraintBottom_toBottomOf="@+id/buttonDeleteAllExpired"
+                app:layout_constraintStart_toEndOf="@+id/buttonDeleteAllExpired"
+                app:layout_constraintTop_toTopOf="@+id/buttonDeleteAllExpired"
+                app:srcCompat="@drawable/ic_baseline_delete_forever_24" />
+
+            <Button
+                android:id="@+id/buttonDeleteAllExpired"
+                android:layout_width="351dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/button_background"
+                android:text="@string/Delete"
+                android:textColor="@color/mainText"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewDeleteExpired" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView10"
+        android:layout_width="700dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:cardBackgroundColor="@color/cardBackground"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/home_card">
+
+            <TextView
+                android:id="@+id/textView19"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/Manage_layout_style"
+                android:textColor="@color/mainText"
+                android:textSize="13sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchDarkModeHome"
+                android:layout_width="183dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="7dp"
+                android:text="@string/dark_mode"
+                android:textColor="@color/mainText"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView19" />
+
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="16dp"
+                android:contentDescription="@string/style_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_baseline_handyman_24" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

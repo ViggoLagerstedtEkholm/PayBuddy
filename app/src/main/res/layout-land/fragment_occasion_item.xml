@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginBottom="8dp"
+    app:cardBackgroundColor="@color/card_occasion_outline"
+    app:cardCornerRadius="16dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="145dp"
+        android:layout_margin="4dp"
+        android:background="@drawable/card_outline">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/titleOfMyOccasion2"
+                android:layout_width="70dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:text="@string/title"
+                android:textColor="@color/mainText"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:text="@string/price"
+                android:textColor="@color/mainText"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/titleOfMyOccasion2" />
+
+            <TextView
+                android:id="@+id/textView21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="5dp"
+                android:text="@string/NameOfPerson"
+                android:textColor="@color/mainText"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewDateOccasionCard" />
+
+            <Button
+                android:id="@+id/buttonRemoveItem"
+                android:layout_width="250dp"
+                android:layout_height="42dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="13dp"
+                android:layout_marginRight="13dp"
+                android:background="@drawable/button_background"
+                android:text="@string/remove"
+                android:textColor="@color/mainText"
+                app:layout_constraintEnd_toStartOf="@+id/imageView8"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewDateOccasionCard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="5dp"
+                android:text="@string/ExpiringDate"
+                android:textColor="@color/mainText"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView23" />
+
+            <TextView
+                android:id="@+id/textViewSumOfItemsOccasionCard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:text="@string/SUM_OF_ITEMS_COST"
+                android:textColor="@color/mainText"
+                app:layout_constraintBottom_toBottomOf="@+id/textView20"
+                app:layout_constraintStart_toEndOf="@+id/textView20"
+                app:layout_constraintTop_toTopOf="@+id/textView20" />
+
+            <TextView
+                android:id="@+id/titleOfMyOccasion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:text="@string/Title"
+                android:textColor="@color/mainText"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="@+id/titleOfMyOccasion2"
+                app:layout_constraintStart_toEndOf="@+id/titleOfMyOccasion2"
+                app:layout_constraintTop_toTopOf="@+id/titleOfMyOccasion2" />
+
+            <TextView
+                android:id="@+id/textViewPeopleOccasionCard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:text="@string/NameOfAllPeople"
+                android:textColor="@color/mainText"
+                app:layout_constraintBottom_toBottomOf="@+id/textView21"
+                app:layout_constraintStart_toEndOf="@+id/textView21"
+                app:layout_constraintTop_toTopOf="@+id/textView21" />
+
+            <TextView
+                android:id="@+id/textView23"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="5dp"
+                android:text="@string/ExpiringDate"
+                android:textColor="@color/mainText"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView20" />
+
+            <Button
+                android:id="@+id/buttonRegisterPaid"
+                android:layout_width="250dp"
+                android:layout_height="42dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="59dp"
+                android:layout_marginRight="59dp"
+                android:background="@drawable/button_background"
+                android:text="@string/Paid"
+                android:textColor="@color/mainText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/buttonRemoveItem"
+                app:layout_constraintTop_toBottomOf="@+id/buttonRemoveItem" />
+
+            <ImageView
+                android:id="@+id/imageView8"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:contentDescription="@string/occasion_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_baseline_pending_actions_24" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
