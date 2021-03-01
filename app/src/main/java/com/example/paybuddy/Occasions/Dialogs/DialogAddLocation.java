@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -58,8 +59,8 @@ public class DialogAddLocation extends DialogFragment implements View.OnClickLis
     private TextView valueTypeOfLocationAccuracy;
     private TextView valueAdress;
 
-    private Switch slideLocation;
-    private Switch slideLocationMode;
+    private SwitchCompat slideLocation;
+    private SwitchCompat slideLocationMode;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -128,8 +129,8 @@ public class DialogAddLocation extends DialogFragment implements View.OnClickLis
         valueTypeOfLocationAccuracy = (TextView) view.findViewById(R.id.valueTypeOfLocationAccuracy);
         valueAdress = (TextView) view.findViewById(R.id.valueAdress);
 
-        slideLocation = (Switch) view.findViewById(R.id.slideLocation);
-        slideLocationMode = (Switch) view.findViewById(R.id.slideLocationMode);
+        slideLocation = (SwitchCompat) view.findViewById(R.id.slideLocation);
+        slideLocationMode = (SwitchCompat) view.findViewById(R.id.slideLocationMode);
 
         slideLocation.setOnClickListener(this);
         slideLocationMode.setOnClickListener(this);

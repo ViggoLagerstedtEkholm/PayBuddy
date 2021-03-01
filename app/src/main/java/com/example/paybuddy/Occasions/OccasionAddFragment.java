@@ -64,15 +64,6 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
     public OccasionAddFragment() {}
 
     @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString("Title", String.valueOf(title.getText()));
-        if(location != null){
-            outState.putParcelable("Location", location);
-        }
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         occasionViewModel = new ViewModelProvider(this).get(OccasionViewModel.class);
