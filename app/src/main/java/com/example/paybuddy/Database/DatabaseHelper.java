@@ -52,9 +52,23 @@ public abstract class DatabaseHelper extends RoomDatabase {
       }
       @Override
       protected Void doInBackground(Void... voids) {
-         occasionDao.insert(new OccasionModel("2021", "test1", false, true));
-         occasionDao.insert(new OccasionModel("2021", "test2", false, false));
-         occasionDao.insert(new OccasionModel("2021", "test3", false, true));
+         long id = occasionDao.insert(new OccasionModel("2021", "TestData1", false, true));
+         ItemModel item = new ItemModel(20.5, "TestDataItem", 2);
+         item.setOccasionID(id);
+         itemsDAO.insert(item);
+         itemsDAO.insert(item);
+
+         long id2 = occasionDao.insert(new OccasionModel("2021", "TestData2", false, false));
+         ItemModel item2 = new ItemModel(250.5, "TestDataItem2", 3);
+         item2.setOccasionID(id2);
+         itemsDAO.insert(item2);
+
+         occasionDao.insert(new OccasionModel("2021", "TestData3", false, true));
+         occasionDao.insert(new OccasionModel("2021", "TestData2", true, true));
+         occasionDao.insert(new OccasionModel("2021", "TestData3", true, true));
+         occasionDao.insert(new OccasionModel("2021", "TestData3", true, true));
+
+
          return null;
       }
    }
