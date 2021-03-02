@@ -45,7 +45,7 @@
     <string name="SUM_OF_PAID_OCCASIONS">History occasions count</string>
     <string name="Delete_all_occasions">Delete all occasions</string>
     <string name="Delete_history">Delete history</string>
-    <string name="Delete_all_expired">Delete all expired</string>
+    <string name="Delete_all_expired">Delete all expired occasions</string>
     <string name="Manage_layout_style">Layout style</string>
     <string name="handle_app">Settings</string>
     <string name="Delete">Delete</string>

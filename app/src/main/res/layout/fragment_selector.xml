@@ -26,7 +26,7 @@
         android:layout_width="385dp"
         android:layout_height="542dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/card_outline"
+        android:background="@color/cardBackground"
         app:cardBackgroundColor="@color/cardBackground"
         app:cardCornerRadius="6dp"
         app:layout_constraintEnd_toEndOf="parent"
