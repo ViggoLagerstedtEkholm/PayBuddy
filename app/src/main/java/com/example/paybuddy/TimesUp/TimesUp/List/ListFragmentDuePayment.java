@@ -54,18 +54,15 @@ public class ListFragmentDuePayment extends Fragment {
         itemsViewModel = new ViewModelProvider(this).get(ItemsViewModel.class);
         filterViewModel = new ViewModelProvider(getActivity()).get(FilterViewModel.class);
         occasionModels = new ArrayList<>();
-
-        myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(occasionModels, occasionViewModel, itemsViewModel, locationViewModel, getContext());
-
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_due_payment, container, false);
+
+        myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(new ArrayList<>(), occasionViewModel, itemsViewModel, locationViewModel, getContext());
+
         occasionViewModel.getExpiredOccasions().observe(getViewLifecycleOwner(), new Observer<List<OccasionWithItems>>() {
             @Override
             public void onChanged(List<OccasionWithItems> occasionWithItems) {

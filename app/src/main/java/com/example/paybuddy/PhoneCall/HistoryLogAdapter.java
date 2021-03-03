@@ -107,9 +107,11 @@ public class HistoryLogAdapter extends RecyclerView.Adapter<HistoryLogAdapter.My
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            callingHistory.clear();
-            callingHistory.addAll((List)results.values);
-            notifyDataSetChanged();
+            if(callingHistory != null){
+                callingHistory.clear();
+                callingHistory.addAll((List)results.values);
+                notifyDataSetChanged();
+            }
         }
     };
 

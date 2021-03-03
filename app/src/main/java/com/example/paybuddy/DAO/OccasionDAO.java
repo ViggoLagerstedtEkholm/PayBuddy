@@ -37,7 +37,7 @@ public interface OccasionDAO {
     @Query("DELETE FROM occasions_table WHERE isPaid = " + 1)
     void deleteAllHistory();
 
-    @Query("DELETE FROM occasions_table WHERE IsPaid = " + 0)
+    @Query("DELETE FROM occasions_table WHERE IsPaid = " + 0 + " AND isExpired = " + 0)
     void deleteAllUnPaid();
 
     @Query("SELECT * FROM occasions_table ORDER BY date DESC")

@@ -64,7 +64,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     @Override
     public int getItemCount() {
-        return contacts.size();
+        return contacts == null ? 0 : contacts.size();
     }
 
     @Override
@@ -96,9 +96,11 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            contacts.clear();
-            contacts.addAll((List)results.values);
-            notifyDataSetChanged();
+            if(contacts != null) {
+                contacts.clear();
+                contacts.addAll((List) results.values);
+                notifyDataSetChanged();
+            }
         }
     };
 
