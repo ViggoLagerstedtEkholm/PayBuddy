@@ -63,10 +63,10 @@ public abstract class DatabaseHelper extends RoomDatabase {
          item2.setOccasionID(id2);
          itemsDAO.insert(item2);
 
+         occasionDao.insert(new OccasionModel("2021", "TestData3", false, false));
+         occasionDao.insert(new OccasionModel("2021", "TestData2", false, true));
          occasionDao.insert(new OccasionModel("2021", "TestData3", false, true));
-         occasionDao.insert(new OccasionModel("2021", "TestData2", true, true));
-         occasionDao.insert(new OccasionModel("2021", "TestData3", true, true));
-         occasionDao.insert(new OccasionModel("2021", "TestData3", true, true));
+         occasionDao.insert(new OccasionModel("2021", "TestData3", true, false));
 
 
          return null;
