@@ -46,7 +46,6 @@ public class DialogAddLocation extends DialogFragment implements View.OnClickLis
     private LocationCallback locationCallBack;
 
     private LocationViewModel locationViewModel;
-    private View currentView;
 
     private final int UPDATING_INTERVAL_SPEED = 2000;
     private final int UPDATING_INTERVAL_MIN_SPEED = 1000;
@@ -57,7 +56,7 @@ public class DialogAddLocation extends DialogFragment implements View.OnClickLis
     private TextView valueAccuracy;
     private TextView valueUpdateStatus;
     private TextView valueTypeOfLocationAccuracy;
-    private TextView valueAdress;
+    private TextView valueAddress;
 
     private SwitchCompat slideLocation;
     private SwitchCompat slideLocationMode;
@@ -87,13 +86,6 @@ public class DialogAddLocation extends DialogFragment implements View.OnClickLis
         return alertDialog;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        currentView = view;
-    }
-
     private void initializeFields(View view) {
         Button backButton = (Button) view.findViewById(R.id.buttonBackLocation);
         Button saveButton = (Button) view.findViewById(R.id.buttonSaveLocation);
@@ -112,7 +104,7 @@ public class DialogAddLocation extends DialogFragment implements View.OnClickLis
                 double longitude = valueLongitude.getText() == "No longitude detected" ? Double.valueOf(String.valueOf(valueLongitude.getText())) : 0.0;
                 double altitude = valueAltitude.getText() == "No altitude detected" ? Double.valueOf(String.valueOf(valueAltitude.getText())): 0.0;
                 double accuracy = valueAccuracy.getText() == "No accuracy detected" ? Double.valueOf(String.valueOf(valueAccuracy.getText())) : 0.0;
-                String address = valueAdress.getText() == "No accuracy detected" ? valueAdress.getText().toString() : "No address";
+                String address = valueAddress.getText() == "No accuracy detected" ? valueAddress.getText().toString() : "No address";
 
                 LocationModel model = new LocationModel(latitude, longitude, altitude, accuracy, address);
                 locationViewModel.setLocation(model);
@@ -127,7 +119,7 @@ public class DialogAddLocation extends DialogFragment implements View.OnClickLis
         valueAccuracy = (TextView) view.findViewById(R.id.valueAccuracy);
         valueUpdateStatus = (TextView) view.findViewById(R.id.valueUpdateStatus);
         valueTypeOfLocationAccuracy = (TextView) view.findViewById(R.id.valueTypeOfLocationAccuracy);
-        valueAdress = (TextView) view.findViewById(R.id.valueAdress);
+        valueAddress = (TextView) view.findViewById(R.id.valueAdress);
 
         slideLocation = (SwitchCompat) view.findViewById(R.id.slideLocation);
         slideLocationMode = (SwitchCompat) view.findViewById(R.id.slideLocationMode);
@@ -208,12 +200,12 @@ public class DialogAddLocation extends DialogFragment implements View.OnClickLis
 
             try {
                 List<Address> locations = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                valueAdress.setText(locations.get(0).getAddressLine(0));
+                valueAddress.setText(locations.get(0).getAddressLine(0));
             } catch (IOException e) {
-                valueAdress.setText("Adress failed to fetch.");
+                valueAddress.setText("Adress failed to fetch.");
             }
             catch(Exception e){
-                valueAdress.setText("Loading...");
+                valueAddress.setText("Loading...");
             }
         }
     }
@@ -256,7 +248,7 @@ public class DialogAddLocation extends DialogFragment implements View.OnClickLis
         valueLatitude.setText("Updates off.");
         valueLongitude.setText("Updates off.");
         valueAccuracy.setText("Updates off.");
-        valueAdress.setText("Updates off.");
+        valueAddress.setText("Updates off.");
         valueAltitude.setText("Updates off");
         fusedLocationProviderClient.removeLocationUpdates(locationCallBack);
     }
