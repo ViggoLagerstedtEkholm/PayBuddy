@@ -21,21 +21,21 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.paybuddy.Models.Contact;
+import com.example.paybuddy.PhoneCall.HistoryLogAdapter;
 import com.example.paybuddy.R;
 import com.example.paybuddy.Search.FilterViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContactsFragment extends Fragment {
-
-    private int mColumnCount = 1;
-
+public class ContactsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private FilterViewModel filterViewModel;
     private List<Contact> contacts;
-
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private RecyclerView recyclerView;
     private MyItemRecyclerViewAdapter adapter;
     private static final int REQUEST_RUNTIME_PERMISSION = 100;
 
@@ -51,6 +51,19 @@ public class ContactsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        filterViewModel.getSelected().observe(getViewLifecycleOwner(), searchWord ->{
+            adapter.getFilter().filter(searchWord);
+        });
+    }
+
+    @Override
+    public void onRefresh() {
+        contacts = getContacts();
+        adapter.addItems(contacts);
+        if(swipeRefreshLayout.isRefreshing()){
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     @Override
@@ -58,24 +71,24 @@ public class ContactsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contacts_list, container, false);
 
-        filterViewModel.getSelected().observe(getViewLifecycleOwner(), searchWord ->{
-            adapter.getFilter().filter(searchWord);
-        });
+        instantiate(view);
+        contacts = getContacts();
+        adapter.addItems(contacts);
 
-        adapter = new MyItemRecyclerViewAdapter(getContext());
-        adapter.addItems(getContacts());
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            recyclerView.setAdapter(adapter);
-        }
+        swipeRefreshLayout.setOnRefreshListener(this);
 
         return view;
+    }
+
+    private void instantiate(View view)
+    {
+        swipeRefreshLayout = view.findViewById(R.id.contact_list_swipe_refresh_layout);
+        recyclerView = view.findViewById(R.id.contact_recycler);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new MyItemRecyclerViewAdapter(getContext());
+        contacts = new ArrayList<>();
+        recyclerView.setAdapter(adapter);
     }
 
     /**
@@ -92,7 +105,7 @@ public class ContactsFragment extends Fragment {
             return new ArrayList<>();
         }
         contacts.clear();
-        List<Contact> contacts = new ArrayList<>();
+
         String phone = "";
 
         Cursor cur = getContext().getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,
@@ -109,7 +122,9 @@ public class ContactsFragment extends Fragment {
                 while (pCur.moveToNext()) {
                     phone = pCur.getString(
                             pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                    System.out.println("phone" + phone);
+                }
+                if(name == null || name.equals("") ){
+                    name = "NO NAME";
                 }
                 if(phone.equals("")){
                     Contact contact = new Contact(name, "NO NUMBER");
