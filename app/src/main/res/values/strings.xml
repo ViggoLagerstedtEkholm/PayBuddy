@@ -43,7 +43,7 @@
     <string name="SUM_OF_OCCASIONS">Active occasions</string>
     <string name="SUM_OF_EXPIRED">Total expired occasions</string>
     <string name="SUM_OF_PAID_OCCASIONS">History occasions count</string>
-    <string name="Delete_all_occasions">Delete all occasions</string>
+    <string name="Delete_all_occasions">Delete all active occasions</string>
     <string name="Delete_history">Delete history</string>
     <string name="Delete_all_expired">Delete all expired occasions</string>
     <string name="Manage_layout_style">Layout style</string>
@@ -110,4 +110,5 @@
     <string name="high_low">High/Low</string>
     <string name="no_address_found">No address found</string>
     <string name="address">Address:</string>
+    <string name="swipe_to_update">Swipe up to update</string>
 </resources>
