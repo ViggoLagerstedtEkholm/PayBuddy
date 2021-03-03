@@ -55,6 +55,7 @@ public class ManageFragment extends Fragment {
         Button buttonDeleteAllOccasions = (Button) view.findViewById(R.id.buttonDeleteAllOccasions);
         Button buttonDeleteHistory = (Button) view.findViewById(R.id.buttonDeleteHistory);
         Button buttonDeleteExpired = (Button) view.findViewById(R.id.buttonDeleteAllExpired);
+        Button buttonDeleteAll = (Button) view.findViewById(R.id.buttonWipeData);
 
         buttonDeleteHistory.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +72,22 @@ public class ManageFragment extends Fragment {
 
                 DialogDeleteOccasionsConfirm dialogFragment = new DialogDeleteOccasionsConfirm();
                 dialogFragment.show(getChildFragmentManager(), "Test");
+            }
+        });
+
+        buttonDeleteExpired.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogDeleteExpiredConfirm dialogDeleteExpiredConfirm = new DialogDeleteExpiredConfirm();
+                dialogDeleteExpiredConfirm.show(getChildFragmentManager(), "Test");
+            }
+        });
+
+        buttonDeleteAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogDeleteAllConfirm deleteAllConfirm = new DialogDeleteAllConfirm();
+                deleteAllConfirm.show(getChildFragmentManager(), "Test");
             }
         });
 
