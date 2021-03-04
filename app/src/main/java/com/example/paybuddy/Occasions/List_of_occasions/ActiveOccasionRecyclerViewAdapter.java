@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.paybuddy.Occasions.Dialogs.DialogMakeExpired;
 import com.example.paybuddy.Viewmodels.ItemsViewModel;
@@ -28,7 +27,7 @@ import java.util.List;
 /**
  * TODO: Replace the implementation with code for your data type.
  */
-public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> implements Filterable {
+public class ActiveOccasionRecyclerViewAdapter extends RecyclerView.Adapter<ActiveOccasionRecyclerViewAdapter.ViewHolder> implements Filterable {
     private List<OccasionModel> items;
     private List<OccasionModel> filteredItems;
     private final Fragment currentFragment;
@@ -38,11 +37,11 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     private TextView imageView;
     private RecyclerView recyclerView;
 
-    public MyItemRecyclerViewAdapter(List<OccasionModel> items,
-                                     Fragment currentFragment,
-                                     OccasionViewModel occasionViewModel,
-                                     ItemsViewModel itemsViewModel,
-                                     LocationViewModel locationViewModel) {
+    public ActiveOccasionRecyclerViewAdapter(List<OccasionModel> items,
+                                             Fragment currentFragment,
+                                             OccasionViewModel occasionViewModel,
+                                             ItemsViewModel itemsViewModel,
+                                             LocationViewModel locationViewModel) {
         this.items = items;
         this.currentFragment = currentFragment;
         this.occasionViewModel = occasionViewModel;
@@ -132,7 +131,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         protected FilterResults performFiltering(CharSequence constraint) {
             List<OccasionModel> filteredList = new ArrayList<>();
 
-            if(constraint == null || constraint.length() == 0 || constraint.equals("")){
+            if(constraint == null || constraint.length() == 0){
                 filteredList.addAll(filteredItems);
             }else{
                 String filterPattern = constraint.toString().toLowerCase().trim();
@@ -151,10 +150,9 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            Log.d(String.valueOf(((List) results.values).size()), "  Size");
-            if(((List) results.values).size() != 0){
+            if(((List) results.values).size() != 0) {
                 items.clear();
-                items.addAll((List)results.values);
+                items.addAll((List) results.values);
                 notifyDataSetChanged();
             }
         }

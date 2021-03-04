@@ -46,21 +46,29 @@ public abstract class DatabaseHelper extends RoomDatabase {
    private static class PopulateDatabaseAsyncTask extends AsyncTask<Void, Void, Void> {
       private OccasionDAO occasionDao;
       private ItemsDAO itemsDAO;
+      private LocationDAO locationDAO;
       private PopulateDatabaseAsyncTask(DatabaseHelper databaseHelper){
          occasionDao = databaseHelper.occasionDao();
          itemsDAO = databaseHelper.itemsDao();
+         locationDAO = databaseHelper.locationDAO();
       }
       @Override
       protected Void doInBackground(Void... voids) {
          long id = occasionDao.insert(new OccasionModel("2021", "TestData1", false, true));
          ItemModel item = new ItemModel(20.5, "TestDataItem", 2);
+         LocationModel locationModel = new LocationModel(1.1,1.1,5.2, 100.0, "Test");
          item.setOccasionID(id);
+         locationModel.setOccasionID(id);
+         locationDAO.insert(locationModel);
          itemsDAO.insert(item);
          itemsDAO.insert(item);
 
          long id2 = occasionDao.insert(new OccasionModel("2021", "TestData2", false, false));
          ItemModel item2 = new ItemModel(250.5, "TestDataItem2", 3);
+         LocationModel locationModel2 = new LocationModel(1.6,2.1,7.2, 50.0, "Test2");
          item2.setOccasionID(id2);
+         locationModel.setOccasionID(id2);
+         locationDAO.insert(locationModel);
          itemsDAO.insert(item2);
 
          occasionDao.insert(new OccasionModel("2021", "TestData3", false, false));

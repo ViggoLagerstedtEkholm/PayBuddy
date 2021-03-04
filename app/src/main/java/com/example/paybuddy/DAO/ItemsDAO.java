@@ -43,7 +43,7 @@ public abstract class ItemsDAO {
             "WHERE Item_table.occasionID IN (" +
                                         "SELECT ID " +
                                         "FROM occasions_table " +
-                                        "WHERE IsExpired = " + 1)
+                                        "WHERE IsExpired = " + 1 + ")")
     public abstract void deleteAllItemsExpired();
 
     @Query("DELETE " +
@@ -59,7 +59,8 @@ public abstract class ItemsDAO {
             "WHERE Item_table.occasionID IN (" +
                                         "SELECT ID " +
                                         "FROM occasions_table " +
-                                        "WHERE IsPaid = " + 1)
+                                        "WHERE IsPaid = " + 1 + ")")
+
     public abstract void deleteAllItemsHistory();
 
     @Query("SELECT * FROM Item_table ORDER BY price DESC")
@@ -69,7 +70,7 @@ public abstract class ItemsDAO {
             " FROM Item_table " +
             "JOIN Occasions_table " +
             "ON Occasions_table.ID = Item_table.occasionID " +
-            "WHERE IsPaid = "+ '0')
+            "WHERE IsPaid = "+ '0' + " AND occasionID != " + -1)
     public abstract LiveData<Integer> getTotalCost();
 
     @Query("SELECT * FROM ITEM_TABLE WHERE occasionID = '-1'")

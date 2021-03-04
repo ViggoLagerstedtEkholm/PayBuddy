@@ -94,7 +94,7 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
         editTexts.add(title);
 
         TextView locationAdded = (TextView) view.findViewById(R.id.textAddedLocation);
-        TextView textTotalItems = (TextView) view.findViewById(R.id.textTotalItems);
+        TextView textTotalItems = (TextView) view.findViewById(R.id.textTotalItemsLabel);
 
         Button buttonSave = (Button) view.findViewById(R.id.buttonEnter);
         Button buttonCancel = (Button) view.findViewById(R.id.buttonCancel);
@@ -252,11 +252,5 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
                 requestWritePermission();
             }
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        itemsViewModel.deletePendingItems();
     }
 }

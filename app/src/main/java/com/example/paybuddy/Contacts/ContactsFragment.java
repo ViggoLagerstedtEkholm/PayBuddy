@@ -1,7 +1,6 @@
 package com.example.paybuddy.Contacts;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -16,27 +15,25 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.paybuddy.Models.Contact;
-import com.example.paybuddy.PhoneCall.HistoryLogAdapter;
 import com.example.paybuddy.R;
-import com.example.paybuddy.Search.FilterViewModel;
+import com.example.paybuddy.Search.SearchViewModels.FilterContactViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ContactsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
-    private FilterViewModel filterViewModel;
+    private FilterContactViewModel filterContactViewModel;
     private List<Contact> contacts;
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
-    private MyItemRecyclerViewAdapter adapter;
+    private ContactsRecyclerViewAdapter adapter;
     private static final int REQUEST_RUNTIME_PERMISSION = 100;
 
     public ContactsFragment() { }
@@ -45,15 +42,18 @@ public class ContactsFragment extends Fragment implements SwipeRefreshLayout.OnR
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         contacts = new ArrayList<>();
-        filterViewModel = new ViewModelProvider(getActivity()).get(FilterViewModel.class);
+        filterContactViewModel = new ViewModelProvider(getActivity()).get(FilterContactViewModel.class);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        filterViewModel.getSelected().observe(getViewLifecycleOwner(), searchWord ->{
-            adapter.getFilter().filter(searchWord);
+        filterContactViewModel.getSelected().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String searchWord) {
+                adapter.getFilter().filter(searchWord);
+            };
         });
     }
 
@@ -86,7 +86,7 @@ public class ContactsFragment extends Fragment implements SwipeRefreshLayout.OnR
         recyclerView = view.findViewById(R.id.contact_recycler);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new MyItemRecyclerViewAdapter(getContext());
+        adapter = new ContactsRecyclerViewAdapter(getContext());
         contacts = new ArrayList<>();
         recyclerView.setAdapter(adapter);
     }

@@ -24,13 +24,13 @@ import java.util.List;
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
  * one of the sections/tabs/pages.
  */
-public class SectionsPagerAdapterHome extends FragmentPagerAdapter {
+public class SelectorPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
     private static final int[] TAB_TITLES = new int[]{R.string.tab_occasions, R.string.tab_history, R.string.tab_expired};
     private final Context mContext;
 
-    public SectionsPagerAdapterHome(Context context, FragmentManager fm, int behavior) {
+    public SelectorPagerAdapter(Context context, FragmentManager fm, int behavior) {
         super(fm, behavior);
         mContext = context;
     }

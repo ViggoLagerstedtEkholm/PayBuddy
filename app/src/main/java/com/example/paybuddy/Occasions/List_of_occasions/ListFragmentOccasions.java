@@ -1,7 +1,6 @@
 package com.example.paybuddy.Occasions.List_of_occasions;
 
 import android.content.Context;
-import android.location.Location;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -24,7 +23,7 @@ import com.example.paybuddy.Viewmodels.OccasionViewModel;
 import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.Models.OccasionWithItems;
 import com.example.paybuddy.R;
-import com.example.paybuddy.Search.FilterViewModel;
+import com.example.paybuddy.Search.SearchViewModels.FilterSelectionViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,9 +35,9 @@ public class ListFragmentOccasions extends Fragment {
     private int mColumnCount = 1;
     private OccasionViewModel occasionViewModel;
     private ItemsViewModel itemsViewModel;
-    private FilterViewModel filterViewModel;
+    private FilterSelectionViewModel filterSelectionViewModel;
     private LocationViewModel locationViewModel;
-    private MyItemRecyclerViewAdapter myItemRecyclerViewAdapter;
+    private ActiveOccasionRecyclerViewAdapter activeOccasionRecyclerViewAdapter;
 
     public ListFragmentOccasions() { }
 
@@ -47,7 +46,7 @@ public class ListFragmentOccasions extends Fragment {
         super.onCreate(savedInstanceState);
         occasionViewModel = new ViewModelProvider(this).get(OccasionViewModel.class);
         itemsViewModel = new ViewModelProvider(this).get(ItemsViewModel.class);
-        filterViewModel = new ViewModelProvider(getActivity()).get(FilterViewModel.class);
+        filterSelectionViewModel = new ViewModelProvider(getActivity()).get(FilterSelectionViewModel.class);
         locationViewModel = new ViewModelProvider(this).get(LocationViewModel.class);
     }
 
@@ -56,7 +55,7 @@ public class ListFragmentOccasions extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_occasions_list, container, false);
 
-        myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(new ArrayList<>(), this, occasionViewModel, itemsViewModel, locationViewModel);
+        activeOccasionRecyclerViewAdapter = new ActiveOccasionRecyclerViewAdapter(new ArrayList<>(), this, occasionViewModel, itemsViewModel, locationViewModel);
 
         occasionViewModel.getActiveOccasions().observe(getViewLifecycleOwner(), new Observer<List<OccasionWithItems>>() {
             @Override
@@ -71,7 +70,7 @@ public class ListFragmentOccasions extends Fragment {
 
                     occasionModels.add(aOccasionModel);
                 }
-                myItemRecyclerViewAdapter.addItems(occasionModels);
+                activeOccasionRecyclerViewAdapter.addItems(occasionModels);
             }
         });
 
@@ -84,7 +83,7 @@ public class ListFragmentOccasions extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-            recyclerView.setAdapter(myItemRecyclerViewAdapter);
+            recyclerView.setAdapter(activeOccasionRecyclerViewAdapter);
         }
 
         return view;
@@ -94,10 +93,10 @@ public class ListFragmentOccasions extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        filterViewModel.getSelected().observe(getActivity(), new Observer<String>() {
+        filterSelectionViewModel.getSelected().observe(getActivity(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String searchWord) {
-                myItemRecyclerViewAdapter.getFilter().filter(searchWord);
+                activeOccasionRecyclerViewAdapter.getFilter().filter(searchWord);
             };
         });
     }

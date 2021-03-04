@@ -19,12 +19,12 @@ import com.example.paybuddy.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> implements Filterable {
+public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecyclerViewAdapter.ViewHolder> implements Filterable {
     private List<OccasionModel> filteredItems;
     private List<OccasionModel> items;
     private Context context;
 
-    public MyItemRecyclerViewAdapter(Context context, List<OccasionModel> items) {
+    public HistoryRecyclerViewAdapter(Context context, List<OccasionModel> items) {
         this.filteredItems = new ArrayList<>();
         this.context = context;
         this.items = items;
@@ -74,7 +74,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         protected FilterResults performFiltering(CharSequence constraint) {
             List<OccasionModel> filteredList = new ArrayList<>();
 
-            if(constraint == null || constraint.length() == 0 || constraint.equals("")){
+            if(constraint == null || constraint.length() == 0){
                 filteredList.addAll(filteredItems);
             }else{
                 String filterPattern = constraint.toString().toLowerCase().trim();
@@ -93,10 +93,9 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            Log.d(String.valueOf(((List) results.values).size()), "  Size");
-            if(((List) results.values).size() != 0){
+            if(((List) results.values).size() != 0) {
                 items.clear();
-                items.addAll((List)results.values);
+                items.addAll((List) results.values);
                 notifyDataSetChanged();
             }
         }

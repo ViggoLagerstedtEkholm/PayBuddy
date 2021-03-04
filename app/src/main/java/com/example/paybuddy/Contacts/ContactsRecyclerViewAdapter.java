@@ -14,18 +14,17 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.paybuddy.Models.Contact;
-import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> implements Filterable {
+public class ContactsRecyclerViewAdapter extends RecyclerView.Adapter<ContactsRecyclerViewAdapter.ViewHolder> implements Filterable {
     private Context context;
     private List<Contact> contacts;
     private List<Contact> filteredItems;
 
-    public MyItemRecyclerViewAdapter(Context context) {
+    public ContactsRecyclerViewAdapter(Context context) {
         this.context = context;
         this.filteredItems = new ArrayList<>();
     }
@@ -96,11 +95,9 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            if(contacts != null) {
-                contacts.clear();
-                contacts.addAll((List) results.values);
-                notifyDataSetChanged();
-            }
+            contacts.clear();
+            contacts.addAll((List) results.values);
+            notifyDataSetChanged();
         }
     };
 

@@ -60,9 +60,6 @@ public class OccasionRepository extends Repository<OccasionModel>{
         new DeleteOccasionAsyncTask(occasionDao, itemsDAO).execute(entity);
     }
 
-    public void deleteMode(DELETE_TYPE delete_type){
-
-    }
     @Override
     void delete(List<OccasionModel> entity) {
         //TODO

@@ -10,12 +10,9 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.paybuddy.Viewmodels.ItemsViewModel;
 
 public class MainActivity extends AppCompatActivity{
-    private ItemsViewModel itemsViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        itemsViewModel = new ViewModelProvider(this).get(ItemsViewModel.class);
-        itemsViewModel.deletePendingItems();
     }
 }

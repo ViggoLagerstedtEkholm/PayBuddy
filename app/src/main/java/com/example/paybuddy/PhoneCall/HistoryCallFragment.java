@@ -54,6 +54,5 @@ public class HistoryCallFragment extends Fragment {
                 Navigation.findNavController(view).navigate(R.id.action_historyCallFragment_to_contactManageFragment);
             }
         });
-
     }
 }

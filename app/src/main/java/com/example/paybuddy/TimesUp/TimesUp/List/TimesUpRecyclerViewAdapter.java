@@ -3,7 +3,6 @@ package com.example.paybuddy.TimesUp.TimesUp.List;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.ContentProviderOperation;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,12 +12,10 @@ import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.R;
-import com.example.paybuddy.Search.FilterViewModel;
 import com.example.paybuddy.Viewmodels.ItemsViewModel;
 import com.example.paybuddy.Viewmodels.LocationViewModel;
 import com.example.paybuddy.Viewmodels.OccasionViewModel;
@@ -29,7 +26,7 @@ import java.util.List;
 /**
  * TODO: Replace the implementation with code for your data type.
  */
-public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> implements Filterable {
+public class TimesUpRecyclerViewAdapter extends RecyclerView.Adapter<TimesUpRecyclerViewAdapter.ViewHolder> implements Filterable {
     private List<OccasionModel> items;
     private List<OccasionModel> filteredItems;
     private OccasionViewModel occasionViewModel;
@@ -37,11 +34,11 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     private ItemsViewModel itemsViewModel;
     private Context context;
 
-    public MyItemRecyclerViewAdapter(List<OccasionModel> items,
-                                     OccasionViewModel occasionViewModel,
-                                     ItemsViewModel itemsViewModel,
-                                     LocationViewModel locationViewModel,
-                                     Context context) {
+    public TimesUpRecyclerViewAdapter(List<OccasionModel> items,
+                                      OccasionViewModel occasionViewModel,
+                                      ItemsViewModel itemsViewModel,
+                                      LocationViewModel locationViewModel,
+                                      Context context) {
         this.items = items;
         this.filteredItems = new ArrayList<>();
         this.occasionViewModel = occasionViewModel;
@@ -88,7 +85,9 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         holder.buttonPostPone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //add 2 days and push to unpaid occasions.
+                items.remove(occasionModel);
+                occasionModel.setExpired(false);
+                occasionViewModel.update(occasionModel);
             }
         });
 

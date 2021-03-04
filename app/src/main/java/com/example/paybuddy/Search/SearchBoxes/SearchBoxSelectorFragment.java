@@ -1,11 +1,9 @@
-package com.example.paybuddy.Search;
+package com.example.paybuddy.Search.SearchBoxes;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SearchView;
 
@@ -15,19 +13,18 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.paybuddy.R;
-import com.example.paybuddy.ui.main.PageViewModel;
+import com.example.paybuddy.Search.SearchViewModels.FilterSelectionViewModel;
 
-public class SearchBoxFragment extends Fragment implements View.OnClickListener {
-    private FilterViewModel filterViewModel;
-    private Button buttonSearch;
+public class SearchBoxSelectorFragment extends Fragment implements View.OnClickListener {
+    private FilterSelectionViewModel filterViewModel;
     private EditText searchWord;
 
-    public SearchBoxFragment() { }
+    public SearchBoxSelectorFragment() { }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        filterViewModel = new ViewModelProvider(getActivity()).get(FilterViewModel.class);
+        filterViewModel = new ViewModelProvider(getActivity()).get(FilterSelectionViewModel.class);
 
     }
 

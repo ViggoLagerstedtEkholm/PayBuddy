@@ -21,7 +21,7 @@ import com.example.paybuddy.Viewmodels.OccasionViewModel;
 import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.Models.OccasionWithItems;
 import com.example.paybuddy.R;
-import com.example.paybuddy.Search.FilterViewModel;
+import com.example.paybuddy.Search.SearchViewModels.FilterSelectionViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +31,8 @@ public class ListFragmentHistory extends Fragment {
 
     private int mColumnCount = 1;
     private OccasionViewModel occasionViewModel;
-    private FilterViewModel filterViewModel;
-    private MyItemRecyclerViewAdapter myItemRecyclerViewAdapter;
+    private FilterSelectionViewModel filterSelectionViewModel;
+    private HistoryRecyclerViewAdapter historyRecyclerViewAdapter;
     private List<OccasionModel> occasionModels;
 
     public ListFragmentHistory() {
@@ -42,9 +42,9 @@ public class ListFragmentHistory extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         occasionViewModel = new ViewModelProvider(this).get(OccasionViewModel.class);
-        filterViewModel = new ViewModelProvider(getActivity()).get(FilterViewModel.class);
+        filterSelectionViewModel = new ViewModelProvider(getActivity()).get(FilterSelectionViewModel.class);
         occasionModels = new ArrayList<>();
-        myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(getContext(), occasionModels);
+        historyRecyclerViewAdapter = new HistoryRecyclerViewAdapter(getContext(), occasionModels);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class ListFragmentHistory extends Fragment {
                     occasionModels.add(aOccasionModel);
                 }
 
-                myItemRecyclerViewAdapter.addItems(occasionModels);
+                historyRecyclerViewAdapter.addItems(occasionModels);
             }
         });
 
@@ -78,7 +78,7 @@ public class ListFragmentHistory extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(myItemRecyclerViewAdapter);
+            recyclerView.setAdapter(historyRecyclerViewAdapter);
         }
 
 
@@ -89,10 +89,10 @@ public class ListFragmentHistory extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        filterViewModel.getSelected().observe(getActivity(), new Observer<String>() {
+        filterSelectionViewModel.getSelected().observe(getActivity(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String searchWord) {
-                myItemRecyclerViewAdapter.getFilter().filter(searchWord);
+                historyRecyclerViewAdapter.getFilter().filter(searchWord);
             };
         });
     }

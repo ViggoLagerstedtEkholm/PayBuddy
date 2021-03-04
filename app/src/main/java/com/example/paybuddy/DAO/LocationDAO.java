@@ -30,7 +30,7 @@ public abstract class LocationDAO {
             "WHERE occasionID = (" +
                                 "SELECT ID " +
                                 "FROM occasions_table " +
-                                "WHERE IsExpired = " + 1 + " AND IsPaid = " + 0 + ")")
+                                "WHERE IsExpired = " + 1 + ")")
     public abstract void deleteLocationExpired();
 
     @Query("DELETE " +
@@ -38,7 +38,7 @@ public abstract class LocationDAO {
             "WHERE occasionID = (" +
                                 "SELECT ID " +
                                 "FROM occasions_table " +
-                                "WHERE IsPaid = " + 1 + " AND IsExpired = " + 0 + ")")
+                                "WHERE IsPaid = " + 1 + ")")
     public abstract void deleteLocationPaid();
 
     @Query("DELETE " +
