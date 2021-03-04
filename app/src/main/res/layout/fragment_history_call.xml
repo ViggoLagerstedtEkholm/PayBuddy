@@ -121,7 +121,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        app:cardBackgroundColor="@color/cardBackground"
+        android:background="@color/mainBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView">
@@ -129,17 +129,13 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/card_outline">
+            android:background="@drawable/home_card">
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/searchFragment2"
-                android:name="com.example.paybuddy.Search.SearchBoxFragment"
-                android:layout_width="360dp"
+                android:name="com.example.paybuddy.Search.SearchBoxes.SearchBoxHistoryCallFragment"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

@@ -52,7 +52,7 @@
 
                     <fragment
                         android:id="@+id/searchFragment"
-                        android:name="com.example.paybuddy.Search.SearchBoxFragment"
+                        android:name="com.example.paybuddy.Search.SearchBoxes.SearchBoxSelectorFragment"
                         android:layout_width="360dp"
                         android:layout_height="80dp"
                         android:layout_marginStart="8dp"

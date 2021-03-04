@@ -73,7 +73,7 @@
     <string name="remove_icon">Remove icon</string>
     <string name="loading">Loading...</string>
     <string name="no_location_added">No location added!</string>
-    <string name="total_items">Total items: 0</string>
+    <string name="total_items">Total items: </string>
     <string name="pick_a_date">Pick a date</string>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -111,4 +111,6 @@
     <string name="no_address_found">No address found</string>
     <string name="address">Address:</string>
     <string name="swipe_to_update">Swipe up to update</string>
+    <string name="button_wipe_data">Button</string>
+    <string name="wipe_all_data">Wipe all data</string>
 </resources>
