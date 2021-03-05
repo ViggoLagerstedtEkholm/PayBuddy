@@ -17,6 +17,8 @@
 
     <color name="outline">#FFFFFF</color>
 
+    <color name="itemCardColor">#58D9EF</color>
+
     <color name="tab_colors">#232222</color>
 
     <color name="hintText">#676464</color>

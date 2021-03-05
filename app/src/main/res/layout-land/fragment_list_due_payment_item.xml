@@ -7,9 +7,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="10dp"
-    android:layout_marginTop="8dp"
+    android:layout_marginTop="5dp"
     android:layout_marginRight="10dp"
-    android:layout_marginBottom="8dp"
+    android:layout_marginBottom="5dp"
     app:cardBackgroundColor="@color/card_expired_outline"
     app:cardCornerRadius="16dp">
 
@@ -129,7 +129,7 @@
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/button_background"
                 android:text="@string/call"
-                android:textColor="@color/mainText"
+                android:textColor="@color/buttonText"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/buttonDeleteDuePayment"
                 app:layout_constraintTop_toBottomOf="@+id/buttonDeleteDuePayment" />
@@ -143,7 +143,7 @@
                 android:layout_marginRight="8dp"
                 android:background="@drawable/button_background"
                 android:text="@string/postpone"
-                android:textColor="@color/mainText"
+                android:textColor="@color/buttonText"
                 app:layout_constraintEnd_toStartOf="@+id/imageView10"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -154,7 +154,7 @@
                 android:layout_marginTop="5dp"
                 android:background="@drawable/button_background"
                 android:text="@string/remove"
-                android:textColor="@color/mainText"
+                android:textColor="@color/buttonText"
                 app:layout_constraintEnd_toEndOf="@+id/buttonPostpone"
                 app:layout_constraintTop_toBottomOf="@+id/buttonPostpone" />
 

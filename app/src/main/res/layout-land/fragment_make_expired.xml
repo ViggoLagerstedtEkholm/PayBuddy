@@ -36,7 +36,7 @@
                 android:layout_marginRight="24dp"
                 android:background="@drawable/button_background"
                 android:text="@string/decision_cancel"
-                android:textColor="@color/mainText"
+                android:textColor="@color/buttonText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/buttonConfirmExpire"
                 app:layout_constraintTop_toBottomOf="@+id/titleMakeExpired" />
@@ -52,7 +52,7 @@
                 android:layout_marginRight="16dp"
                 android:background="@drawable/button_background"
                 android:text="@string/expire"
-                android:textColor="@color/mainText"
+                android:textColor="@color/buttonText"
                 app:layout_constraintEnd_toStartOf="@+id/buttonCancelExpire"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/titleMakeExpired" />

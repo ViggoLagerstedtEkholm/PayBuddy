@@ -24,7 +24,7 @@
         android:layout_marginRight="8dp"
         android:background="@drawable/button_background"
         android:text="@string/OK"
-        android:textColor="@color/mainText"
+        android:textColor="@color/buttonText"
         app:layout_constraintEnd_toStartOf="@+id/buttonCancel"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView6" />
@@ -50,6 +50,21 @@
             android:layout_height="match_parent"
             android:layout_margin="4dp"
             android:background="@drawable/card_outline">
+
+            <Button
+                android:id="@+id/buttonClearPendingItems2"
+                android:layout_width="170dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/button_remove_items"
+                android:text="@string/clear_items"
+                android:textColor="@color/buttonText"
+                app:layout_constraintEnd_toStartOf="@+id/divider3"
+                app:layout_constraintStart_toEndOf="@+id/buttonAddItems"
+                app:layout_constraintTop_toTopOf="@+id/buttonAddItems" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView7"
@@ -100,23 +115,20 @@
                 android:layout_marginRight="16dp"
                 android:background="@drawable/button_background"
                 android:text="@string/EnterLocation"
-                android:textColor="@color/mainText"
+                android:textColor="@color/buttonText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textAddedLocation" />
 
             <Button
                 android:id="@+id/buttonAddItems"
-                android:layout_width="340dp"
+                android:layout_width="170dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginRight="5dp"
                 android:background="@drawable/button_background"
                 android:text="@string/AddItems"
-                android:textColor="@color/mainText"
-                app:layout_constraintEnd_toStartOf="@+id/divider3"
+                android:textColor="@color/buttonText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textTotalItemsLabel" />
 
@@ -183,7 +195,7 @@
                 android:layout_marginRight="16dp"
                 android:background="@drawable/button_background"
                 android:text="@string/pick_a_date"
-                android:textColor="@color/mainText"
+                android:textColor="@color/buttonText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textDateDisplay" />
 
@@ -240,7 +252,7 @@
         android:layout_marginRight="16dp"
         android:background="@drawable/button_background"
         android:text="@string/CANCEL"
-        android:textColor="@color/mainText"
+        android:textColor="@color/buttonText"
         app:layout_constraintBottom_toBottomOf="@+id/buttonEnter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/buttonEnter"

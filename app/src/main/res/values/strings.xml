@@ -113,4 +113,5 @@
     <string name="swipe_to_update">Swipe up to update</string>
     <string name="button_wipe_data">Button</string>
     <string name="wipe_all_data">Wipe all data</string>
+    <string name="clear_items">Clear items</string>
 </resources>

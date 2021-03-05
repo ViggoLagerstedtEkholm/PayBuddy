@@ -50,7 +50,7 @@
                 android:layout_marginTop="5dp"
                 android:background="@drawable/button_background"
                 android:text="@string/button_wipe_data"
-                android:textColor="@color/mainText"
+                android:textColor="@color/buttonText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textViewWipeAllData2" />
 
@@ -76,7 +76,7 @@
                 android:layout_marginTop="5dp"
                 android:background="@drawable/button_background"
                 android:text="@string/Delete"
-                android:textColor="@color/mainText"
+                android:textColor="@color/buttonText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textViewDeleteHistory" />
 
@@ -114,7 +114,7 @@
                 android:layout_marginTop="5dp"
                 android:background="@drawable/button_background"
                 android:text="@string/Delete"
-                android:textColor="@color/mainText"
+                android:textColor="@color/buttonText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
@@ -164,7 +164,7 @@
                 android:layout_marginTop="5dp"
                 android:background="@drawable/button_background"
                 android:text="@string/Delete"
-                android:textColor="@color/mainText"
+                android:textColor="@color/buttonText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textViewDeleteExpired" />
 

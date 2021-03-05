@@ -11,12 +11,12 @@
     android:layout_marginEnd="0dp"
     android:layout_marginRight="0dp"
     android:layout_marginBottom="2dp"
-    app:cardBackgroundColor="@color/cardBackground"
+    app:cardBackgroundColor="@color/itemCardColor"
     app:cardCornerRadius="16dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="134dp"
+        android:layout_height="120dp"
         android:layout_margin="4dp"
         android:background="@drawable/card_outline">
 
@@ -34,7 +34,7 @@
                 android:layout_marginBottom="31dp"
                 android:background="@drawable/button_background"
                 android:text="@string/remove"
-                android:textColor="@color/mainText"
+                android:textColor="@color/buttonText"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="5dp"
                 android:text="@string/quantity"
                 android:textColor="@color/mainText"
                 android:textSize="15sp"
@@ -83,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="5dp"
                 android:text="@string/price"
                 android:textColor="@color/mainText"
                 app:layout_constraintStart_toStartOf="parent"
@@ -106,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="5dp"
                 android:text="@string/NameOfPerson"
                 android:textColor="@color/mainText"
                 app:layout_constraintStart_toStartOf="parent"

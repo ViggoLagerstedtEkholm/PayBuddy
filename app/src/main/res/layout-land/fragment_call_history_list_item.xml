@@ -26,7 +26,7 @@
             android:layout_marginRight="16dp"
             android:background="@drawable/button_background"
             android:text="@string/call_text"
-            android:textColor="@color/mainText"
+            android:textColor="@color/buttonText"
             app:layout_constraintEnd_toStartOf="@+id/imageView11"
             app:layout_constraintTop_toTopOf="parent" />
 
