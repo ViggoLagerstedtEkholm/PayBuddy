@@ -12,11 +12,13 @@ public class ItemModel {
     private String description;
     private int quantity;
     private long occasionID;
+    private String assignedPerson;
 
-    public ItemModel(double price, String description, int quantity) {
+    public ItemModel(double price, String description, int quantity, String assignedPerson) {
         this.price = price;
         this.description = description;
         this.quantity = quantity;
+        this.assignedPerson = assignedPerson;
     }
 
     public long getOccasionID(){
@@ -51,4 +53,7 @@ public class ItemModel {
         this.ID = ID;
     }
 
+    public String getAssignedPerson() {
+        return assignedPerson;
+    }
 }

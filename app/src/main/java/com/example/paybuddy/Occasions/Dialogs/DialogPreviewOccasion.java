@@ -61,15 +61,23 @@ public class DialogPreviewOccasion  extends DialogFragment {
         TextView textViewPreviewPeople = (TextView) view.findViewById(R.id.textViewPreviewPeople);
 
         double totalCost = 0.0;
+        String people = "";
 
-        for(ItemModel aModel : occasionModel.getItems()){
-          totalCost += aModel.getPrice() * aModel.getQuantity();
+        for(ItemModel aModel : occasionModel.getItems())
+        {
+            totalCost += aModel.getPrice() * aModel.getQuantity();
+            if(occasionModel.getItems().size() < 3) {
+                people += aModel.getAssignedPerson() + ", ";
+            }
+            else{
+                people = "More than 3 people...";
+            }
         }
 
         textViewPreviewTitle.setText(occasionModel.getDescription());
         textViewPreviewExpiringDate.setText(occasionModel.getDate());
         textViewPreviewTotalCost.setText(Double.toString(totalCost));
-        textViewPreviewPeople.setText("TODO");
+        textViewPreviewPeople.setText(people);
 
         Button buttonBackFromPreview = (Button) view.findViewById(R.id.buttonBackFromPreview);
         buttonBackFromPreview.setOnClickListener(new View.OnClickListener() {

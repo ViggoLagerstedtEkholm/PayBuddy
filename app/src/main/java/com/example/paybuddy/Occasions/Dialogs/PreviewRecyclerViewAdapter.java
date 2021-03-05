@@ -45,12 +45,13 @@ public class PreviewRecyclerViewAdapter extends RecyclerView.Adapter<PreviewRecy
         String description = itemModel.getDescription();
         double price = itemModel.getPrice();
         int quantity = itemModel.getQuantity();
+        String name = itemModel.getAssignedPerson();
 
         holder.mItem = itemModel;
         holder.mDescription.setText(description);
         holder.mPrice.setText(String.valueOf(price));
         holder.mQuantity.setText(String.valueOf(quantity));
-        holder.mPerson.setText("temp");
+        holder.mPerson.setText(name);
 
         holder.deleteItem.setOnClickListener(new View.OnClickListener() {
             @Override

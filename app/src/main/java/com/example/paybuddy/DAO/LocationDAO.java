@@ -7,6 +7,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.Models.LocationModel;
 
 import java.util.List;

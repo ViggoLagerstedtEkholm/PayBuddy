@@ -35,6 +35,7 @@ import com.example.paybuddy.Occasions.ViewModel.DateViewModel;
 import com.example.paybuddy.Occasions.ViewModel.LocationViewModel;
 import com.example.paybuddy.R;
 import com.example.paybuddy.Viewmodels.ItemsViewModel;
+
 import com.example.paybuddy.Viewmodels.OccasionViewModel;
 import com.example.paybuddy.Validator;
 
@@ -44,7 +45,7 @@ import java.util.List;
 
 import static androidx.core.content.ContextCompat.checkSelfPermission;
 
-public class OccasionAddFragment extends Fragment implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+public class OccasionAddFragment extends Fragment implements View.OnClickListener{
     private LocationModel location;
     private EditText title;
     private View currentView;
@@ -58,8 +59,6 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
     private String selectedDate;
     private TextView textDateDisplay;
     private CheckBox checkBoxAddCalendar;
-
-    private static final int PERMISSION_FOR_CALENDAR = 100;
 
     public OccasionAddFragment() {}
 
@@ -101,23 +100,28 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
         Button buttonAddItems = (Button) view.findViewById(R.id.buttonAddItems);
         Button buttonEnterLocation = (Button) view.findViewById(R.id.buttonEnterLocation);
         Button buttonChooseDate = (Button) view.findViewById(R.id.buttonPickADate);
+        Button buttonClearPendingItems = (Button) view.findViewById(R.id.buttonClearPendingItems);
 
-        checkBoxAddCalendar.setOnCheckedChangeListener(this);
         buttonSave.setOnClickListener(this);
         buttonCancel.setOnClickListener(this);
         buttonAddItems.setOnClickListener(this);
         buttonEnterLocation.setOnClickListener(this);
         buttonChooseDate.setOnClickListener(this);
 
-        locationViewModel.getLocation().observe(getViewLifecycleOwner(), locationModel -> {
-            location = locationModel;
-            if(location != null){
-                locationAdded.setText("Location added!");
+        buttonClearPendingItems.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemsViewModel.deletePendingItems();
             }
         });
 
+        locationViewModel.getLocation().observe(getViewLifecycleOwner(), locationModel -> {
+            this.location = locationModel;
+            locationAdded.setText(location.getAdress());
+        });
+
         dateViewModel.getDate().observe(getViewLifecycleOwner(), date -> {
-            selectedDate = date;
+            this.selectedDate = date;
             textDateDisplay.setText(date);
         });
 
@@ -125,43 +129,6 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
             int size = itemModels.size();
             textTotalItems.setText(String.valueOf(size));
         });
-    }
-
-    private void requestWritePermission() {
-        if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.WRITE_CALENDAR)){
-            new AlertDialog.Builder(getContext())
-                    .setTitle("Permission needed")
-                    .setMessage("This permission is required to write to calendar")
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_CALENDAR}, PERMISSION_FOR_CALENDAR);
-                        }
-                    })
-                    .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            checkBoxAddCalendar.setChecked(false);
-                        }
-                    })
-                    .create().show();
-
-        } else{
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_CALENDAR}, PERMISSION_FOR_CALENDAR);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode == PERMISSION_FOR_CALENDAR){
-            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                Toast.makeText(getActivity(), "Permission granted", Toast.LENGTH_SHORT).show();
-            }else {
-                Toast.makeText(getActivity(), "Permission denied", Toast.LENGTH_SHORT).show();
-                checkBoxAddCalendar.setChecked(false);
-            }
-        }
     }
 
     @Override
@@ -176,18 +143,6 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
                     occasionModel.setLocationModel(location);
                     occasionViewModel.insert(occasionModel);
 
-                    if(checkBoxAddCalendar.isChecked()){
-                        if (checkSelfPermission(getContext(), Manifest.permission.WRITE_CALENDAR)
-                                == PackageManager.PERMISSION_GRANTED) {
-                            insertCalendar(occasionModel);
-                            Toast.makeText(getActivity(), "Added event in calendar.", Toast.LENGTH_LONG).show();
-
-                        }
-                        else{
-                            Toast.makeText(getActivity(), "Could not add event in calendar", Toast.LENGTH_LONG).show();
-                        }
-                    }
-
                     Navigation.findNavController(currentView).navigate(R.id.action_occasionAddFragment_to_tabViewFragment);
                 }
                 else{
@@ -200,7 +155,7 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
                 }
                 break;
             case R.id.buttonCancel:
-                itemsViewModel.deletePendingItems();
+
                 Navigation.findNavController(view).navigate(R.id.action_occasionAddFragment_to_tabViewFragment);
                 break;
             case R.id.buttonAddItems:
@@ -215,42 +170,6 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
                 DialogDatePicker datePickerDialog = new DialogDatePicker();
                 datePickerDialog.show(getChildFragmentManager(), "Test");
                 break;
-        }
-    }
-
-    private void insertCalendar(OccasionModel occasionModel){
-        long calID = 3;
-        long startMillis = 0;
-        long endMillis = 0;
-        Calendar beginTime = Calendar.getInstance();
-        beginTime.set(2021, 2, 24, 0, 0);
-        startMillis = beginTime.getTimeInMillis();
-        Calendar endTime = Calendar.getInstance();
-        endTime.set(2012, 2, 24, 23, 59);
-        endMillis = endTime.getTimeInMillis();
-
-        ContentResolver cr = getContext().getContentResolver();
-        ContentValues values = new ContentValues();
-        values.put(CalendarContract.Events.DTSTART, startMillis);
-        values.put(CalendarContract.Events.DTEND, endMillis);
-        values.put(CalendarContract.Events.TITLE, "Jazzercise");
-        values.put(CalendarContract.Events.DESCRIPTION, "Group workout");
-        values.put(CalendarContract.Events.CALENDAR_ID, calID);
-        values.put(CalendarContract.Events.EVENT_TIMEZONE, "America/Los_Angeles");
-        Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
-
-        long eventID = Long.parseLong(uri.getLastPathSegment());
-    }
-
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if(isChecked){
-            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(getActivity(), "You have already granted", Toast.LENGTH_SHORT).show();
-            }
-            else {
-                requestWritePermission();
-            }
         }
     }
 }

@@ -44,7 +44,7 @@ public class ListFragmentHistory extends Fragment {
         occasionViewModel = new ViewModelProvider(this).get(OccasionViewModel.class);
         filterSelectionViewModel = new ViewModelProvider(getActivity()).get(FilterSelectionViewModel.class);
         occasionModels = new ArrayList<>();
-        historyRecyclerViewAdapter = new HistoryRecyclerViewAdapter(getContext(), occasionModels);
+        historyRecyclerViewAdapter = new HistoryRecyclerViewAdapter(getContext(), occasionModels, this);
     }
 
     @Override

@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,8 +57,16 @@ public class DialogAddLocation extends DialogFragment implements View.OnClickLis
     private TextView valueTypeOfLocationAccuracy;
     private TextView valueAddress;
 
+    private double latitude;
+    private double longitude;
+    private double altitude;
+    private double accuarcy;
+    private String address;
+
     private SwitchCompat slideLocation;
     private SwitchCompat slideLocationMode;
+
+    private Button saveButton;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -88,7 +95,12 @@ public class DialogAddLocation extends DialogFragment implements View.OnClickLis
 
     private void initializeFields(View view) {
         Button backButton = (Button) view.findViewById(R.id.buttonBackLocation);
-        Button saveButton = (Button) view.findViewById(R.id.buttonSaveLocation);
+        saveButton = (Button) view.findViewById(R.id.buttonSaveLocation);
+        saveButton.setEnabled(false);
+
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            saveButton.setEnabled(true);
+        }
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,13 +112,7 @@ public class DialogAddLocation extends DialogFragment implements View.OnClickLis
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                double latitude = valueLatitude.getText() == "No latitude detected" ? Double.valueOf(String.valueOf(valueLatitude.getText())) : 0.0;
-                double longitude = valueLongitude.getText() == "No longitude detected" ? Double.valueOf(String.valueOf(valueLongitude.getText())) : 0.0;
-                double altitude = valueAltitude.getText() == "No altitude detected" ? Double.valueOf(String.valueOf(valueAltitude.getText())): 0.0;
-                double accuracy = valueAccuracy.getText() == "No accuracy detected" ? Double.valueOf(String.valueOf(valueAccuracy.getText())) : 0.0;
-                String address = valueAddress.getText() == "No accuracy detected" ? valueAddress.getText().toString() : "No address";
-
-                LocationModel model = new LocationModel(latitude, longitude, altitude, accuracy, address);
+                LocationModel model = new LocationModel(latitude, longitude, altitude, accuarcy, address);
                 locationViewModel.setLocation(model);
                 stopLocationUpdate();
                 dismiss();
@@ -162,9 +168,9 @@ public class DialogAddLocation extends DialogFragment implements View.OnClickLis
         if (requestCode == PERMISSION_FOR_FINE_LOCATION) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 initializeGPSCapabilities();
+                saveButton.setEnabled(true);
             } else {
-                Toast.makeText(getContext(), "This app can't operate without your permission!", Toast.LENGTH_SHORT).show();
-                //finish();
+                Toast.makeText(getContext(), "Permission was not granted!", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -176,24 +182,28 @@ public class DialogAddLocation extends DialogFragment implements View.OnClickLis
 
     private void updateAllFields(Location location) {
         if(location != null){
-            String latitude = String.valueOf(location.getLatitude());
-            String longitude = String.valueOf(location.getLongitude());
+            latitude = Double.valueOf(String.valueOf(location.getLatitude()));
+            longitude = Double.valueOf(String.valueOf(location.getLongitude()));
 
-            valueLatitude.setText(latitude);
-            valueLongitude.setText(longitude);
+            valueLatitude.setText(String.valueOf(latitude));
+            valueLongitude.setText(String.valueOf(longitude));
 
             if (location.hasAltitude()) {
-                String altitude = String.valueOf(location.getAltitude());
-                valueAltitude.setText(altitude);
+                String altitudeText = String.valueOf(location.getAltitude());
+                valueAltitude.setText(altitudeText);
+                altitude = Double.valueOf(String.valueOf(location.getAltitude()));
             } else {
                 valueAltitude.setText("No altitude detected.");
+                altitude = 0.0;
             }
 
             if (location.hasAccuracy()) {
                 String Accuracy = String.valueOf(location.getAccuracy());
                 valueAccuracy.setText(Accuracy);
+                accuarcy = Double.valueOf(String.valueOf(location.getAccuracy()));
             } else {
                 valueAccuracy.setText("No accuracy detected.");
+                accuarcy = 0.0;
             }
 
             Geocoder geocoder = new Geocoder(getActivity());
@@ -201,6 +211,7 @@ public class DialogAddLocation extends DialogFragment implements View.OnClickLis
             try {
                 List<Address> locations = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                 valueAddress.setText(locations.get(0).getAddressLine(0));
+                address = (locations.get(0).getAddressLine(0));
             } catch (IOException e) {
                 valueAddress.setText("Adress failed to fetch.");
             }

@@ -1,5 +1,7 @@
 package com.example.paybuddy.History.List;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 
 import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.Models.OccasionModel;
+import com.example.paybuddy.Occasions.Dialogs.DialogPreviewOccasion;
 import com.example.paybuddy.R;
 
 import java.util.ArrayList;
@@ -23,11 +26,13 @@ public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecy
     private List<OccasionModel> filteredItems;
     private List<OccasionModel> items;
     private Context context;
+    private Fragment fragment;
 
-    public HistoryRecyclerViewAdapter(Context context, List<OccasionModel> items) {
+    public HistoryRecyclerViewAdapter(Context context, List<OccasionModel> items, Fragment fragment) {
         this.filteredItems = new ArrayList<>();
         this.context = context;
         this.items = items;
+        this.fragment = fragment;
     }
 
     public void addItems(List<OccasionModel> items){
@@ -52,6 +57,14 @@ public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecy
         for(ItemModel item : occasionModel.getItems()){
             cost += item.getPrice() * item.getQuantity();
         }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogPreviewOccasion dialogFragment = new DialogPreviewOccasion(occasionModel);
+                dialogFragment.show(fragment.getChildFragmentManager(), "Test");
+            }
+        });
 
         holder.textView_list_history_title.setText(occasionModel.getDescription());
         holder.textView_list_history_expiringDate_value.setText(occasionModel.getDate());

@@ -1,5 +1,6 @@
 package com.example.paybuddy.TimesUp.TimesUp.List;
 
+import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,6 +16,8 @@ import android.widget.TextView;
 
 import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.Models.OccasionModel;
+import com.example.paybuddy.Occasions.Dialogs.DialogMakeExpired;
+import com.example.paybuddy.Occasions.Dialogs.DialogPreviewOccasion;
 import com.example.paybuddy.R;
 import com.example.paybuddy.Viewmodels.ItemsViewModel;
 import com.example.paybuddy.Viewmodels.LocationViewModel;
@@ -32,19 +35,20 @@ public class TimesUpRecyclerViewAdapter extends RecyclerView.Adapter<TimesUpRecy
     private OccasionViewModel occasionViewModel;
     private LocationViewModel locationViewModel;
     private ItemsViewModel itemsViewModel;
-    private Context context;
+    private Fragment fragment;
 
     public TimesUpRecyclerViewAdapter(List<OccasionModel> items,
                                       OccasionViewModel occasionViewModel,
                                       ItemsViewModel itemsViewModel,
                                       LocationViewModel locationViewModel,
-                                      Context context) {
+                                      Fragment currentFragment)
+    {
         this.items = items;
         this.filteredItems = new ArrayList<>();
         this.occasionViewModel = occasionViewModel;
         this.itemsViewModel = itemsViewModel;
         this.locationViewModel = locationViewModel;
-        this.context = context;
+        this.fragment = currentFragment;
     }
 
     public void addItems(List<OccasionModel> items){
@@ -72,6 +76,14 @@ public class TimesUpRecyclerViewAdapter extends RecyclerView.Adapter<TimesUpRecy
         for(ItemModel item : occasionModel.getItems()){
             cost += item.getPrice() * item.getQuantity();
         }
+
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogPreviewOccasion dialogMakeExpired = new DialogPreviewOccasion(occasionModel);
+                dialogMakeExpired.show(fragment.getChildFragmentManager(), "Test");
+            }
+        });
 
         holder.buttonRemove.setOnClickListener(new View.OnClickListener() {
             @Override
