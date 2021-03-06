@@ -67,12 +67,10 @@ public class ListFragmentDuePayment extends Fragment {
         occasionViewModel.getExpiredOccasions().observe(getViewLifecycleOwner(), new Observer<List<OccasionWithItems>>() {
             @Override
             public void onChanged(List<OccasionWithItems> occasionWithItems) {
-                Log.d("Due data received", "..." + String.valueOf(occasionWithItems.size()));
                 List<OccasionModel> occasionModels = new ArrayList<>();
                 for(OccasionWithItems occasionModel : occasionWithItems){
                     OccasionModel aOccasionModel = occasionModel.occasionModel;
                     aOccasionModel.setItems(occasionModel.itemModelList);
-                    Log.d("Due data :", aOccasionModel.getDescription());
 
                     occasionModels.add(aOccasionModel);
                 }

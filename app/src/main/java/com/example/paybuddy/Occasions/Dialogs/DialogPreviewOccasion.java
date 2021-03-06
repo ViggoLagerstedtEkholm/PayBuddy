@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -13,20 +14,25 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.paybuddy.Viewmodels.ItemsViewModel;
 import com.example.paybuddy.Viewmodels.OccasionViewModel;
 import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.R;
 
-public class DialogPreviewOccasion  extends DialogFragment {
+import java.util.ArrayList;
+
+public class DialogPreviewOccasion extends DialogFragment {
     private OccasionModel occasionModel;
     private RecyclerView recyclerView;
     private PreviewRecyclerViewAdapter recyclerViewAdapter;
     private OccasionViewModel occasionViewModel;
+    private ItemsViewModel itemsViewModel;
     private static final String ARG_COLUMN_COUNT = "column-count";
     private int mColumnCount = 1;
 
@@ -39,7 +45,8 @@ public class DialogPreviewOccasion  extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        occasionViewModel = new ViewModelProvider(requireParentFragment()).get(OccasionViewModel.class);
+        occasionViewModel = new ViewModelProvider(getActivity()).get(OccasionViewModel.class);
+        itemsViewModel = new ViewModelProvider(getActivity()).get(ItemsViewModel.class);
 
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
@@ -57,27 +64,41 @@ public class DialogPreviewOccasion  extends DialogFragment {
 
         TextView textViewPreviewTitle = (TextView) view.findViewById(R.id.textViewPreviewTitle);
         TextView textViewPreviewExpiringDate = (TextView) view.findViewById(R.id.textViewPreviewExpiringDate);
-        TextView textViewPreviewTotalCost = (TextView) view.findViewById(R.id.textViewPreviewTotalCost);
         TextView textViewPreviewPeople = (TextView) view.findViewById(R.id.textViewPreviewPeople);
+        TextView textViewPreviewTotalCost = (TextView) view.findViewById(R.id.textViewPreviewTotalCost);
 
-        double totalCost = 0.0;
-        String people = "";
+        textViewPreviewTotalCost.setText("0.0");
 
-        for(ItemModel aModel : occasionModel.getItems())
-        {
-            totalCost += aModel.getPrice() * aModel.getQuantity();
-            if(occasionModel.getItems().size() < 3) {
-                people += aModel.getAssignedPerson() + ", ";
+        itemsViewModel.getOccasionTotalCost(occasionModel.getID()).observe(this, cost -> {
+            if(cost != null){
+                textViewPreviewTotalCost.setText(Double.toString(cost.doubleValue()));
             }
-            else{
-                people = "More than 3 people...";
+        });
+
+        itemsViewModel.getPeopleOccasion(occasionModel.getID()).observe(this, people -> {
+            if(people != null){
+                String personNames = "";
+                if(people.size() < 3){
+                    for(String person : people){
+                        Log.d("Person: ", person);
+                        personNames += " [" + person + "] ";
+                    }
+                }else if(people.size() == 0){
+                    personNames = "Empty";
+                }
+                else{
+                    personNames = "More than 3 people...";
+                }
+                textViewPreviewPeople.setText(personNames);
             }
-        }
+        });
+
+        itemsViewModel.getOccasionItems(occasionModel.getID()).observe(this, items ->{
+            recyclerViewAdapter.addItems(items);
+        });
 
         textViewPreviewTitle.setText(occasionModel.getDescription());
         textViewPreviewExpiringDate.setText(occasionModel.getDate());
-        textViewPreviewTotalCost.setText(Double.toString(totalCost));
-        textViewPreviewPeople.setText(people);
 
         Button buttonBackFromPreview = (Button) view.findViewById(R.id.buttonBackFromPreview);
         buttonBackFromPreview.setOnClickListener(new View.OnClickListener() {
@@ -101,7 +122,7 @@ public class DialogPreviewOccasion  extends DialogFragment {
         recyclerView = view.findViewById(R.id.activity_main_rv);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerViewAdapter = new PreviewRecyclerViewAdapter(occasionModel.getItems(), occasionViewModel);
+        recyclerViewAdapter = new PreviewRecyclerViewAdapter(new ArrayList<>(), occasionViewModel, itemsViewModel);
         recyclerView.setAdapter(recyclerViewAdapter);
     }
 }

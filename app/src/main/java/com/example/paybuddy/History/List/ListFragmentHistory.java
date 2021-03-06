@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.paybuddy.Viewmodels.ItemsViewModel;
 import com.example.paybuddy.Viewmodels.OccasionViewModel;
 import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.Models.OccasionWithItems;
@@ -31,6 +32,7 @@ public class ListFragmentHistory extends Fragment {
 
     private int mColumnCount = 1;
     private OccasionViewModel occasionViewModel;
+    private ItemsViewModel itemsViewModel;
     private FilterSelectionViewModel filterSelectionViewModel;
     private HistoryRecyclerViewAdapter historyRecyclerViewAdapter;
     private List<OccasionModel> occasionModels;
@@ -42,9 +44,10 @@ public class ListFragmentHistory extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         occasionViewModel = new ViewModelProvider(this).get(OccasionViewModel.class);
+        itemsViewModel = new ViewModelProvider(this).get(ItemsViewModel.class);
         filterSelectionViewModel = new ViewModelProvider(getActivity()).get(FilterSelectionViewModel.class);
         occasionModels = new ArrayList<>();
-        historyRecyclerViewAdapter = new HistoryRecyclerViewAdapter(getContext(), occasionModels, this);
+        historyRecyclerViewAdapter = new HistoryRecyclerViewAdapter(getContext(), occasionModels, this, itemsViewModel);
     }
 
     @Override
@@ -55,7 +58,6 @@ public class ListFragmentHistory extends Fragment {
         occasionViewModel.getPaidOccasions().observe(getActivity(), new Observer<List<OccasionWithItems>>() {
             @Override
             public void onChanged(List<OccasionWithItems> occasionWithItems) {
-                Log.d("History data received", "..." + String.valueOf(occasionWithItems.size()));
                 List<OccasionModel> occasionModels = new ArrayList<>();
 
                 for(OccasionWithItems occasionModel : occasionWithItems){

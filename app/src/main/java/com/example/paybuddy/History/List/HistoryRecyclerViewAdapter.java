@@ -18,6 +18,7 @@ import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.Occasions.Dialogs.DialogPreviewOccasion;
 import com.example.paybuddy.R;
+import com.example.paybuddy.Viewmodels.ItemsViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,12 +28,14 @@ public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecy
     private List<OccasionModel> items;
     private Context context;
     private Fragment fragment;
+    private ItemsViewModel itemViewModel;
 
-    public HistoryRecyclerViewAdapter(Context context, List<OccasionModel> items, Fragment fragment) {
+    public HistoryRecyclerViewAdapter(Context context, List<OccasionModel> items, Fragment fragment, ItemsViewModel itemViewModel) {
         this.filteredItems = new ArrayList<>();
         this.context = context;
         this.items = items;
         this.fragment = fragment;
+        this.itemViewModel = itemViewModel;
     }
 
     public void addItems(List<OccasionModel> items){
@@ -48,15 +51,15 @@ public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecy
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        Log.d("count", String.valueOf(items.size()));
         OccasionModel occasionModel = items.get(position);
         holder.mItem = items.get(position);
-        String people = "";
-        double cost = 0.0;
 
-        for(ItemModel item : occasionModel.getItems()){
-            cost += item.getPrice() * item.getQuantity();
-        }
+        itemViewModel.getOccasionTotalCost(occasionModel.getID()).observe(fragment.getViewLifecycleOwner(), totalCost -> {
+            if(totalCost != null){
+                double cost = totalCost.doubleValue();
+                holder.textView_list_history_sum_of_items_value.setText(Double.toString(cost));
+            }
+        });
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,10 +69,15 @@ public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecy
             }
         });
 
+        itemViewModel.getOccasionItems(occasionModel.getID()).observe(fragment.getViewLifecycleOwner(), items -> {
+            if(items != null){
+                int count = items.size();
+                holder.textView_list_history_names_value.setText(String.valueOf(count));
+            }
+        });
+
         holder.textView_list_history_title.setText(occasionModel.getDescription());
         holder.textView_list_history_expiringDate_value.setText(occasionModel.getDate());
-        holder.textView_list_history_sum_of_items_value.setText(Double.toString(cost));
-        holder.textView_list_history_names_value.setText("TODO");
     }
 
     @Override

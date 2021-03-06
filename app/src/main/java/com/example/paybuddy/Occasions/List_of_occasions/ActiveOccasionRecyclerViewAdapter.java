@@ -3,7 +3,6 @@ package com.example.paybuddy.Occasions.List_of_occasions;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 
 import com.example.paybuddy.Occasions.Dialogs.DialogMakeExpired;
 import com.example.paybuddy.Viewmodels.ItemsViewModel;
-import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.Occasions.Dialogs.DialogPreviewOccasion;
 import com.example.paybuddy.R;
@@ -24,9 +22,6 @@ import com.example.paybuddy.Viewmodels.OccasionViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * TODO: Replace the implementation with code for your data type.
- */
 public class ActiveOccasionRecyclerViewAdapter extends RecyclerView.Adapter<ActiveOccasionRecyclerViewAdapter.ViewHolder> implements Filterable {
     private List<OccasionModel> items;
     private List<OccasionModel> filteredItems;
@@ -34,8 +29,6 @@ public class ActiveOccasionRecyclerViewAdapter extends RecyclerView.Adapter<Acti
     private final OccasionViewModel occasionViewModel;
     private final ItemsViewModel itemsViewModel;
     private final LocationViewModel locationViewModel;
-    private TextView imageView;
-    private RecyclerView recyclerView;
 
     public ActiveOccasionRecyclerViewAdapter(List<OccasionModel> items,
                                              Fragment currentFragment,
@@ -67,18 +60,22 @@ public class ActiveOccasionRecyclerViewAdapter extends RecyclerView.Adapter<Acti
     public void onBindViewHolder(final ViewHolder holder, int position) {
         OccasionModel occasionModel = items.get(position);
         holder.mItem = items.get(position);
-        String people = "";
-        double cost = 0.0;
-
-        for(ItemModel item : occasionModel.getItems()){
-            cost += item.getPrice() * item.getQuantity();
-        }
 
         holder.titleOfMyOccasion.setText(occasionModel.getDescription());
         holder.textViewDateOccasionCard.setText(occasionModel.getDate());
+        holder.textViewPeopleOccasionCard.setText("0");
 
-        holder.textViewSumOfItemsOccasionCard.setText(Double.toString(cost));
-        holder.textViewPeopleOccasionCard.setText("TODO");
+        itemsViewModel.getOccasionTotalCost(occasionModel.getID()).observe(currentFragment.getViewLifecycleOwner(), totalCost -> {
+            if(totalCost != null){
+                double cost = totalCost.doubleValue();
+                holder.textViewSumOfItemsOccasionCard.setText(Double.toString(cost));
+            }
+        });
+
+        itemsViewModel.getOccasionItems(occasionModel.getID()).observe(currentFragment.getViewLifecycleOwner(), people -> {
+            int count = people.size();
+            holder.textViewPeopleOccasionCard.setText(String.valueOf(count));
+        });
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override

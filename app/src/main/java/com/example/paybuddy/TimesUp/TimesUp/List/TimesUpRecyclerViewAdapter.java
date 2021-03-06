@@ -67,15 +67,21 @@ public class TimesUpRecyclerViewAdapter extends RecyclerView.Adapter<TimesUpRecy
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         OccasionModel occasionModel = items.get(position);
-        Log.d("Item content due:", String.valueOf(occasionModel.getID()));
-
         holder.mItem = items.get(position);
 
-        double cost = 0.0;
+        itemsViewModel.getOccasionTotalCost(occasionModel.getID()).observe(fragment.getViewLifecycleOwner(), totalCost -> {
+            if(totalCost != null){
+                double cost = totalCost.doubleValue();
+                holder.textView_list_due_payment_sum_of_items_value.setText(Double.toString(cost));
+            }
+        });
 
-        for(ItemModel item : occasionModel.getItems()){
-            cost += item.getPrice() * item.getQuantity();
-        }
+        itemsViewModel.getOccasionItems(occasionModel.getID()).observe(fragment.getViewLifecycleOwner(), items -> {
+            if(items != null){
+                int count = items.size();
+                holder.textView_list_due_payment_names_value.setText(String.valueOf(count));
+            }
+        });
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,8 +118,6 @@ public class TimesUpRecyclerViewAdapter extends RecyclerView.Adapter<TimesUpRecy
 
         holder.textView_list_due_payment_title.setText(occasionModel.getDescription());
         holder.textView_list_due_payment_expiringDate_value.setText(occasionModel.getDate());
-        holder.textView_list_due_payment_sum_of_items_value.setText(Double.toString(cost));
-        holder.textView_list_due_payment_names_value.setText("TODO");
     }
 
     @Override

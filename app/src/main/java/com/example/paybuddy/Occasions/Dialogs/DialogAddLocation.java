@@ -206,9 +206,8 @@ public class DialogAddLocation extends DialogFragment implements View.OnClickLis
                 accuarcy = 0.0;
             }
 
-            Geocoder geocoder = new Geocoder(getActivity());
-
             try {
+                Geocoder geocoder = new Geocoder(getActivity());
                 List<Address> locations = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                 valueAddress.setText(locations.get(0).getAddressLine(0));
                 address = (locations.get(0).getAddressLine(0));

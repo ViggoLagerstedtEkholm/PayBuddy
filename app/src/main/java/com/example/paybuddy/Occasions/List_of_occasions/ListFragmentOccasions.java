@@ -28,9 +28,6 @@ import com.example.paybuddy.Search.SearchViewModels.FilterSelectionViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A fragment representing a list of Items.
- */
 public class ListFragmentOccasions extends Fragment {
     private int mColumnCount = 1;
     private OccasionViewModel occasionViewModel;
@@ -60,8 +57,6 @@ public class ListFragmentOccasions extends Fragment {
         occasionViewModel.getActiveOccasions().observe(getViewLifecycleOwner(), new Observer<List<OccasionWithItems>>() {
             @Override
             public void onChanged(List<OccasionWithItems> occasionWithItems) {
-                Log.d("Occasion data received", "..." + String.valueOf(occasionWithItems.size()));
-
                 List<OccasionModel> occasionModels = new ArrayList<>();
                 for(OccasionWithItems occasionModel : occasionWithItems){
                     OccasionModel aOccasionModel = occasionModel.occasionModel;

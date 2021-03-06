@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.paybuddy.Viewmodels.ItemsViewModel;
 import com.example.paybuddy.Viewmodels.OccasionViewModel;
 import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.R;
@@ -21,10 +22,12 @@ public class PreviewRecyclerViewAdapter extends RecyclerView.Adapter<PreviewRecy
 
     private List<ItemModel> items;
     private OccasionViewModel occasionViewModel;
+    private ItemsViewModel itemViewModel;
 
-    public PreviewRecyclerViewAdapter(List<ItemModel> items, OccasionViewModel occasionViewModel) {
+    public PreviewRecyclerViewAdapter(List<ItemModel> items, OccasionViewModel occasionViewModel, ItemsViewModel itemViewModel) {
         this.items = items;
         this.occasionViewModel = occasionViewModel;
+        this.itemViewModel = itemViewModel;
     }
 
     public void addItems(List<ItemModel> itemModels){
@@ -56,9 +59,7 @@ public class PreviewRecyclerViewAdapter extends RecyclerView.Adapter<PreviewRecy
         holder.deleteItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                items.remove(position);
-
-                notifyDataSetChanged();
+                itemViewModel.delete(itemModel);
             }
         });
     }
