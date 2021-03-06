@@ -73,8 +73,17 @@ public abstract class ItemsDAO {
             "WHERE IsPaid = "+ '0' + " AND occasionID != " + -1)
     public abstract LiveData<Integer> getTotalCost();
 
+    @Query("SELECT SUM(PRICE * QUANTITY) FROM Item_table WHERE occasionID = :id")
+    public abstract LiveData<Integer> getOccasionTotalCost(double id);
+
     @Query("SELECT * FROM ITEM_TABLE WHERE occasionID = '-1'")
     public abstract LiveData<List<ItemModel>> getPendingItems();
+
+    @Query("SELECT assignedPerson FROM Item_table WHERE occasionID = :ID")
+    public abstract LiveData<List<String>> getPeopleOccasion(double ID);
+
+    @Query("SELECT * FROM item_table WHERE occasionID = :ID")
+    public abstract LiveData<List<ItemModel>> getOccasionItems(double ID);
 
     public void updateItemsAndOccasion(List<ItemModel> itemModels, long id){
         for(ItemModel itemModel : itemModels){

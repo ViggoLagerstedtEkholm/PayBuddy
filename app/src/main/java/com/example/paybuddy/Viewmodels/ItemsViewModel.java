@@ -49,6 +49,18 @@ public class ItemsViewModel extends AndroidViewModel {
 
     public LiveData<List<ItemModel>> getPendingItems(){return pendingItems;}
 
+    public LiveData<Integer> getOccasionTotalCost(double ID){
+        return itemsRepository.getOccasionTotalCost(ID);
+    }
+
+    public LiveData<List<String>> getPeopleOccasion(double ID){
+        return itemsRepository.getPeopleOccasion(ID);
+    }
+
+    public LiveData<List<ItemModel>> getOccasionItems(double ID){
+        return itemsRepository.getOccasionItems(ID);
+    }
+
     public void deleteAllItems(Repository.DELETE_TYPE delete_type){
         itemsRepository.deleteAll(delete_type);
     }

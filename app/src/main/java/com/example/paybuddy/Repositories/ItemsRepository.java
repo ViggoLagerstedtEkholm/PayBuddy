@@ -60,6 +60,18 @@ public class ItemsRepository extends Repository<ItemModel>{
 
     public LiveData<List<ItemModel>> getPendingItems(){return pendingItems;}
 
+    public LiveData<List<String>> getPeopleOccasion(double ID){
+        return itemsDAO.getPeopleOccasion(ID);
+    }
+
+    public LiveData<Integer> getOccasionTotalCost(double ID){
+        return itemsDAO.getOccasionTotalCost(ID);
+    }
+
+    public LiveData<List<ItemModel>> getOccasionItems(double ID){
+        return itemsDAO.getOccasionItems(ID);
+    }
+
     @Override
     public LiveData<List<ItemModel>> getAll() {
         return items;
