@@ -59,6 +59,7 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
     private String selectedDate;
     private TextView textDateDisplay;
     private CheckBox checkBoxAddCalendar;
+    private boolean hasItems;
 
     public OccasionAddFragment() {}
 
@@ -128,6 +129,12 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
         itemsViewModel.getPendingItems().observe(getViewLifecycleOwner(), itemModels -> {
             int size = itemModels.size();
             textTotalItems.setText(String.valueOf(size));
+
+            if(size > 0){
+                hasItems = true;
+            }else{
+                hasItems = false;
+            }
         });
     }
 
@@ -135,7 +142,7 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
     public void onClick(View view) {
         switch(view.getId()){
             case R.id.buttonEnter:
-                if(Validator.EditTextHasValues(editTexts) && location != null && selectedDate != "" && itemsViewModel.getPendingItems().getValue().size() > 0)
+                if(Validator.EditTextHasValues(editTexts) && location != null && selectedDate != "" && hasItems)
                 {
                     String occasionTitle = title.getText().toString();
                     OccasionModel occasionModel = new OccasionModel(selectedDate, occasionTitle,false, false);
