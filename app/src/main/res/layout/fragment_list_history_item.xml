@@ -15,7 +15,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="135dp"
         android:layout_margin="4dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,29 +24,16 @@
             android:background="@drawable/card_outline">
 
             <TextView
-                android:id="@+id/textView_list_history_title_text"
-                android:layout_width="70dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginLeft="12dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/title"
-                android:textColor="@color/mainText"
-                android:textSize="15sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
                 android:id="@+id/textView_list_history_price_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginLeft="12dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/price"
                 android:textColor="@color/mainText"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView_list_history_title_text" />
+                app:layout_constraintTop_toBottomOf="@+id/textView_list_history_title" />
 
             <TextView
                 android:id="@+id/textView_list_history_names_text"
@@ -54,11 +41,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginLeft="12dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:text="@string/NameOfPerson"
+                android:layout_marginTop="8dp"
+                android:text="@string/total_items"
                 android:textColor="@color/mainText"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView_list_history_expiringDate_text" />
 
@@ -68,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginLeft="12dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/ExpiringDate"
                 android:textColor="@color/mainText"
                 app:layout_constraintStart_toStartOf="parent"
@@ -90,14 +75,14 @@
                 android:id="@+id/textView_list_history_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/Title"
                 android:textColor="@color/mainText"
-                android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="@+id/textView_list_history_title_text"
-                app:layout_constraintStart_toEndOf="@+id/textView_list_history_title_text"
-                app:layout_constraintTop_toTopOf="@+id/textView_list_history_title_text" />
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textView_list_history_names_value"
@@ -105,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
-                android:text="@string/NameOfAllPeople"
+                android:text="@string/_0_00"
                 android:textColor="@color/mainText"
                 app:layout_constraintBottom_toBottomOf="@+id/textView_list_history_names_text"
                 app:layout_constraintStart_toEndOf="@+id/textView_list_history_names_text"
@@ -130,9 +115,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginBottom="123dp"
                 android:contentDescription="@string/history_icon"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_baseline_history_24" />

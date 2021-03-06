@@ -17,11 +17,16 @@
             android:background="@color/mainBackground"
             android:theme="@style/AppTheme">
 
-            <ImageView
-                android:id="@+id/imageView16"
+            <TextView
+                android:id="@+id/textView14"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                app:srcCompat="@drawable/ic_group_1__1___1_" />
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:fontFamily="sans-serif-smallcaps"
+                android:gravity="center_horizontal"
+                android:text="PayBuddy"
+                android:textColor="@color/mainText"
+                android:textSize="30sp" />
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabs"

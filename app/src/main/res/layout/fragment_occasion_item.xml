@@ -15,7 +15,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="226dp"
+        android:layout_height="190dp"
         android:layout_margin="4dp"
         android:background="@drawable/card_outline">
 
@@ -24,43 +24,30 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/titleOfMyOccasion2"
-                android:layout_width="70dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="15dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/title"
-                android:textColor="@color/mainText"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
                 android:id="@+id/textView20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/price"
                 android:textColor="@color/mainText"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/titleOfMyOccasion2" />
+                app:layout_constraintTop_toBottomOf="@+id/titleOfMyOccasion" />
 
             <TextView
                 android:id="@+id/textView21"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
                 android:layout_marginTop="8dp"
-                android:text="@string/NameOfPerson"
+                android:text="@string/total_items"
                 android:textColor="@color/mainText"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewDateOccasionCard" />
+                app:layout_constraintTop_toBottomOf="@+id/textView23" />
 
             <Button
                 android:id="@+id/buttonRemoveItem"
@@ -68,34 +55,35 @@
                 android:layout_height="42dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="4dp"
                 android:layout_marginRight="4dp"
-                android:layout_marginBottom="8dp"
                 android:background="@drawable/button_background"
                 android:text="@string/remove"
                 android:textColor="@color/buttonText"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/buttonRegisterPaid"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView21" />
 
             <TextView
                 android:id="@+id/textViewDateOccasionCard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
                 android:text="@string/ExpiringDate"
                 android:textColor="@color/mainText"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView23" />
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/textView23"
+                app:layout_constraintStart_toEndOf="@+id/textView23"
+                app:layout_constraintTop_toTopOf="@+id/textView23" />
 
             <TextView
                 android:id="@+id/textViewSumOfItemsOccasionCard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
                 android:text="@string/SUM_OF_ITEMS_COST"
                 android:textColor="@color/mainText"
                 app:layout_constraintBottom_toBottomOf="@+id/textView20"
@@ -106,22 +94,22 @@
                 android:id="@+id/titleOfMyOccasion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/Title"
                 android:textColor="@color/mainText"
-                android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="@+id/titleOfMyOccasion2"
-                app:layout_constraintStart_toEndOf="@+id/titleOfMyOccasion2"
-                app:layout_constraintTop_toTopOf="@+id/titleOfMyOccasion2" />
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textViewPeopleOccasionCard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:text="@string/NameOfAllPeople"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:text="@string/_0_00"
                 android:textColor="@color/mainText"
                 app:layout_constraintBottom_toBottomOf="@+id/textView21"
                 app:layout_constraintStart_toEndOf="@+id/textView21"
@@ -131,8 +119,8 @@
                 android:id="@+id/textView23"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/ExpiringDate"
                 android:textColor="@color/mainText"
@@ -148,13 +136,12 @@
                 android:layout_marginLeft="4dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginBottom="8dp"
                 android:background="@drawable/button_background"
                 android:text="@string/Paid"
                 android:textColor="@color/buttonText"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/buttonRemoveItem" />
+                app:layout_constraintStart_toEndOf="@+id/buttonRemoveItem"
+                app:layout_constraintTop_toTopOf="@+id/buttonRemoveItem" />
 
             <ImageView
                 android:id="@+id/imageView8"
@@ -163,9 +150,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginBottom="120dp"
                 android:contentDescription="@string/occasion_icon"
-                app:layout_constraintBottom_toTopOf="@+id/buttonRegisterPaid"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_baseline_pending_actions_24" />
