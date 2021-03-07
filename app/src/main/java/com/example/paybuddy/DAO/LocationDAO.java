@@ -50,9 +50,6 @@ public abstract class LocationDAO {
                                 "WHERE IsPaid = " + 0 + " AND IsExpired = " + 0 + ")")
     public abstract void deleteLocationUnPaid();
 
-    @Query("SELECT * FROM location_table ORDER BY ID DESC")
-    public abstract LiveData<List<LocationModel>> getAllOccasions();
-
     public void insertLocation(LocationModel locationModel, long id){
         locationModel.setOccasionID(id);
         insert(locationModel);
