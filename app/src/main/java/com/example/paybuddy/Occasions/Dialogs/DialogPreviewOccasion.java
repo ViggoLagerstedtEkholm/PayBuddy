@@ -34,7 +34,6 @@ public class DialogPreviewOccasion extends DialogFragment {
     private OccasionViewModel occasionViewModel;
     private ItemsViewModel itemsViewModel;
     private static final String ARG_COLUMN_COUNT = "column-count";
-    private int mColumnCount = 1;
 
     public DialogPreviewOccasion(){}
 
@@ -47,10 +46,6 @@ public class DialogPreviewOccasion extends DialogFragment {
         super.onCreate(savedInstanceState);
         occasionViewModel = new ViewModelProvider(getActivity()).get(OccasionViewModel.class);
         itemsViewModel = new ViewModelProvider(getActivity()).get(ItemsViewModel.class);
-
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
     }
 
     @NonNull
@@ -78,18 +73,18 @@ public class DialogPreviewOccasion extends DialogFragment {
         itemsViewModel.getPeopleOccasion(occasionModel.getID()).observe(this, people -> {
             if(people != null){
                 String personNames = "";
-                if(people.size() < 3){
+                if(people.size() <= 3){
                     for(String person : people){
                         Log.d("Person: ", person);
                         personNames += " [" + person + "] ";
                     }
-                }else if(people.size() == 0){
-                    personNames = "Empty";
                 }
                 else{
                     personNames = "More than 3 people...";
                 }
                 textViewPreviewPeople.setText(personNames);
+            }else {
+                textViewPreviewPeople.setText("None");
             }
         });
 
