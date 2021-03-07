@@ -41,7 +41,6 @@ public class ListFragmentDuePayment extends Fragment {
     private ItemsViewModel itemsViewModel;
     private FilterSelectionViewModel filterSelectionViewModel;
     private List<OccasionModel> occasionModels;
-    private String filter;
 
     public ListFragmentDuePayment() {
 
@@ -71,6 +70,7 @@ public class ListFragmentDuePayment extends Fragment {
                 for(OccasionWithItems occasionModel : occasionWithItems){
                     OccasionModel aOccasionModel = occasionModel.occasionModel;
                     aOccasionModel.setItems(occasionModel.itemModelList);
+                    aOccasionModel.setLocationModel(occasionModel.locationModel);
 
                     occasionModels.add(aOccasionModel);
                 }

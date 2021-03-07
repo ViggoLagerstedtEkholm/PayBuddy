@@ -1,6 +1,8 @@
 package com.example.paybuddy.Occasions.List_of_occasions;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -11,6 +13,8 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
+import com.example.paybuddy.Maps.CoordinatesViewModel;
+import com.example.paybuddy.Models.LocationModel;
 import com.example.paybuddy.Occasions.Dialogs.DialogMakeExpired;
 import com.example.paybuddy.Viewmodels.ItemsViewModel;
 import com.example.paybuddy.Models.OccasionModel;
@@ -29,6 +33,7 @@ public class ActiveOccasionRecyclerViewAdapter extends RecyclerView.Adapter<Acti
     private final OccasionViewModel occasionViewModel;
     private final ItemsViewModel itemsViewModel;
     private final LocationViewModel locationViewModel;
+    private final CoordinatesViewModel coordinatesViewModel;
 
     public ActiveOccasionRecyclerViewAdapter(List<OccasionModel> items,
                                              Fragment currentFragment,
@@ -41,6 +46,8 @@ public class ActiveOccasionRecyclerViewAdapter extends RecyclerView.Adapter<Acti
         this.itemsViewModel = itemsViewModel;
         this.filteredItems = new ArrayList<>();
         this.locationViewModel = locationViewModel;
+
+        coordinatesViewModel = new ViewModelProvider(currentFragment.getActivity()).get(CoordinatesViewModel.class);
     }
 
     public void addItems(List<OccasionModel> occasionModels){
@@ -65,6 +72,11 @@ public class ActiveOccasionRecyclerViewAdapter extends RecyclerView.Adapter<Acti
         holder.textViewDateOccasionCard.setText(occasionModel.getDate());
         holder.textViewPeopleOccasionCard.setText("0");
 
+        LocationModel location = occasionModel.getLocationModel();
+        if(location != null){
+            holder.textViewLocationOccasionCard.setText(location.getAdress());
+        }
+
         itemsViewModel.getOccasionTotalCost(occasionModel.getID()).observe(currentFragment.getViewLifecycleOwner(), totalCost -> {
             if(totalCost != null){
                 double cost = totalCost.doubleValue();
@@ -75,6 +87,14 @@ public class ActiveOccasionRecyclerViewAdapter extends RecyclerView.Adapter<Acti
         itemsViewModel.getOccasionItems(occasionModel.getID()).observe(currentFragment.getViewLifecycleOwner(), people -> {
             int count = people.size();
             holder.textViewPeopleOccasionCard.setText(String.valueOf(count));
+        });
+
+        holder.button_see_location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                coordinatesViewModel.setLocation(occasionModel.getLocationModel());
+                Navigation.findNavController(holder.mView).navigate(R.id.action_tabViewFragment_to_mapsFragment);
+            }
         });
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -161,8 +181,10 @@ public class ActiveOccasionRecyclerViewAdapter extends RecyclerView.Adapter<Acti
         public final TextView textViewDateOccasionCard;
         public final TextView textViewSumOfItemsOccasionCard;
         public final TextView textViewPeopleOccasionCard;
+        public final TextView textViewLocationOccasionCard;
         public final Button buttonRegisterPaid;
         public final Button buttonRemove;
+        public final Button button_see_location;
         public OccasionModel mItem;
 
         public ViewHolder(View view) {
@@ -171,9 +193,12 @@ public class ActiveOccasionRecyclerViewAdapter extends RecyclerView.Adapter<Acti
 
             buttonRemove = (Button) view.findViewById(R.id.buttonRemoveItem);
             buttonRegisterPaid = (Button) view.findViewById(R.id.buttonRegisterPaid);
+            button_see_location = (Button) view.findViewById(R.id.button_see_location);
 
             titleOfMyOccasion = (TextView) view.findViewById(R.id.titleOfMyOccasion);
             textViewDateOccasionCard = (TextView) view.findViewById(R.id.textViewDateOccasionCard);
+
+            textViewLocationOccasionCard = (TextView) view.findViewById(R.id.textViewLocationOccasionCard);
 
             textViewSumOfItemsOccasionCard = (TextView) view.findViewById(R.id.textViewSumOfItemsOccasionCard);
             textViewPeopleOccasionCard = (TextView) view.findViewById(R.id.textViewPeopleOccasionCard);
