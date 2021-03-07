@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.paybuddy.Viewmodels.ItemsViewModel;
+import com.example.paybuddy.Viewmodels.LocationViewModel;
 import com.example.paybuddy.Viewmodels.OccasionViewModel;
 import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.Models.OccasionWithItems;
@@ -37,17 +38,17 @@ public class ListFragmentHistory extends Fragment {
     private HistoryRecyclerViewAdapter historyRecyclerViewAdapter;
     private List<OccasionModel> occasionModels;
 
-    public ListFragmentHistory() {
-    }
+    public ListFragmentHistory(){}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         occasionViewModel = new ViewModelProvider(this).get(OccasionViewModel.class);
         itemsViewModel = new ViewModelProvider(this).get(ItemsViewModel.class);
+        LocationViewModel locationViewModel = new ViewModelProvider(this).get(LocationViewModel.class);
         filterSelectionViewModel = new ViewModelProvider(getActivity()).get(FilterSelectionViewModel.class);
         occasionModels = new ArrayList<>();
-        historyRecyclerViewAdapter = new HistoryRecyclerViewAdapter(getContext(), occasionModels, this, itemsViewModel);
+        historyRecyclerViewAdapter = new HistoryRecyclerViewAdapter(occasionModels, this, occasionViewModel, locationViewModel, itemsViewModel);
     }
 
     @Override
@@ -63,6 +64,7 @@ public class ListFragmentHistory extends Fragment {
                 for(OccasionWithItems occasionModel : occasionWithItems){
                     OccasionModel aOccasionModel = occasionModel.occasionModel;
                     aOccasionModel.setItems(occasionModel.itemModelList);
+                    aOccasionModel.setLocationModel(occasionModel.locationModel);
 
                     occasionModels.add(aOccasionModel);
                 }
