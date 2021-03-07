@@ -1,29 +1,28 @@
 package com.example.paybuddy.Home;
 
 import android.animation.ValueAnimator;
-import android.graphics.Interpolator;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.navigation.Navigation;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.paybuddy.Maps.CoordinatesViewModel;
 import com.example.paybuddy.Viewmodels.ItemsViewModel;
 import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.Models.OccasionWithItems;
 import com.example.paybuddy.R;
 import com.example.paybuddy.Viewmodels.OccasionViewModel;
 
-import org.w3c.dom.Text;
-
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,20 +34,20 @@ public class HomeFragment extends Fragment {
     private TextView textViewCountOfExpiredOccasions;
     private TextView textViewCountOfOccasions;
     private TextView textViewCountOfPaidOccasions;
-    private SwipeRefreshLayout swipeRefreshLayout;
 
     private ItemsViewModel itemsViewModel;
     private OccasionViewModel occasionViewModel;
+    private CoordinatesViewModel coordinatesViewModel;
+    private List<OccasionModel> occasionModels;
 
-    public HomeFragment() {
-        // Required empty public constructor
-    }
+    public HomeFragment(){}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        itemsViewModel = new ViewModelProvider(requireActivity()).get(ItemsViewModel.class);
-        occasionViewModel = new ViewModelProvider(requireActivity()).get(OccasionViewModel.class);
+        itemsViewModel = new ViewModelProvider(getActivity()).get(ItemsViewModel.class);
+        occasionViewModel = new ViewModelProvider(getActivity()).get(OccasionViewModel.class);
+        coordinatesViewModel = new ViewModelProvider(getActivity()).get(CoordinatesViewModel.class);
     }
 
     @Override
@@ -61,12 +60,33 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.d("View is being created!", "...");
 
         textViewCountOfExpiredOccasions = (TextView) view.findViewById(R.id.textViewCountOfExpiredOccasions);
         textViewSumOfItems = (TextView) view.findViewById(R.id.textViewSumOfItems);
         textViewCountOfOccasions = (TextView) view.findViewById(R.id.textViewCountOfOccasions);
         textViewCountOfPaidOccasions = (TextView) view.findViewById(R.id.textViewCountOfPaidOccasions);
+
+        Button locationsButton = (Button) view.findViewById(R.id.buttonHomeSeeAllLocations);
+        locationsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                coordinatesViewModel.setLocations(occasionModels);
+                Navigation.findNavController(view).navigate(R.id.action_tabViewFragment_to_allOccasionsMapFragment);
+            }
+        });
+
+        occasionViewModel.getAllOccasions().observe(getActivity(), occasionWithItems -> {
+            List<OccasionModel> occasionModels = new ArrayList<>();
+
+            for(OccasionWithItems occasionModel : occasionWithItems){
+                OccasionModel aOccasionModel = occasionModel.occasionModel;
+                aOccasionModel.setItems(occasionModel.itemModelList);
+                aOccasionModel.setLocationModel(occasionModel.locationModel);
+
+                occasionModels.add(aOccasionModel);
+            }
+            this.occasionModels = occasionModels;
+        });
 
         occasionViewModel.getActiveOccasions().observe(getActivity(), items ->{
             int totalOccasions = items.size();
