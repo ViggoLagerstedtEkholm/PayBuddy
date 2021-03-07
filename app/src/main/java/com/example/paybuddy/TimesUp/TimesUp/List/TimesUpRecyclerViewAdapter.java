@@ -1,6 +1,7 @@
 package com.example.paybuddy.TimesUp.TimesUp.List;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,7 +15,9 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
+import com.example.paybuddy.Maps.CoordinatesViewModel;
 import com.example.paybuddy.Models.ItemModel;
+import com.example.paybuddy.Models.LocationModel;
 import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.Occasions.Dialogs.DialogMakeExpired;
 import com.example.paybuddy.Occasions.Dialogs.DialogPreviewOccasion;
@@ -35,6 +38,7 @@ public class TimesUpRecyclerViewAdapter extends RecyclerView.Adapter<TimesUpRecy
     private OccasionViewModel occasionViewModel;
     private LocationViewModel locationViewModel;
     private ItemsViewModel itemsViewModel;
+    private CoordinatesViewModel coordinatesViewModel;
     private Fragment fragment;
 
     public TimesUpRecyclerViewAdapter(List<OccasionModel> items,
@@ -49,10 +53,12 @@ public class TimesUpRecyclerViewAdapter extends RecyclerView.Adapter<TimesUpRecy
         this.itemsViewModel = itemsViewModel;
         this.locationViewModel = locationViewModel;
         this.fragment = currentFragment;
+
+        coordinatesViewModel = new ViewModelProvider(currentFragment.getActivity()).get(CoordinatesViewModel.class);
     }
 
     public void addItems(List<OccasionModel> items){
-        this.items.addAll(items);
+        this.items = items;
         this.filteredItems = new ArrayList<>(items);
         notifyDataSetChanged();
     }
@@ -69,6 +75,11 @@ public class TimesUpRecyclerViewAdapter extends RecyclerView.Adapter<TimesUpRecy
         OccasionModel occasionModel = items.get(position);
         holder.mItem = items.get(position);
 
+        LocationModel location = occasionModel.getLocationModel();
+        if(location != null){
+            holder.textView_list_due_payment_location_value.setText(location.getAdress());
+        }
+
         itemsViewModel.getOccasionTotalCost(occasionModel.getID()).observe(fragment.getViewLifecycleOwner(), totalCost -> {
             if(totalCost != null){
                 double cost = totalCost.doubleValue();
@@ -80,6 +91,14 @@ public class TimesUpRecyclerViewAdapter extends RecyclerView.Adapter<TimesUpRecy
             if(items != null){
                 int count = items.size();
                 holder.textView_list_due_payment_names_value.setText(String.valueOf(count));
+            }
+        });
+
+        holder.buttonLocationDue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                coordinatesViewModel.setLocation(occasionModel.getLocationModel());
+                Navigation.findNavController(holder.mView).navigate(R.id.action_tabViewFragment_to_mapsFragment);
             }
         });
 
@@ -169,10 +188,12 @@ public class TimesUpRecyclerViewAdapter extends RecyclerView.Adapter<TimesUpRecy
         public final TextView textView_list_due_payment_sum_of_items_value;
         public final TextView textView_list_due_payment_names_value;
         public final TextView textView_list_due_payment_expiringDate_value;
+        public final TextView textView_list_due_payment_location_value;
 
         public final Button buttonCall;
         public final Button buttonPostPone;
         public final Button buttonRemove;
+        public final Button buttonLocationDue;
 
         public OccasionModel mItem;
 
@@ -183,12 +204,13 @@ public class TimesUpRecyclerViewAdapter extends RecyclerView.Adapter<TimesUpRecy
             buttonRemove = (Button) view.findViewById(R.id.buttonDeleteDuePayment);
             buttonPostPone = (Button) view.findViewById(R.id.buttonPostpone);
             buttonCall = (Button) view.findViewById(R.id.buttonCall);
+            buttonLocationDue = (Button) view.findViewById(R.id.buttonLocationDue);
 
             textView_list_due_payment_title = (TextView) view.findViewById(R.id.textView_list_due_payment_title);
             textView_list_due_payment_sum_of_items_value = (TextView) view.findViewById(R.id.textView_list_due_payment_sum_of_items_value);
             textView_list_due_payment_names_value = (TextView) view.findViewById(R.id.textView_list_due_payment_names_value);
             textView_list_due_payment_expiringDate_value = (TextView) view.findViewById(R.id.textView_list_due_payment_expiringDate_value);
-
+            textView_list_due_payment_location_value = (TextView) view.findViewById(R.id.textView_list_due_payment_location_value);
         }
 
         @Override
