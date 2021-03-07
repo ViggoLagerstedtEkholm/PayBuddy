@@ -23,6 +23,14 @@
         <action
             android:id="@+id/action_tabViewFragment_to_historyCallFragment"
             app:destination="@id/historyCallFragment" />
+        <action
+            android:id="@+id/action_tabViewFragment_to_mapsFragment"
+            app:destination="@id/mapsFragment"
+            app:exitAnim="@anim/fragment_fade_exit" />
+        <action
+            android:id="@+id/action_tabViewFragment_to_allOccasionsMapFragment"
+            app:destination="@id/allOccasionsMapFragment"
+            app:exitAnim="@anim/fragment_close_exit" />
     </fragment>
     <fragment
         android:id="@+id/occasionAddFragment"
@@ -65,5 +73,24 @@
         <action
             android:id="@+id/action_contactManageFragment_to_historyCallFragment"
             app:destination="@id/historyCallFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapsFragment"
+        android:name="com.example.paybuddy.Maps.MapsPointFragment"
+        android:label="fragment_maps"
+        tools:layout="@layout/fragment_maps" >
+        <action
+            android:id="@+id/action_mapsFragment_to_tabViewFragment"
+            app:destination="@id/tabViewFragment"
+            app:exitAnim="@anim/fragment_close_exit" />
+    </fragment>
+    <fragment
+        android:id="@+id/allOccasionsMapFragment"
+        android:name="com.example.paybuddy.Maps.AllOccasionsMapFragment"
+        android:label="AllOccasionsMapFragment" >
+        <action
+            android:id="@+id/action_allOccasionsMapFragment_to_tabViewFragment"
+            app:destination="@id/tabViewFragment"
+            app:enterAnim="@anim/fragment_fade_enter" />
     </fragment>
 </navigation>

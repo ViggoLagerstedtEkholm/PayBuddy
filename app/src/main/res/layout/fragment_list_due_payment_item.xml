@@ -15,7 +15,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="355dp"
         android:layout_margin="4dp"
         android:background="@drawable/card_outline">
 
@@ -168,11 +168,47 @@
                 android:id="@+id/divider4"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="55dp"
                 android:background="?android:attr/listDivider"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView_list_due_payment_names_text" />
+
+            <TextView
+                android:id="@+id/textView36"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/location"
+                android:textColor="@color/mainText"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView_list_due_payment_names_text" />
+
+            <TextView
+                android:id="@+id/textView_list_due_payment_location_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="2dp"
+                android:text="@string/no_location_added"
+                android:textColor="@color/mainText"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView36" />
+
+            <Button
+                android:id="@+id/buttonLocationDue"
+                android:layout_width="325dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/button_background"
+                android:text="@string/see_location_on_maps"
+                android:textColor="@color/buttonText"
+                app:layout_constraintEnd_toEndOf="@+id/buttonCall"
+                app:layout_constraintStart_toStartOf="@+id/buttonCall"
+                app:layout_constraintTop_toBottomOf="@+id/buttonCall" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </RelativeLayout>

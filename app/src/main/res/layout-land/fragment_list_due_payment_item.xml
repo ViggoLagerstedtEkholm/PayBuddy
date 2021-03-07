@@ -15,13 +15,49 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="180dp"
         android:layout_margin="4dp"
         android:background="@drawable/card_outline">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="698dp"
-            android:layout_height="149dp">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/buttonLocationDue"
+                android:layout_width="300dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/button_background"
+                android:text="@string/see_location_on_maps"
+                android:textColor="@color/buttonText"
+                app:layout_constraintEnd_toEndOf="@+id/buttonCall"
+                app:layout_constraintStart_toStartOf="@+id/buttonCall"
+                app:layout_constraintTop_toBottomOf="@+id/buttonCall" />
+
+            <TextView
+                android:id="@+id/textView37"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/location"
+                android:textColor="@color/mainText"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView_list_due_payment_names_text" />
+
+            <TextView
+                android:id="@+id/textView_list_due_payment_location_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="2dp"
+                android:text="@string/no_location_added"
+                android:textColor="@color/mainText"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView37" />
 
             <TextView
                 android:id="@+id/textView_list_due_payment_price_text"
@@ -113,11 +149,9 @@
                 android:layout_width="300dp"
                 android:layout_height="35dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
                 android:background="@drawable/button_background"
                 android:text="@string/call"
                 android:textColor="@color/buttonText"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/buttonDeleteDuePayment"
                 app:layout_constraintTop_toBottomOf="@+id/buttonDeleteDuePayment" />
 
@@ -125,7 +159,7 @@
                 android:id="@+id/buttonPostpone"
                 android:layout_width="300dp"
                 android:layout_height="35dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:background="@drawable/button_background"

@@ -114,4 +114,7 @@
     <string name="button_wipe_data">Button</string>
     <string name="wipe_all_data">Wipe all data</string>
     <string name="clear_items">Clear items</string>
+    <string name="location">Location</string>
+    <string name="see_location_on_maps">See location on maps</string>
+    <string name="see_all_locations">See all locations</string>
 </resources>

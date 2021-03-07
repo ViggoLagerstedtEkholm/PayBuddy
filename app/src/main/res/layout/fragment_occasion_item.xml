@@ -15,7 +15,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="190dp"
+        android:layout_height="300dp"
         android:layout_margin="4dp"
         android:background="@drawable/card_outline">
 
@@ -63,7 +63,7 @@
                 android:textColor="@color/buttonText"
                 app:layout_constraintEnd_toStartOf="@+id/buttonRegisterPaid"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView21" />
+                app:layout_constraintTop_toBottomOf="@+id/divider6" />
 
             <TextView
                 android:id="@+id/textViewDateOccasionCard"
@@ -154,6 +154,58 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_baseline_pending_actions_24" />
+
+            <TextView
+                android:id="@+id/textView32"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/location"
+                android:textColor="@color/mainText"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView21" />
+
+            <TextView
+                android:id="@+id/textViewLocationOccasionCard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="2dp"
+                android:text="@string/no_location_added"
+                android:textColor="@color/mainText"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView32" />
+
+            <Button
+                android:id="@+id/button_see_location"
+                android:layout_width="334dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/button_background"
+                android:text="@string/see_location_on_maps"
+                android:textColor="@color/buttonText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonRemoveItem" />
+
+            <View
+                android:id="@+id/divider6"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="6dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewLocationOccasionCard" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </RelativeLayout>

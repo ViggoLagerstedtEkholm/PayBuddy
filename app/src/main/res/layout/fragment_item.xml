@@ -22,15 +22,12 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
         android:background="@drawable/button_background"
         android:text="@string/OK"
         android:textColor="@color/buttonText"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonCancel"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView7"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/cardView7" />
 
 
     <androidx.cardview.widget.CardView
@@ -149,11 +146,12 @@
                 android:id="@+id/textAddedLocation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="137dp"
-                android:layout_marginLeft="137dp"
+                android:autoSizeTextType="uniform"
+                android:layout_marginStart="99dp"
+                android:layout_marginLeft="99dp"
                 android:layout_marginTop="4dp"
-                android:layout_marginEnd="132dp"
-                android:layout_marginRight="132dp"
+                android:layout_marginEnd="94dp"
+                android:layout_marginRight="94dp"
                 android:text="@string/no_location_added"
                 android:textColor="@color/mainText"
                 android:textSize="18sp"
@@ -199,7 +197,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView7"
         android:layout_width="358dp"
-        android:layout_height="258dp"
+        android:layout_height="265dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="3dp"

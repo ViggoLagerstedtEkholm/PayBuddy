@@ -6,22 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/mainBackground">
 
-    <TextView
-        android:id="@+id/textView27"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="164dp"
-        android:layout_marginLeft="164dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="173dp"
-        android:layout_marginRight="173dp"
-        android:text="@string/Items"
-        android:textColor="@color/mainText"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/buttonBackFromPreview"
         android:layout_width="218dp"
@@ -44,7 +28,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView9"
         android:layout_width="700dp"
-        android:layout_height="150dp"
+        android:layout_height="190dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
@@ -55,7 +39,7 @@
         app:cardCornerRadius="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView27">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
