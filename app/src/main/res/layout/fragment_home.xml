@@ -59,14 +59,12 @@
                 android:id="@+id/imageView"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="16dp"
                 android:contentDescription="@string/money_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_baseline_attach_money_24" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -125,14 +123,12 @@
                 android:id="@+id/imageView2"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="16dp"
                 android:contentDescription="@string/warning_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_baseline_warning_24" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
@@ -143,7 +139,7 @@
         android:layout_height="120dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="19dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:background="@color/cardBackground"
@@ -190,14 +186,12 @@
                 android:id="@+id/imageView3"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="16dp"
                 android:contentDescription="@string/occasion_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_baseline_pending_actions_24" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -209,7 +203,7 @@
         android:layout_height="120dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="19dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:background="@color/cardBackground"
@@ -228,14 +222,12 @@
                 android:id="@+id/imageView12"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="16dp"
                 android:contentDescription="@string/history_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_baseline_history_24" />
 
             <TextView
@@ -270,13 +262,13 @@
 
     <Button
         android:id="@+id/buttonHomeSeeAllLocations"
-        android:layout_width="380dp"
+        android:layout_width="370dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginStart="21dp"
+        android:layout_marginLeft="21dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginEnd="21dp"
+        android:layout_marginRight="21dp"
         android:background="@drawable/button_background"
         android:text="@string/see_all_locations"
         android:textColor="@color/buttonText"

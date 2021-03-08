@@ -11,7 +11,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardRemoveHistory"
         android:layout_width="700dp"
-        android:layout_height="235dp"
+        android:layout_height="245dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="4dp"
@@ -179,6 +179,19 @@
                 app:layout_constraintStart_toEndOf="@+id/buttonWipeData"
                 app:layout_constraintTop_toTopOf="@+id/buttonWipeData"
                 app:srcCompat="@drawable/ic_baseline_delete_forever_24" />
+
+            <Button
+                android:id="@+id/buttonInfo"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/button_background"
+                android:text="@string/how_does_this_app_work"
+                android:textColor="@color/buttonText"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
