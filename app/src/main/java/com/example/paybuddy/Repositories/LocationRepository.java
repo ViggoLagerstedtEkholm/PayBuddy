@@ -22,19 +22,13 @@ public class LocationRepository extends Repository<LocationModel> {
     }
 
     @Override
-    public void insert(LocationModel... entity) {
+    public void insert(LocationModel entity) {
         new InsertLocationAsyncTask(locationDAO).execute(entity);
-    }
-
-    @Override
-    void insert(List<LocationModel> entities) {
-        //TODO
     }
 
     @Override
     public void update(LocationModel entity) {
         new UpdateLocationAsyncTask(locationDAO).execute(entity);
-
     }
 
     @Override
@@ -43,18 +37,8 @@ public class LocationRepository extends Repository<LocationModel> {
     }
 
     @Override
-    public void delete(List<LocationModel> entity) {
-        //TODO
-    }
-
-    @Override
     public void deleteAll(DELETE_TYPE delete_type) {
        new DeleteAllLocationAsyncTask(locationDAO, delete_type).execute();
-    }
-
-    @Override
-    LiveData<List<LocationModel>> getAll() {
-        return null;
     }
 
     private static class InsertLocationAsyncTask extends AsyncTask<LocationModel, Void, Void> {

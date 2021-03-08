@@ -41,13 +41,8 @@ public class OccasionRepository extends Repository<OccasionModel>{
     }
 
     @Override
-    public void insert(OccasionModel... entity) {
+    public void insert(OccasionModel entity) {
         new InsertOccasionAsyncTask(occasionDao, itemsDAO, locationDAO).execute(entity);
-    }
-
-    @Override
-    public void insert(List<OccasionModel> entities) {
-        //TODO
     }
 
     @Override
@@ -58,11 +53,6 @@ public class OccasionRepository extends Repository<OccasionModel>{
     @Override
     public void delete(OccasionModel entity) {
         new DeleteOccasionAsyncTask(occasionDao, itemsDAO).execute(entity);
-    }
-
-    @Override
-    void delete(List<OccasionModel> entity) {
-        //TODO
     }
 
     @Override
@@ -80,11 +70,6 @@ public class OccasionRepository extends Repository<OccasionModel>{
         return expiredOccasions;
     }
     public LiveData<List<OccasionWithItems>> getAllOccasions(){return allOccasions;}
-
-    @Override
-    LiveData<List<OccasionModel>> getAll() {
-        return null;
-    }
 
     private static class InsertOccasionAsyncTask extends AsyncTask<OccasionModel, Void, Void> {
         private final OccasionDAO occasionDao;

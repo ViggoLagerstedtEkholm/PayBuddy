@@ -1,5 +1,6 @@
 package com.example.paybuddy.Settings;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,13 +9,14 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.Switch;
 
 import com.example.paybuddy.Viewmodels.ItemsViewModel;
 import com.example.paybuddy.Viewmodels.OccasionViewModel;
@@ -56,6 +58,14 @@ public class ManageFragment extends Fragment {
         Button buttonDeleteHistory = (Button) view.findViewById(R.id.buttonDeleteHistory);
         Button buttonDeleteExpired = (Button) view.findViewById(R.id.buttonDeleteAllExpired);
         Button buttonDeleteAll = (Button) view.findViewById(R.id.buttonWipeData);
+        Button buttonInfo = (Button) view.findViewById(R.id.buttonInfo);
+
+        buttonInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(view).navigate(R.id.action_tabViewFragment_to_infoFragment);
+            }
+        });
 
         buttonDeleteHistory.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,14 +103,31 @@ public class ManageFragment extends Fragment {
 
         SwitchCompat switchDarkModeHome = (SwitchCompat) view.findViewById(R.id.switchDarkModeHome);
 
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("night", 0);
+        Boolean booleanValue = sharedPreferences.getBoolean("night mode", true);
+        Log.d("Im in here!", String.valueOf(booleanValue.booleanValue()));
+
+        if(booleanValue.booleanValue()){
+            Log.d("Im in here!", "abc");
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            switchDarkModeHome.setChecked(true);
+        }
+
         switchDarkModeHome.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                }
-                else{
+                    switchDarkModeHome.setChecked(true);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("night mode", true);
+                    editor.commit();
+                }else{
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    switchDarkModeHome.setChecked(false);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("night mode", false);
+                    editor.commit();
                 }
             }
         });

@@ -1,20 +1,12 @@
 package com.example.paybuddy.DAO;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
-import androidx.room.Transaction;
 import androidx.room.Update;
 
-import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.Models.OccasionModel;
-import com.example.paybuddy.Models.OccasionWithItems;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Dao
 public interface OccasionDAO {
@@ -39,9 +31,4 @@ public interface OccasionDAO {
 
     @Query("DELETE FROM occasions_table WHERE IsPaid = " + 0 + " AND isExpired = " + 0)
     void deleteAllUnPaid();
-
-    @Query("SELECT * FROM occasions_table ORDER BY date DESC")
-    LiveData<List<OccasionModel>> getAllOccasions();
-
-
 }

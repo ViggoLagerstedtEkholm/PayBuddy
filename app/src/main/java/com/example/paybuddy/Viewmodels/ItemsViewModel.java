@@ -27,45 +27,51 @@ public class ItemsViewModel extends AndroidViewModel {
         pendingItems = itemsRepository.getPendingItems();
     }
 
-    public void insert(ItemModel itemModel){
+    public void insert(ItemModel itemModel) {
         itemsRepository.insert(itemModel);
     }
 
-    public void update(ItemModel itemModel){
+    public void update(ItemModel itemModel) {
         itemsRepository.update(itemModel);
     }
 
-    public void delete(ItemModel itemModel){
+    public void delete(ItemModel itemModel) {
         itemsRepository.delete(itemModel);
     }
 
-    public void delete(List<ItemModel> itemModels){
+    public void delete(List<ItemModel> itemModels) {
         itemsRepository.delete(itemModels);
     }
 
-    public void deletePendingItems(){itemsRepository.deletePending();}
+    public void deletePendingItems() {
+        itemsRepository.deletePending();
+    }
 
-    public LiveData<Integer> getTotalCost(){return totalCost;}
+    public LiveData<Integer> getTotalCost() {
+        return totalCost;
+    }
 
-    public LiveData<List<ItemModel>> getPendingItems(){return pendingItems;}
+    public LiveData<List<ItemModel>> getPendingItems() {
+        return pendingItems;
+    }
 
-    public LiveData<Integer> getOccasionTotalCost(double ID){
+    public LiveData<Integer> getOccasionTotalCost(double ID) {
         return itemsRepository.getOccasionTotalCost(ID);
     }
 
-    public LiveData<List<String>> getPeopleOccasion(double ID){
+    public LiveData<List<String>> getPeopleOccasion(double ID) {
         return itemsRepository.getPeopleOccasion(ID);
     }
 
-    public LiveData<List<ItemModel>> getOccasionItems(double ID){
+    public LiveData<List<ItemModel>> getOccasionItems(double ID) {
         return itemsRepository.getOccasionItems(ID);
     }
 
-    public void deleteAllItems(Repository.DELETE_TYPE delete_type){
+    public void deleteAllItems(Repository.DELETE_TYPE delete_type) {
         itemsRepository.deleteAll(delete_type);
     }
 
-    public LiveData<List<ItemModel>> getItems(){
+    public LiveData<List<ItemModel>> getItems() {
         return items;
     }
 }

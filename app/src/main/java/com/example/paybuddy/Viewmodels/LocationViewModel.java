@@ -16,26 +16,26 @@ import com.example.paybuddy.Repositories.Repository;
 import java.util.List;
 
 public class LocationViewModel extends AndroidViewModel {
-  private LocationRepository locationRepository;
+    private LocationRepository locationRepository;
 
     public LocationViewModel(@NonNull Application application) {
         super(application);
         locationRepository = new LocationRepository(application);
     }
 
-    public void insert(LocationModel locationModel){
+    public void insert(LocationModel locationModel) {
         locationRepository.insert(locationModel);
     }
 
-    public void update(LocationModel locationModel){
+    public void update(LocationModel locationModel) {
         locationRepository.update(locationModel);
     }
 
-    public void delete(LocationModel locationModel){
+    public void delete(LocationModel locationModel) {
         locationRepository.delete(locationModel);
     }
 
-    public void deleteAll(Repository.DELETE_TYPE delete_type){
+    public void deleteAll(Repository.DELETE_TYPE delete_type) {
         locationRepository.deleteAll(delete_type);
     }
 }

@@ -27,12 +27,12 @@ public class ItemsRepository extends Repository<ItemModel>{
     }
 
     @Override
-    public void insert(ItemModel... entity) {
+    public void insert(ItemModel entity) {
         new InsertItemTaskAsync(itemsDAO).execute(entity);
     }
 
-    @Override
-    public void insert(List<ItemModel> entities) {
+    @SuppressWarnings("unchecked")
+    public void insert(List<ItemModel>... entities) {
         new InsertItemsTaskAsync(itemsDAO).execute(entities);
     }
 
@@ -41,17 +41,14 @@ public class ItemsRepository extends Repository<ItemModel>{
         new UpdateItemTaskAsync(itemsDAO).execute(entity);
     }
 
+    @Override
     public void delete(ItemModel itemModel){
         new DeleteItemTaskAsync(itemsDAO).execute(itemModel);
     }
 
-    public void deletePending() {
-        new DeletePendingItemsTaskAsync(itemsDAO).execute();
-    }
-
-    @Override
-    public void delete(List<ItemModel> entites) {
-        new DeleteItemsTaskAsync(itemsDAO).execute(entites);
+    @SuppressWarnings("unchecked")
+    public void delete(List<ItemModel>... entities) {
+        new DeleteItemsTaskAsync(itemsDAO).execute(entities);
     }
 
     public LiveData<Integer> getTotalCost(){
@@ -72,9 +69,12 @@ public class ItemsRepository extends Repository<ItemModel>{
         return itemsDAO.getOccasionItems(ID);
     }
 
-    @Override
     public LiveData<List<ItemModel>> getAll() {
         return items;
+    }
+
+    public void deletePending() {
+        new DeletePendingItemsTaskAsync(itemsDAO).execute();
     }
 
     @Override
