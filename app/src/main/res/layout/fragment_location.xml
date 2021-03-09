@@ -35,11 +35,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="16dp"
             android:text="@string/_0_00"
             android:textColor="@color/mainText"
             app:layout_constraintStart_toEndOf="@+id/labelLatitude"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/labelLatitude" />
 
         <TextView
             android:id="@+id/labelLongitude"
@@ -47,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="10dp"
             android:text="@string/lon"
             android:textColor="@color/mainText"
             app:layout_constraintStart_toStartOf="parent"
@@ -59,11 +58,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="16dp"
             android:text="@string/_0_00"
             android:textColor="@color/mainText"
             app:layout_constraintStart_toEndOf="@+id/labelLongitude"
-            app:layout_constraintTop_toBottomOf="@+id/valueLatitude" />
+            app:layout_constraintTop_toTopOf="@+id/labelLongitude" />
 
         <TextView
             android:id="@+id/labelAltitude"
@@ -71,7 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="10dp"
             android:text="@string/altitude"
             android:textColor="@color/mainText"
             app:layout_constraintStart_toStartOf="parent"
@@ -94,7 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="10dp"
             android:text="@string/accuracy"
             android:textColor="@color/mainText"
             app:layout_constraintStart_toStartOf="parent"
@@ -180,7 +178,7 @@
             android:text="@string/high_low"
             android:textColor="@color/mainText"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/labelAdress" />
+            app:layout_constraintTop_toBottomOf="@+id/valueAdress" />
 
         <TextView
             android:id="@+id/tv_address"
@@ -195,7 +193,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="10dp"
             android:text="@string/address"
             android:textColor="@color/mainText"
             app:layout_constraintStart_toStartOf="parent"
@@ -205,12 +203,13 @@
             android:id="@+id/valueAdress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
             android:text="@string/no_address_found"
             android:textColor="@color/mainText"
-            app:layout_constraintStart_toEndOf="@+id/labelAdress"
-            app:layout_constraintTop_toTopOf="@+id/labelAdress" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/labelAdress" />
 
         <Button
             android:id="@+id/buttonBackLocation"

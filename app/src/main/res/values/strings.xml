@@ -122,7 +122,7 @@
     <string name="status">Status</string>
     <string name="you_can_expire_any_active_occasion_by_pressing_the_occasion_until_a_dialog_asks_you_to_accept">You can expire any active occasion by pressing the occasion until a dialog asks you to accept.</string>
     <string name="how_do_i_expire_a_occasion">How do I expire an occasion?</string>
-    <string name="for_every_active_and_expired_occasion_we_take_the_item_prices_multiplied_by_the_quantity">For every active and expired occasion we take the item prices multiplied by the quanity.</string>
+    <string name="for_every_active_and_expired_occasion_we_take_the_item_prices_multiplied_by_the_quantity">For every active and expired occasion we take the item prices multiplied by the quantity.</string>
     <string name="how_does_this_app_calculate_total_item_cost">How does this app calculate total item cost?</string>
     <string name="these_are_not_paid_before_the_expiring_date">These are not paid before the expiring date.</string>
     <string name="_3_expired_occasion">3. Expired occasion</string>
