@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,10 +15,8 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.example.paybuddy.Maps.CoordinatesViewModel;
-import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.Models.LocationModel;
 import com.example.paybuddy.Models.OccasionModel;
-import com.example.paybuddy.Occasions.Dialogs.DialogMakeExpired;
 import com.example.paybuddy.Occasions.Dialogs.DialogPreviewOccasion;
 import com.example.paybuddy.R;
 import com.example.paybuddy.Viewmodels.ItemsViewModel;
@@ -30,7 +27,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * TODO: Replace the implementation with code for your data type.
+ * This is a RecyclerView class that displays a list of OccasionModel.
+ * We also have a bunch of observers to receive database items.
+ *
+ * We use the interface Filterable to filter results in this RecyclerView.
+ * @date 2021-03-09
+ * @version 1.0
+ * @author Viggo Lagerstedt Ekholm
  */
 public class TimesUpRecyclerViewAdapter extends RecyclerView.Adapter<TimesUpRecyclerViewAdapter.ViewHolder> implements Filterable {
     private List<OccasionModel> items;
@@ -41,11 +44,12 @@ public class TimesUpRecyclerViewAdapter extends RecyclerView.Adapter<TimesUpRecy
     private CoordinatesViewModel coordinatesViewModel;
     private Fragment fragment;
 
+    //Constructor that takes required parameter values.
     public TimesUpRecyclerViewAdapter(List<OccasionModel> items,
-                                      OccasionViewModel occasionViewModel,
-                                      ItemsViewModel itemsViewModel,
-                                      LocationViewModel locationViewModel,
-                                      Fragment currentFragment)
+                                       OccasionViewModel occasionViewModel,
+                                       ItemsViewModel itemsViewModel,
+                                       LocationViewModel locationViewModel,
+                                       Fragment currentFragment)
     {
         this.items = items;
         this.filteredItems = new ArrayList<>();
@@ -57,6 +61,10 @@ public class TimesUpRecyclerViewAdapter extends RecyclerView.Adapter<TimesUpRecy
         coordinatesViewModel = new ViewModelProvider(currentFragment.getActivity()).get(CoordinatesViewModel.class);
     }
 
+    /**
+     * This method adds the parameter list to our items and filtered list.
+     * @param items List of items we want to add.
+     */
     public void addItems(List<OccasionModel> items){
         this.items = items;
         this.filteredItems = new ArrayList<>(items);
@@ -80,6 +88,7 @@ public class TimesUpRecyclerViewAdapter extends RecyclerView.Adapter<TimesUpRecy
             holder.textView_list_due_payment_location_value.setText(location.getAdress());
         }
 
+        //Observe the total cost for a occasion.
         itemsViewModel.getOccasionTotalCost(occasionModel.getID()).observe(fragment.getViewLifecycleOwner(), totalCost -> {
             if(totalCost != null){
                 double cost = totalCost.doubleValue();
@@ -87,6 +96,7 @@ public class TimesUpRecyclerViewAdapter extends RecyclerView.Adapter<TimesUpRecy
             }
         });
 
+        //Observe the occasion items for a occasion id.
         itemsViewModel.getOccasionItems(occasionModel.getID()).observe(fragment.getViewLifecycleOwner(), items -> {
             if(items != null){
                 int count = items.size();
@@ -94,71 +104,72 @@ public class TimesUpRecyclerViewAdapter extends RecyclerView.Adapter<TimesUpRecy
             }
         });
 
-        holder.buttonLocationDue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                coordinatesViewModel.setLocation(occasionModel.getLocationModel());
-                Navigation.findNavController(holder.mView).navigate(R.id.action_tabViewFragment_to_mapsFragment);
-            }
+        //If we click the location button.
+        holder.buttonLocationDue.setOnClickListener(v -> {
+            coordinatesViewModel.setLocation(occasionModel.getLocationModel());
+            Navigation.findNavController(holder.mView).navigate(R.id.action_tabViewFragment_to_mapsFragment);
         });
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogPreviewOccasion dialogMakeExpired = new DialogPreviewOccasion(occasionModel);
-                dialogMakeExpired.show(fragment.getChildFragmentManager(), "Test");
-            }
+        //If we click the expired occasion item.
+        holder.mView.setOnClickListener(v -> {
+            DialogPreviewOccasion dialogMakeExpired = new DialogPreviewOccasion(occasionModel);
+            dialogMakeExpired.show(fragment.getChildFragmentManager(), "Test");
         });
 
-        holder.buttonRemove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                itemsViewModel.delete(occasionModel.getItems());
-                locationViewModel.delete(occasionModel.getLocationModel());
-                occasionViewModel.delete(occasionModel);
-            }
+        //Remove a expired occasion.
+        holder.buttonRemove.setOnClickListener(v -> {
+            itemsViewModel.delete(occasionModel.getItems());
+            locationViewModel.delete(occasionModel.getLocationModel());
+            occasionViewModel.delete(occasionModel);
         });
 
-        holder.buttonPostPone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                items.remove(occasionModel);
-                occasionModel.setExpired(false);
-                occasionViewModel.update(occasionModel);
-            }
+        //Postpone a expired occasion.
+        holder.buttonPostPone.setOnClickListener(v -> {
+            items.remove(occasionModel);
+            occasionModel.setExpired(false);
+            occasionViewModel.update(occasionModel);
         });
 
-        holder.buttonCall.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(holder.mView).navigate(R.id.action_tabViewFragment_to_historyCallFragment);
-            }
-        });
+        holder.buttonCall.setOnClickListener(v -> Navigation.findNavController(holder.mView).navigate(R.id.action_tabViewFragment_to_historyCallFragment));
 
         holder.textView_list_due_payment_title.setText(occasionModel.getDescription());
         holder.textView_list_due_payment_expiringDate_value.setText(occasionModel.getDate());
     }
 
+    /**
+     * This method returns the items size.
+     * @return int size.
+     */
     @Override
     public int getItemCount() {
         return items.size();
     }
 
+    /**
+     * This method returns the filter for this RecyclerView.
+     * @return Filter
+     */
     @Override
     public Filter getFilter() {
         return filter;
     }
 
+    /**
+     * This gets called if we change the query text in the SeachView for the Search fragment.
+     * @return Filter
+     */
     private Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             List<OccasionModel> filteredList = new ArrayList<>();
 
-            if(constraint == null || constraint.length() == 0 || constraint.equals("")){
+            //Check if empty.
+            if(constraint == null || constraint.length() == 0){
                 filteredList.addAll(filteredItems);
             }else{
                 String filterPattern = constraint.toString().toLowerCase().trim();
 
+                //Try to find a match.
                 for(OccasionModel item : filteredItems){
                     if(item.getDescription().toLowerCase().contains(filterPattern)){
                         filteredList.add(item);
@@ -171,6 +182,11 @@ public class TimesUpRecyclerViewAdapter extends RecyclerView.Adapter<TimesUpRecy
             return results;
         }
 
+        /**
+         * This method fills our items list with the filtered item list.
+         * @param constraint
+         * @param results filtered results.
+         */
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             Log.d(String.valueOf(((List) results.values).size()), "  Size");
@@ -182,6 +198,12 @@ public class TimesUpRecyclerViewAdapter extends RecyclerView.Adapter<TimesUpRecy
         }
     };
 
+    /**
+     * This class is a placeholder for every single item in the RecyclerView.
+     * @date 2021-03-09
+     * @version 1.0
+     * @author Viggo Lagerstedt Ekholm
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView textView_list_due_payment_title;
@@ -197,6 +219,7 @@ public class TimesUpRecyclerViewAdapter extends RecyclerView.Adapter<TimesUpRecy
 
         public OccasionModel mItem;
 
+        //Fetch all fields.
         public ViewHolder(View view) {
             super(view);
             mView = view;

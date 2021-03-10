@@ -28,7 +28,7 @@ public abstract class LocationDAO {
 
     @Query("DELETE " +
             "FROM location_table " +
-            "WHERE occasionID = (" +
+            "WHERE occasionID IN (" +
                                 "SELECT ID " +
                                 "FROM occasions_table " +
                                 "WHERE IsExpired = " + 1 + ")")
@@ -36,7 +36,7 @@ public abstract class LocationDAO {
 
     @Query("DELETE " +
             "FROM location_table " +
-            "WHERE occasionID = (" +
+            "WHERE occasionID IN (" +
                                 "SELECT ID " +
                                 "FROM occasions_table " +
                                 "WHERE IsPaid = " + 1 + ")")
@@ -44,10 +44,10 @@ public abstract class LocationDAO {
 
     @Query("DELETE " +
             "FROM location_table " +
-            "WHERE occasionID = (" +
-                                "SELECT ID " +
-                                "FROM occasions_table " +
-                                "WHERE IsPaid = " + 0 + " AND IsExpired = " + 0 + ")")
+            "WHERE location_table.occasionID IN (" +
+                                            "SELECT ID " +
+                                            "FROM occasions_table " +
+                                            "WHERE IsPaid = " + 0 + " AND IsExpired = " + 0 + ")")
     public abstract void deleteLocationUnPaid();
 
     public void insertLocation(LocationModel locationModel, long id){

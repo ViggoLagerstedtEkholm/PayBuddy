@@ -14,20 +14,40 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.paybuddy.R;
 import com.example.paybuddy.Search.SearchViewModels.FilterContactViewModel;
-import com.example.paybuddy.Search.SearchViewModels.FilterSelectionViewModel;
 
+/**
+ * This fragment is responsible for
+ *
+ * @date 2021-03-09
+ * @version 1.0
+ * @author Viggo Lagerstedt Ekholm
+ */
 public class SearchBoxContactFragment extends Fragment {
     private FilterContactViewModel filterContactViewModel;
-    private EditText searchWord;
 
-    public SearchBoxContactFragment() { }
+    public SearchBoxContactFragment() {
+        // Required empty public constructor
+    }
 
+    /**
+     * This method is called when we create this fragment.
+     * We create our ViewModel and scope it to our activity.
+     * This ViewModel will be sending the query String to the Contact filter fragment.
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         filterContactViewModel = new ViewModelProvider(getActivity()).get(FilterContactViewModel.class);
     }
 
+    /**
+     * This method inflates our view.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -35,20 +55,26 @@ public class SearchBoxContactFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_search_box, container, false);
     }
 
+    /**
+     * This method gets the SearchView from the fragment and adds onQueryListener to set the ViewModel
+     * Query for our search.
+     * @param view the inflated view
+     * @param savedInstanceState
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        searchWord = (EditText) view.findViewById(R.id.txfItemName);
+        SearchView searchView = view.findViewById(R.id.search);
 
-        SearchView searchView = (SearchView) view.findViewById(R.id.search);
-
+        //Add a listener to the SearchView.
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return false;
             }
 
+            //Called when we change SearchView text.
             @Override
             public boolean onQueryTextChange(String newText) {
                 filterContactViewModel.select(newText);

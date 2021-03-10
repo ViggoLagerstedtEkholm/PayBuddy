@@ -6,13 +6,11 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,8 +30,6 @@ import java.util.List;
  * A fragment representing a list of Items.
  */
 public class ListFragmentDuePayment extends Fragment {
-
-    private static final String ARG_COLUMN_COUNT = "column-count";
     private int mColumnCount = 1;
     private TimesUpRecyclerViewAdapter timesUpRecyclerViewAdapter;
     private OccasionViewModel occasionViewModel;
@@ -43,15 +39,15 @@ public class ListFragmentDuePayment extends Fragment {
     private List<OccasionModel> occasionModels;
 
     public ListFragmentDuePayment() {
-
+        // Required empty public constructor
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        occasionViewModel = new ViewModelProvider(this).get(OccasionViewModel.class);
-        locationViewModel = new ViewModelProvider(this).get(LocationViewModel.class);
-        itemsViewModel = new ViewModelProvider(this).get(ItemsViewModel.class);
+        occasionViewModel = new ViewModelProvider(getActivity()).get(OccasionViewModel.class);
+        locationViewModel = new ViewModelProvider(getActivity()).get(LocationViewModel.class);
+        itemsViewModel = new ViewModelProvider(getActivity()).get(ItemsViewModel.class);
         filterSelectionViewModel = new ViewModelProvider(getActivity()).get(FilterSelectionViewModel.class);
         occasionModels = new ArrayList<>();
     }
@@ -63,19 +59,16 @@ public class ListFragmentDuePayment extends Fragment {
 
         timesUpRecyclerViewAdapter = new TimesUpRecyclerViewAdapter(new ArrayList<>(), occasionViewModel, itemsViewModel, locationViewModel, this);
 
-        occasionViewModel.getExpiredOccasions().observe(getViewLifecycleOwner(), new Observer<List<OccasionWithItems>>() {
-            @Override
-            public void onChanged(List<OccasionWithItems> occasionWithItems) {
-                List<OccasionModel> occasionModels = new ArrayList<>();
-                for(OccasionWithItems occasionModel : occasionWithItems){
-                    OccasionModel aOccasionModel = occasionModel.occasionModel;
-                    aOccasionModel.setItems(occasionModel.itemModelList);
-                    aOccasionModel.setLocationModel(occasionModel.locationModel);
+        occasionViewModel.getExpiredOccasions().observe(getViewLifecycleOwner(), occasionWithItems -> {
+            List<OccasionModel> occasionModels = new ArrayList<>();
+            for(OccasionWithItems occasionModel : occasionWithItems){
+                OccasionModel aOccasionModel = occasionModel.occasionModel;
+                aOccasionModel.setItems(occasionModel.itemModelList);
+                aOccasionModel.setLocationModel(occasionModel.locationModel);
 
-                    occasionModels.add(aOccasionModel);
-                }
-                timesUpRecyclerViewAdapter.addItems(occasionModels);
+                occasionModels.add(aOccasionModel);
             }
+            timesUpRecyclerViewAdapter.addItems(occasionModels);
         });
 
         // Set the adapter
@@ -97,11 +90,6 @@ public class ListFragmentDuePayment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        filterSelectionViewModel.getSelected().observe(getActivity(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String searchWord) {
-                timesUpRecyclerViewAdapter.getFilter().filter(searchWord);
-            };
-        });
+        filterSelectionViewModel.getSelected().observe(getActivity(), searchWord -> timesUpRecyclerViewAdapter.getFilter().filter(searchWord));
     }
 }

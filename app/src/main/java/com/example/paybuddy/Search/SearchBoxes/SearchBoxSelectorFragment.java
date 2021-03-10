@@ -15,19 +15,39 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.paybuddy.R;
 import com.example.paybuddy.Search.SearchViewModels.FilterSelectionViewModel;
 
-public class SearchBoxSelectorFragment extends Fragment implements View.OnClickListener {
+/**
+ * This fragment creates our occasion filtering search box located on the tab "Occasions".
+ *
+ * @date 2021-03-09
+ * @version 1.0
+ * @author Viggo Lagerstedt Ekholm
+ */
+public class SearchBoxSelectorFragment extends Fragment{
     private FilterSelectionViewModel filterViewModel;
-    private EditText searchWord;
 
-    public SearchBoxSelectorFragment() { }
+    public SearchBoxSelectorFragment() {
+        // Required empty public constructor
+     }
 
+    /**
+     * This method is called when we create this fragment.
+     * We create our ViewModel and scope it to our activity.
+     * This ViewModel will be sending the query String to the Occasion filter fragment.
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         filterViewModel = new ViewModelProvider(getActivity()).get(FilterSelectionViewModel.class);
-
     }
 
+    /**
+     * This method inflates our view.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -35,25 +55,26 @@ public class SearchBoxSelectorFragment extends Fragment implements View.OnClickL
         return inflater.inflate(R.layout.fragment_search_box, container, false);
     }
 
-    @Override
-    public void onClick(View view) {
-        filterViewModel.select(searchWord.getText().toString());
-    }
-
+    /**
+     * This method gets the SearchView from the fragment and adds onQueryListener to set the ViewModel
+     * Query for our search.
+     * @param view the inflated view
+     * @param savedInstanceState
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        searchWord = (EditText) view.findViewById(R.id.txfItemName);
+        SearchView searchView = view.findViewById(R.id.search);
 
-        SearchView searchView = (SearchView) view.findViewById(R.id.search);
-
+        //Add a listener to the SearchView.
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return false;
             }
 
+            //Called when we change SearchView text.
             @Override
             public boolean onQueryTextChange(String newText) {
                 filterViewModel.select(newText);

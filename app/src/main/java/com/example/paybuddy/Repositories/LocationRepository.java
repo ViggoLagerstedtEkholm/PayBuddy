@@ -98,21 +98,20 @@ public class LocationRepository extends Repository<LocationModel> {
 
         @Override
         protected Void doInBackground(Void... itemModels) {
-            if(itemModels[0] != null){
-                switch(delete_type){
-                    case DELETE_ALL:
-                        locationDAO.deleteAllLocations();
-                        break;
-                    case DELETE_ALL_HISTORY:
-                        locationDAO.deleteLocationPaid();
-                        break;
-                    case DELETE_ALL_EXPIRED:
-                        locationDAO.deleteLocationExpired();
-                        break;
-                    case DELETE_ALL_UNPAID:
-                        locationDAO.deleteLocationUnPaid();
-                        break;
-                }
+            switch(delete_type){
+                case DELETE_ALL:
+                    locationDAO.deleteAllLocations();
+                    break;
+                case DELETE_ALL_HISTORY:
+                    locationDAO.deleteLocationPaid();
+                    break;
+                case DELETE_ALL_EXPIRED:
+                    locationDAO.deleteLocationExpired();
+                    break;
+                case DELETE_ALL_UNPAID:
+                    locationDAO.deleteLocationUnPaid();
+                    break;
+
             }
             return null;
         }

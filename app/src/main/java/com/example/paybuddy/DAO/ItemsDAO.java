@@ -51,17 +51,16 @@ public abstract class ItemsDAO {
             "WHERE Item_table.occasionID IN (" +
                                         "SELECT ID " +
                                         "FROM occasions_table " +
-                                        "WHERE IsPaid = " + 0 + " AND IsExpired = " + 0 + ")")
-    public abstract void deleteAllItemsUnPaid();
+                                        "WHERE IsPaid = " + 1 + ")")
+    public abstract void deleteAllItemsHistory();
 
     @Query("DELETE " +
             "FROM Item_table " +
             "WHERE Item_table.occasionID IN (" +
                                         "SELECT ID " +
                                         "FROM occasions_table " +
-                                        "WHERE IsPaid = " + 1 + ")")
-
-    public abstract void deleteAllItemsHistory();
+                                        "WHERE IsPaid = " + 0 + " AND IsExpired = " + 0 + ")")
+    public abstract void deleteAllItemsUnPaid();
 
     @Query("SELECT * FROM Item_table ORDER BY price DESC")
     public abstract LiveData<List<ItemModel>> getAllItems();

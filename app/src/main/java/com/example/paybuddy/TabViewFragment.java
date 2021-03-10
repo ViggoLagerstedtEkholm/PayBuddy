@@ -13,39 +13,51 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.paybuddy.ui.main.SectionsPagerAdapter;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 /**
- * A simple {@link Fragment} subclass.
- * create an instance of this fragment.
+ * This fragment class displays a ViewPager that shows "Settings, Home, Your Occasions" in the app.
+ *
+ * @date 2021-03-09
+ * @version 1.0
+ * @author Viggo Lagerstedt Ekholm
  */
 public class TabViewFragment extends Fragment {
 
-    public TabViewFragment() {
-        // Required empty public constructor
-    }
+    public TabViewFragment() { }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
+    /**
+     * This method inflates our "fragment_tab_view.xml" view.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return the inflated view is returned.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_tab_view, container, false);
     }
 
+    /**
+     * When the view is created we create the viewpager and create the tabs.
+     * @param view the view that has been inflated for this fragment.
+     * @param savedInstanceState saved instance for this fragment.
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        // Inflate the layout for this fragment
+        //Inflate the layout for this fragment
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(getContext(), getChildFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        //Get the viewpager from the view.
         ViewPager viewPager = getActivity().findViewById(R.id.view_pager);
+        //Set the adapter for this viewpager.
         viewPager.setAdapter(sectionsPagerAdapter);
+        //Get the tabs from our view.
         TabLayout tabs = getActivity().findViewById(R.id.tabs);
+        //Add a viewpager to our tabs.
         tabs.setupWithViewPager(viewPager);
+        //Set the item index to 1.
         viewPager.setCurrentItem(1);
     }
 }

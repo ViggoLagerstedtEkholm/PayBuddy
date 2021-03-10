@@ -8,39 +8,36 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 
-import com.example.paybuddy.Viewmodels.ItemsViewModel;
-import com.example.paybuddy.Viewmodels.OccasionViewModel;
 import com.example.paybuddy.R;
+import com.example.paybuddy.Repositories.Repository;
 
 /**
- * A simple {@link Fragment} subclass.
- * create an instance of this fragment.
+ *  This fragment handles all buttons and navigation on the "Settings" page.
+ *  @date 2021-03-09
+ *  @version 1.0
+ *  @author Viggo Lagerstedt Ekholm
  */
 public class ManageFragment extends Fragment {
-    private OccasionViewModel occasionViewModel;
-    private ItemsViewModel itemsViewModel;
 
     public ManageFragment() {
         // Required empty public constructor
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        occasionViewModel = new ViewModelProvider(getActivity()).get(OccasionViewModel.class);
-        itemsViewModel = new ViewModelProvider(getActivity()).get(ItemsViewModel.class);
-    }
-
+    /**
+     * This method inflates our "fragment_manage.xml" view.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return the inflated view is returned.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -48,67 +45,59 @@ public class ManageFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_manage, container, false);
     }
 
+    /**
+     * This method gets all the Buttons from the view and adds OnClickListeners to them.
+     * Depending on what button was clicked we change the DELETE_TYPE enum passed into the DeleteDialog Dialog.
+     * @param view the fragment inflated view.
+     * @param savedInstanceState recently saved instance.
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //LoadingDialog loadingDialog = new LoadingDialog(getActivity());
+        Button buttonDeleteAllOccasions = view.findViewById(R.id.buttonDeleteAllOccasions);
+        Button buttonDeleteHistory = view.findViewById(R.id.buttonDeleteHistory);
+        Button buttonDeleteExpired = view.findViewById(R.id.buttonDeleteAllExpired);
+        Button buttonDeleteAll = view.findViewById(R.id.buttonWipeData);
+        Button buttonInfo = view.findViewById(R.id.buttonInfo);
 
-        Button buttonDeleteAllOccasions = (Button) view.findViewById(R.id.buttonDeleteAllOccasions);
-        Button buttonDeleteHistory = (Button) view.findViewById(R.id.buttonDeleteHistory);
-        Button buttonDeleteExpired = (Button) view.findViewById(R.id.buttonDeleteAllExpired);
-        Button buttonDeleteAll = (Button) view.findViewById(R.id.buttonWipeData);
-        Button buttonInfo = (Button) view.findViewById(R.id.buttonInfo);
+        buttonInfo.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_tabViewFragment_to_infoFragment));
 
-        buttonInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(view).navigate(R.id.action_tabViewFragment_to_infoFragment);
-            }
+        buttonDeleteHistory.setOnClickListener(v -> {
+            DeleteDialog dialogFragment = new DeleteDialog(Repository.DELETE_TYPE.DELETE_ALL_HISTORY);
+            dialogFragment.show(getChildFragmentManager(), "Test");
         });
 
-        buttonDeleteHistory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogDeleteHistoryConfirm dialogFragment = new DialogDeleteHistoryConfirm();
-                dialogFragment.show(getChildFragmentManager(), "Test");
-            }
+        buttonDeleteAllOccasions.setOnClickListener(v -> {
+            DeleteDialog dialogFragment = new DeleteDialog(Repository.DELETE_TYPE.DELETE_ALL_UNPAID);
+            dialogFragment.show(getChildFragmentManager(), "Test");
         });
 
-        buttonDeleteAllOccasions.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //loadingDialog.startLoading();
-
-                DialogDeleteOccasionsConfirm dialogFragment = new DialogDeleteOccasionsConfirm();
-                dialogFragment.show(getChildFragmentManager(), "Test");
-            }
+        buttonDeleteExpired.setOnClickListener(v -> {
+            DeleteDialog dialogDeleteExpiredConfirm = new DeleteDialog(Repository.DELETE_TYPE.DELETE_ALL_EXPIRED);
+            dialogDeleteExpiredConfirm.show(getChildFragmentManager(), "Test");
         });
 
-        buttonDeleteExpired.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogDeleteExpiredConfirm dialogDeleteExpiredConfirm = new DialogDeleteExpiredConfirm();
-                dialogDeleteExpiredConfirm.show(getChildFragmentManager(), "Test");
-            }
+        buttonDeleteAll.setOnClickListener(v -> {
+            DeleteDialog deleteAllConfirm = new DeleteDialog(Repository.DELETE_TYPE.DELETE_ALL);
+            deleteAllConfirm.show(getChildFragmentManager(), "Test");
         });
 
-        buttonDeleteAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogDeleteAllConfirm deleteAllConfirm = new DialogDeleteAllConfirm();
-                deleteAllConfirm.show(getChildFragmentManager(), "Test");
-            }
-        });
+        SwitchCompat switchDarkModeHome = view.findViewById(R.id.switchDarkModeHome);
+        handleDarkMode(switchDarkModeHome);
+    }
 
-        SwitchCompat switchDarkModeHome = (SwitchCompat) view.findViewById(R.id.switchDarkModeHome);
-
+    /**
+     * This method checks if we have enabled dark mode with SharedPreferences.
+     * If we have enabled dark mode this will recreate the activity on start.
+     * We make the switch checked if we have enabled dark mode.
+     * @param switchDarkModeHome the View switch element.
+     */
+    private void handleDarkMode(SwitchCompat switchDarkModeHome){
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("night", 0);
         Boolean booleanValue = sharedPreferences.getBoolean("night mode", true);
-        Log.d("Im in here!", String.valueOf(booleanValue.booleanValue()));
 
         if(booleanValue.booleanValue()){
-            Log.d("Im in here!", "abc");
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             switchDarkModeHome.setChecked(true);
         }
