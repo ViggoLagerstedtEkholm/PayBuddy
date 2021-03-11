@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModel;
  * @author Viggo Lagerstedt Ekholm
  */
 public class FilterContactViewModel extends ViewModel {
-    private final MutableLiveData<String> searchWord = new MutableLiveData<String>();
+    private final MutableLiveData<String> searchWord = new MutableLiveData<>();
 
     /**
      * Sets the query for our filtering.

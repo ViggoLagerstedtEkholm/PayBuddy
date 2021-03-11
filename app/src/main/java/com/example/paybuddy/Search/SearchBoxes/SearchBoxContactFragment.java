@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
@@ -33,7 +32,7 @@ public class SearchBoxContactFragment extends Fragment {
      * This method is called when we create this fragment.
      * We create our ViewModel and scope it to our activity.
      * This ViewModel will be sending the query String to the Contact filter fragment.
-     * @param savedInstanceState
+     * @param savedInstanceState recently saved instance.
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,9 +42,9 @@ public class SearchBoxContactFragment extends Fragment {
 
     /**
      * This method inflates our view.
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
+     * @param inflater inflater object.
+     * @param container view that contains other views.
+     * @param savedInstanceState recently saved instance.
      * @return
      */
     @Override
@@ -59,7 +58,7 @@ public class SearchBoxContactFragment extends Fragment {
      * This method gets the SearchView from the fragment and adds onQueryListener to set the ViewModel
      * Query for our search.
      * @param view the inflated view
-     * @param savedInstanceState
+     * @param savedInstanceState recently saved instance.
      */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
