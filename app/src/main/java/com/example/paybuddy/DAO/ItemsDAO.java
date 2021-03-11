@@ -8,7 +8,6 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.example.paybuddy.Models.ItemModel;
-import com.example.paybuddy.Models.OccasionModel;
 
 import java.util.List;
 
@@ -29,11 +28,11 @@ public abstract class ItemsDAO {
     @Delete
     public abstract void delete(ItemModel itemModel);
 
-    @Query("DELETE FROM Item_table WHERE occasionID = '-1'")
-    public abstract void deletePending();
-
     @Delete
     public abstract void delete(List<ItemModel> itemModel);
+
+    @Query("DELETE FROM Item_table WHERE occasionID = '-1'")
+    public abstract void deletePending();
 
     @Query("DELETE FROM Item_table")
     public abstract void deleteAllItems();
@@ -83,6 +82,9 @@ public abstract class ItemsDAO {
 
     @Query("SELECT * FROM item_table WHERE occasionID = :ID")
     public abstract LiveData<List<ItemModel>> getOccasionItems(double ID);
+
+    @Query("SELECT COUNT(*) FROM item_table WHERE occasionID = :ID")
+    public abstract LiveData<Integer> getOccasionItemCount(double ID);
 
     public void updateItemsAndOccasion(List<ItemModel> itemModels, long id){
         for(ItemModel itemModel : itemModels){

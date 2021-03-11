@@ -1,16 +1,12 @@
 package com.example.paybuddy.DAO;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.Models.LocationModel;
-
-import java.util.List;
 
 @Dao
 public abstract class LocationDAO {
