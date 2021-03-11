@@ -17,7 +17,7 @@ import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.Models.LocationModel;
 import com.example.paybuddy.Models.OccasionModel;
 
-@Database(entities = {OccasionModel.class, ItemModel.class, LocationModel.class}, version = 4, exportSchema = false)
+@Database(entities = {OccasionModel.class, ItemModel.class, LocationModel.class}, version = 5, exportSchema = false)
 public abstract class DatabaseHelper extends RoomDatabase {
    private static DatabaseHelper instance;
    public abstract OccasionDAO occasionDao();
@@ -35,7 +35,7 @@ public abstract class DatabaseHelper extends RoomDatabase {
       return instance;
    }
 
-   private static RoomDatabase.Callback roomCallBack = new RoomDatabase.Callback(){
+   private static final RoomDatabase.Callback roomCallBack = new RoomDatabase.Callback(){
       @Override
       public void onCreate(@NonNull SupportSQLiteDatabase db) {
          super.onCreate(db);
@@ -44,9 +44,10 @@ public abstract class DatabaseHelper extends RoomDatabase {
    };
 
    private static class PopulateDatabaseAsyncTask extends AsyncTask<Void, Void, Void> {
-      private OccasionDAO occasionDao;
-      private ItemsDAO itemsDAO;
-      private LocationDAO locationDAO;
+      private final OccasionDAO occasionDao;
+      private final ItemsDAO itemsDAO;
+      private final LocationDAO locationDAO;
+
       private PopulateDatabaseAsyncTask(DatabaseHelper databaseHelper){
          occasionDao = databaseHelper.occasionDao();
          itemsDAO = databaseHelper.itemsDao();
