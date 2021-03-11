@@ -24,6 +24,12 @@ import com.example.paybuddy.Viewmodels.ItemsViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *  This dialog shows the "Add item" function. Here the user can add a item.
+ *  @date 2021-03-09
+ *  @version 1.0
+ *  @author Viggo Lagerstedt Ekholm
+ */
 public class DialogAddItem extends DialogFragment {
     private ItemsViewModel itemsViewModel;
     private EditText txfItemName;
@@ -32,12 +38,22 @@ public class DialogAddItem extends DialogFragment {
     private EditText txfItemPersonName;
     private List<EditText> textList;
 
+    /**
+     * Instantiate the ViewModel.
+     * @param savedInstanceState latest saved instance.
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         itemsViewModel = new ViewModelProvider(this).get(ItemsViewModel.class);
     }
 
+    /**
+     * This method is called when the view is created.
+     * We fetch the user inputs and check if there is any input in the EditTexts before adding it to the database.
+     * @param savedInstanceState
+     * @return
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -59,6 +75,7 @@ public class DialogAddItem extends DialogFragment {
         textList.add(txfItemPersonName);
 
         buttonAdd.setOnClickListener(v -> {
+            //Check all fields...
             if(Validator.EditTextHasValues(textList))
             {
                 String title =  txfItemName.getText().toString();

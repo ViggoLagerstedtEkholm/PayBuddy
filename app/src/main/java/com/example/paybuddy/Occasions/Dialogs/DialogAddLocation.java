@@ -37,6 +37,12 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ *  This dialog shows the "Add location" function. Here the user can add a location.
+ *  @date 2021-03-09
+ *  @version 1.0
+ *  @author Viggo Lagerstedt Ekholm
+ */
 public class DialogAddLocation extends DialogFragment implements OnSuccessListener {
     private static final int PERMISSION_FOR_FINE_LOCATION = 100;
 
@@ -57,7 +63,7 @@ public class DialogAddLocation extends DialogFragment implements OnSuccessListen
     private double latitude;
     private double longitude;
     private double altitude;
-    private double accuarcy;
+    private double accuracy;
     private String address;
 
     private SwitchCompat slideLocation;
@@ -102,7 +108,7 @@ public class DialogAddLocation extends DialogFragment implements OnSuccessListen
         backButton.setOnClickListener(v -> dismiss());
 
         saveButton.setOnClickListener(v -> {
-            LocationModel model = new LocationModel(latitude, longitude, altitude, accuarcy, address);
+            LocationModel model = new LocationModel(latitude, longitude, altitude, accuracy, address);
             locationViewModel.setLocation(model);
             stopLocationUpdate();
             dismiss();
@@ -128,10 +134,10 @@ public class DialogAddLocation extends DialogFragment implements OnSuccessListen
         });
         slideLocationMode.setOnClickListener(v -> {
             if (slideLocationMode.isChecked()) {
-                locationRequest.setPriority(locationRequest.PRIORITY_LOW_POWER);
+                locationRequest.setPriority(LocationRequest.PRIORITY_LOW_POWER);
                 valueTypeOfLocationAccuracy.setText("Lowest location accuracy.");
             } else {
-                locationRequest.setPriority(locationRequest.PRIORITY_HIGH_ACCURACY);
+                locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
                 valueTypeOfLocationAccuracy.setText("Highest location acccuracy");
             }
         });
@@ -207,10 +213,10 @@ public class DialogAddLocation extends DialogFragment implements OnSuccessListen
             if (location.hasAccuracy()) {
                 String Accuracy = String.valueOf(location.getAccuracy());
                 valueAccuracy.setText(Accuracy);
-                accuarcy = Double.parseDouble(String.valueOf(location.getAccuracy()));
+                accuracy = Double.parseDouble(String.valueOf(location.getAccuracy()));
             } else {
                 valueAccuracy.setText("No accuracy detected.");
-                accuarcy = 0.0;
+                accuracy = 0.0;
             }
 
             try {

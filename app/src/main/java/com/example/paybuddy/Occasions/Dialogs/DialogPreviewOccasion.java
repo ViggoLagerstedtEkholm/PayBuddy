@@ -19,31 +19,42 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.paybuddy.Viewmodels.ItemsViewModel;
-import com.example.paybuddy.Viewmodels.OccasionViewModel;
 import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.R;
 
 import java.util.ArrayList;
 
+/**
+ *  This dialog shows the "Make expired" function. Here the user can make a pending occasion expired.
+ *  @date 2021-03-09
+ *  @version 1.0
+ *  @author Viggo Lagerstedt Ekholm
+ */
 public class DialogPreviewOccasion extends DialogFragment {
     private OccasionModel occasionModel;
     private PreviewRecyclerViewAdapter recyclerViewAdapter;
-    private OccasionViewModel occasionViewModel;
     private ItemsViewModel itemsViewModel;
 
-    public DialogPreviewOccasion(){}
-
+    //Receives the OccasionModel that we want to preview.
     public DialogPreviewOccasion(OccasionModel occasionModel){
         this.occasionModel = occasionModel;
     }
 
+    /**
+     * Instantiate the ViewModel.
+     * @param savedInstanceState latest saved instance.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        occasionViewModel = new ViewModelProvider(requireActivity()).get(OccasionViewModel.class);
         itemsViewModel = new ViewModelProvider(requireActivity()).get(ItemsViewModel.class);
     }
 
+    /**
+     * In this method we create the dialog that will show the occasion content.
+     * @param savedInstanceState latest saved instance.
+     * @return Dialog
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -53,19 +64,21 @@ public class DialogPreviewOccasion extends DialogFragment {
 
         instantiate(view);
 
-        TextView textViewPreviewTitle = (TextView) view.findViewById(R.id.textViewPreviewTitle);
+        TextView textViewPreviewTitle = view.findViewById(R.id.textViewPreviewTitle);
         TextView textViewPreviewExpiringDate = view.findViewById(R.id.textViewPreviewExpiringDate);
         TextView textViewPreviewPeople = view.findViewById(R.id.textViewPreviewPeople);
         TextView textViewPreviewTotalCost = view.findViewById(R.id.textViewPreviewTotalCost);
 
         textViewPreviewTotalCost.setText("0.0");
 
+        //Get occasion cost for this occasion.
         itemsViewModel.getOccasionTotalCost(occasionModel.getID()).observe(this, cost -> {
             if(cost != null){
                 textViewPreviewTotalCost.setText(String.valueOf(cost));
             }
         });
 
+        //Get the people in this occasion.
         itemsViewModel.getPeopleOccasion(occasionModel.getID()).observe(this, people -> {
             if(people != null){
                 StringBuilder personNames = new StringBuilder();
@@ -84,6 +97,7 @@ public class DialogPreviewOccasion extends DialogFragment {
             }
         });
 
+        //Get occasion items for this occasion.
         itemsViewModel.getOccasionItems(occasionModel.getID()).observe(this, items -> recyclerViewAdapter.addItems(items));
 
         textViewPreviewTitle.setText(occasionModel.getDescription());
@@ -102,6 +116,10 @@ public class DialogPreviewOccasion extends DialogFragment {
         return alertDialog;
     }
 
+    /**
+     * Here we setup the RecyclerView.
+     * @param view the fragment view
+     */
     private void instantiate(View view){
         RecyclerView recyclerView = view.findViewById(R.id.activity_main_rv);
         recyclerView.setHasFixedSize(true);
