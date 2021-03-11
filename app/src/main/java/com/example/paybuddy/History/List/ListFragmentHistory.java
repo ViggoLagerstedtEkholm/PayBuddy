@@ -30,13 +30,9 @@ import java.util.List;
 
 
 public class ListFragmentHistory extends Fragment {
-
-    private int mColumnCount = 1;
     private OccasionViewModel occasionViewModel;
-    private ItemsViewModel itemsViewModel;
     private FilterSelectionViewModel filterSelectionViewModel;
     private HistoryRecyclerViewAdapter historyRecyclerViewAdapter;
-    private List<OccasionModel> occasionModels;
 
     public ListFragmentHistory(){}
 
@@ -44,10 +40,10 @@ public class ListFragmentHistory extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         occasionViewModel = new ViewModelProvider(this).get(OccasionViewModel.class);
-        itemsViewModel = new ViewModelProvider(this).get(ItemsViewModel.class);
+        ItemsViewModel itemsViewModel = new ViewModelProvider(this).get(ItemsViewModel.class);
         LocationViewModel locationViewModel = new ViewModelProvider(this).get(LocationViewModel.class);
-        filterSelectionViewModel = new ViewModelProvider(getActivity()).get(FilterSelectionViewModel.class);
-        occasionModels = new ArrayList<>();
+        filterSelectionViewModel = new ViewModelProvider(requireActivity()).get(FilterSelectionViewModel.class);
+        List<OccasionModel> occasionModels = new ArrayList<>();
         historyRecyclerViewAdapter = new HistoryRecyclerViewAdapter(occasionModels, this, occasionViewModel, locationViewModel, itemsViewModel);
     }
 
@@ -56,36 +52,27 @@ public class ListFragmentHistory extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_history, container, false);
 
-        occasionViewModel.getPaidOccasions().observe(getActivity(), new Observer<List<OccasionWithItems>>() {
-            @Override
-            public void onChanged(List<OccasionWithItems> occasionWithItems) {
-                List<OccasionModel> occasionModels = new ArrayList<>();
+        occasionViewModel.getPaidOccasions().observe(requireActivity(), occasionWithItems -> {
+            List<OccasionModel> occasionModels = new ArrayList<>();
 
-                for(OccasionWithItems occasionModel : occasionWithItems){
-                    OccasionModel aOccasionModel = occasionModel.occasionModel;
-                    aOccasionModel.setItems(occasionModel.itemModelList);
-                    aOccasionModel.setLocationModel(occasionModel.locationModel);
+            for(OccasionWithItems occasionModel : occasionWithItems){
+                OccasionModel aOccasionModel = occasionModel.occasionModel;
+                aOccasionModel.setItems(occasionModel.itemModelList);
+                aOccasionModel.setLocationModel(occasionModel.locationModel);
 
-                    occasionModels.add(aOccasionModel);
-                }
-
-                historyRecyclerViewAdapter.addItems(occasionModels);
+                occasionModels.add(aOccasionModel);
             }
+
+            historyRecyclerViewAdapter.addItems(occasionModels);
         });
 
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
             recyclerView.setAdapter(historyRecyclerViewAdapter);
         }
-
-
         return view;
     }
 
@@ -93,11 +80,6 @@ public class ListFragmentHistory extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        filterSelectionViewModel.getSelected().observe(getActivity(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String searchWord) {
-                historyRecyclerViewAdapter.getFilter().filter(searchWord);
-            };
-        });
+        filterSelectionViewModel.getSelected().observe(requireActivity(), searchWord -> historyRecyclerViewAdapter.getFilter().filter(searchWord));
     }
 }
