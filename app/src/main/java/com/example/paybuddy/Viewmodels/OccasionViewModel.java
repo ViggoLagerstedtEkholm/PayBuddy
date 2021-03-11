@@ -16,10 +16,10 @@ import java.util.List;
 public class OccasionViewModel extends AndroidViewModel {
     private OccasionRepository occasionRepository;
 
-    private LiveData<List<OccasionWithItems>> occasionsWithItems;
-    private LiveData<List<OccasionWithItems>> paidOccasions;
-    private LiveData<List<OccasionWithItems>> expiredOccasions;
-    private LiveData<List<OccasionWithItems>> allOccasions;
+    private final LiveData<List<OccasionWithItems>> occasionsWithItems;
+    private final LiveData<List<OccasionWithItems>> paidOccasions;
+    private final LiveData<List<OccasionWithItems>> expiredOccasions;
+    private final LiveData<List<OccasionWithItems>> allOccasions;
 
     public OccasionViewModel(@NonNull Application application) {
         super(application);

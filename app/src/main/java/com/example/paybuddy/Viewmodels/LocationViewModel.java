@@ -4,19 +4,13 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 
-import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.Models.LocationModel;
-import com.example.paybuddy.Models.OccasionModel;
-import com.example.paybuddy.Repositories.ItemsRepository;
 import com.example.paybuddy.Repositories.LocationRepository;
 import com.example.paybuddy.Repositories.Repository;
 
-import java.util.List;
-
 public class LocationViewModel extends AndroidViewModel {
-    private LocationRepository locationRepository;
+    private final LocationRepository locationRepository;
 
     public LocationViewModel(@NonNull Application application) {
         super(application);

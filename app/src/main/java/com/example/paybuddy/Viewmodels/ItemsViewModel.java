@@ -13,10 +13,10 @@ import com.example.paybuddy.Repositories.Repository;
 import java.util.List;
 
 public class ItemsViewModel extends AndroidViewModel {
-    private ItemsRepository itemsRepository;
-    private LiveData<List<ItemModel>> items;
-    private LiveData<Integer> totalCost;
-    private LiveData<List<ItemModel>> pendingItems;
+    private final ItemsRepository itemsRepository;
+    private final LiveData<List<ItemModel>> items;
+    private final LiveData<Integer> totalCost;
+    private final LiveData<List<ItemModel>> pendingItems;
 
     public ItemsViewModel(@NonNull Application application) {
         super(application);
@@ -66,6 +66,11 @@ public class ItemsViewModel extends AndroidViewModel {
     public LiveData<List<ItemModel>> getOccasionItems(double ID) {
         return itemsRepository.getOccasionItems(ID);
     }
+
+    public LiveData<Integer> getOccasionItemCount(double ID){
+        return itemsRepository.getOccasionItemCount(ID);
+    }
+
 
     public void deleteAllItems(Repository.DELETE_TYPE delete_type) {
         itemsRepository.deleteAll(delete_type);
