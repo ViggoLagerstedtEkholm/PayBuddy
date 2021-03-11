@@ -3,16 +3,24 @@ package com.example.paybuddy.Models;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+/**
+ * This class contains all the data our item should have.
+ * We also use getters and setters to access this data.
+ *  @date 2021-03-09
+ *  @version 1.0
+ *  @author Viggo Lagerstedt Ekholm
+ */
+
 @Entity(tableName="Item_table")
 public class ItemModel {
     @PrimaryKey(autoGenerate =true )
     private int ID;
 
     private double price;
-    private String description;
-    private int quantity;
+    private final String description;
+    private final int quantity;
     private long occasionID;
-    private String assignedPerson;
+    private final String assignedPerson;
 
     public ItemModel(double price, String description, int quantity, String assignedPerson) {
         this.price = price;

@@ -1,24 +1,26 @@
 package com.example.paybuddy.Models;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.widget.TextView;
-
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.example.paybuddy.R;
+/**
+ * This class contains all the data our location should have.
+ * We also use getters and setters to access this data.
+ *  @date 2021-03-09
+ *  @version 1.0
+ *  @author Viggo Lagerstedt Ekholm
+ */
 
 @Entity(tableName="Location_table")
 public class LocationModel {
     @PrimaryKey(autoGenerate = true)
     private int ID;
 
-    private double latitude;
-    private double longitude;
-    private double altititude;
-    private double accuracy;
-    private String adress;
+    private final double latitude;
+    private final double longitude;
+    private final double altitude;
+    private final double accuracy;
+    private final String address;
 
     public long getOccasionID() {
         return occasionID;
@@ -30,12 +32,12 @@ public class LocationModel {
 
     private long occasionID;
 
-    public LocationModel(double latitude, double longitude, double altititude, double accuracy, String adress) {
+    public LocationModel(double latitude, double longitude, double altitude, double accuracy, String address) {
         this.latitude = latitude;
         this.longitude = longitude;
-        this.altititude = altititude;
+        this.altitude = altitude;
         this.accuracy = accuracy;
-        this.adress = adress;
+        this.address = address;
     }
 
     public int getID() {
@@ -50,39 +52,19 @@ public class LocationModel {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
     public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
-    public double getAltititude() {
-        return altititude;
-    }
-
-    public void setAltititude(double altititude) {
-        this.altititude = altititude;
+    public double getAltitude() {
+        return altitude;
     }
 
     public double getAccuracy() {
         return accuracy;
     }
 
-    public void setAccuracy(double accuracy) {
-        this.accuracy = accuracy;
-    }
-
-    public String getAdress() {
-        return adress;
-    }
-
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public String getAddress() {
+        return address;
     }
 }
