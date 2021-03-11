@@ -23,18 +23,20 @@ import com.example.paybuddy.Viewmodels.ItemsViewModel;
 import com.example.paybuddy.Viewmodels.LocationViewModel;
 import com.example.paybuddy.Viewmodels.OccasionViewModel;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecyclerViewAdapter.ViewHolder> implements Filterable {
     private List<OccasionModel> filteredItems;
     private List<OccasionModel> items;
-    private Fragment fragment;
+    private final Fragment fragment;
 
-    private LocationViewModel locationViewModel;
-    private OccasionViewModel occasionViewModel;
-    private ItemsViewModel itemsViewModel;
-    private CoordinatesViewModel coordinatesViewModel;
+    private final LocationViewModel locationViewModel;
+    private final OccasionViewModel occasionViewModel;
+    private final ItemsViewModel itemsViewModel;
+    private final CoordinatesViewModel coordinatesViewModel;
 
     public HistoryRecyclerViewAdapter(List<OccasionModel> items,
                                       Fragment fragment,
@@ -49,16 +51,17 @@ public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecy
         this.itemsViewModel = itemsViewModel;
         this.locationViewModel = locationViewModel;
 
-        coordinatesViewModel = new ViewModelProvider(fragment.getActivity()).get(CoordinatesViewModel.class);
+        coordinatesViewModel = new ViewModelProvider(fragment.requireActivity()).get(CoordinatesViewModel.class);
     }
 
     public void addItems(List<OccasionModel> items){
         this.items = items;
+        this.filteredItems = new ArrayList<>(items);
         this.notifyDataSetChanged();
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(fragment.getContext()).inflate(R.layout.fragment_list_history_item, parent, false);
         return new ViewHolder(view);
     }
@@ -70,33 +73,24 @@ public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecy
         LocationModel location = occasionModel.getLocationModel();
 
         if(location != null){
-            holder.textView_list_history_location_value.setText(location.getAdress());
+            holder.textView_list_history_location_value.setText(location.getAddress());
         }
 
-        holder.buttonHistoryLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                coordinatesViewModel.setLocation(occasionModel.getLocationModel());
-                Navigation.findNavController(holder.mView).navigate(R.id.action_tabViewFragment_to_mapsFragment);
-            }
+        holder.buttonHistoryLocation.setOnClickListener(v -> {
+            coordinatesViewModel.setLocation(occasionModel.getLocationModel());
+            Navigation.findNavController(holder.mView).navigate(R.id.action_tabViewFragment_to_mapsFragment);
         });
 
-        holder.buttonPostPone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("Updating?", "??");
-                occasionModel.setPaid(false);
-                occasionViewModel.update(occasionModel);
-            }
+        holder.buttonPostPone.setOnClickListener(v -> {
+            Log.d("Updating?", "??");
+            occasionModel.setPaid(false);
+            occasionViewModel.update(occasionModel);
         });
 
-        holder.buttonRemoveHistory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                locationViewModel.delete(occasionModel.getLocationModel());
-                occasionViewModel.delete(occasionModel);
-                itemsViewModel.delete(occasionModel.getItems());
-            }
+        holder.buttonRemoveHistory.setOnClickListener(v -> {
+            locationViewModel.delete(occasionModel.getLocationModel());
+            occasionViewModel.delete(occasionModel);
+            itemsViewModel.delete(occasionModel.getItems());
         });
 
         itemsViewModel.getOccasionTotalCost(occasionModel.getID()).observe(fragment.getViewLifecycleOwner(), totalCost -> {
@@ -106,12 +100,9 @@ public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecy
             }
         });
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogPreviewOccasion dialogFragment = new DialogPreviewOccasion(occasionModel);
-                dialogFragment.show(fragment.getChildFragmentManager(), "Test");
-            }
+        holder.itemView.setOnClickListener(v -> {
+            DialogPreviewOccasion dialogFragment = new DialogPreviewOccasion(occasionModel);
+            dialogFragment.show(fragment.getChildFragmentManager(), "Test");
         });
 
         itemsViewModel.getOccasionItems(occasionModel.getID()).observe(fragment.getViewLifecycleOwner(), items -> {
@@ -135,7 +126,7 @@ public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecy
         return filter;
     }
 
-    private Filter filter = new Filter() {
+    private final Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             List<OccasionModel> filteredList = new ArrayList<>();
@@ -167,7 +158,7 @@ public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecy
         }
     };
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView textView_list_history_title;
         public final TextView textView_list_history_sum_of_items_value;
@@ -187,19 +178,20 @@ public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecy
             super(view);
             mView = view;
 
-            buttonRemove = (Button) view.findViewById(R.id.buttonDeleteDuePayment);
-            buttonPostPone = (Button) view.findViewById(R.id.buttonHistoryPostPone);
-            buttonCall = (Button) view.findViewById(R.id.buttonCall);
-            buttonRemoveHistory = (Button) view.findViewById(R.id.buttonRemoveHistory);
-            buttonHistoryLocation = (Button) view.findViewById(R.id.buttonHistoryLocation);
+            buttonRemove =view.findViewById(R.id.buttonDeleteDuePayment);
+            buttonPostPone = view.findViewById(R.id.buttonHistoryPostPone);
+            buttonCall = view.findViewById(R.id.buttonCall);
+            buttonRemoveHistory = view.findViewById(R.id.buttonRemoveHistory);
+            buttonHistoryLocation = view.findViewById(R.id.buttonHistoryLocation);
 
-            textView_list_history_title = (TextView) view.findViewById(R.id.textView_list_history_title);
-            textView_list_history_sum_of_items_value = (TextView) view.findViewById(R.id.textView_list_history_sum_of_items_value);
-            textView_list_history_names_value = (TextView) view.findViewById(R.id.textView_list_history_names_value);
-            textView_list_history_expiringDate_value = (TextView) view.findViewById(R.id.textView_list_history_expiringDate_value);
-            textView_list_history_location_value = (TextView) view.findViewById(R.id.textView_list_history_location_value);
+            textView_list_history_title = view.findViewById(R.id.textView_list_history_title);
+            textView_list_history_sum_of_items_value = view.findViewById(R.id.textView_list_history_sum_of_items_value);
+            textView_list_history_names_value = view.findViewById(R.id.textView_list_history_names_value);
+            textView_list_history_expiringDate_value = view.findViewById(R.id.textView_list_history_expiringDate_value);
+            textView_list_history_location_value = view.findViewById(R.id.textView_list_history_location_value);
         }
 
+        @NotNull
         @Override
         public String toString() {
             return super.toString() + " '" + textView_list_history_title.getText() + "'";

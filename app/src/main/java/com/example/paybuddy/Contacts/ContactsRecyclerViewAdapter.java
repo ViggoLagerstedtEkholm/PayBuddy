@@ -16,11 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.paybuddy.Models.Contact;
 import com.example.paybuddy.R;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ContactsRecyclerViewAdapter extends RecyclerView.Adapter<ContactsRecyclerViewAdapter.ViewHolder> implements Filterable {
-    private Context context;
+    private final Context context;
     private List<Contact> contacts;
     private List<Contact> filteredItems;
 
@@ -35,6 +37,7 @@ public class ContactsRecyclerViewAdapter extends RecyclerView.Adapter<ContactsRe
         notifyDataSetChanged();
     }
 
+    @NotNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -52,12 +55,9 @@ public class ContactsRecyclerViewAdapter extends RecyclerView.Adapter<ContactsRe
         holder.mIdView.setText(Name);
         holder.mContentView.setText(phoneNr);
 
-        holder.buttonCallContact.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + aContact.getPhoneNumber()));
-                context.startActivity(intent);
-            }
+        holder.buttonCallContact.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + aContact.getPhoneNumber()));
+            context.startActivity(intent);
         });
     }
 
@@ -71,7 +71,7 @@ public class ContactsRecyclerViewAdapter extends RecyclerView.Adapter<ContactsRe
         return filter;
     }
 
-    private Filter filter = new Filter() {
+    private final Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             List<Contact> filteredList = new ArrayList<>();
@@ -101,7 +101,7 @@ public class ContactsRecyclerViewAdapter extends RecyclerView.Adapter<ContactsRe
         }
     };
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
@@ -111,11 +111,12 @@ public class ContactsRecyclerViewAdapter extends RecyclerView.Adapter<ContactsRe
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            buttonCallContact = (Button) view.findViewById(R.id.buttonCallContact);
-            mIdView = (TextView) view.findViewById(R.id.item_number);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            buttonCallContact = view.findViewById(R.id.buttonCallContact);
+            mIdView = view.findViewById(R.id.item_number);
+            mContentView = view.findViewById(R.id.content);
         }
 
+        @NotNull
         @Override
         public String toString() {
             return super.toString() + " '" + mContentView.getText() + "'";

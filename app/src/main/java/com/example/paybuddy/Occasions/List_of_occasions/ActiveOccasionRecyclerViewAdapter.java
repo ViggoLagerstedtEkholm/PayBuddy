@@ -23,9 +23,20 @@ import com.example.paybuddy.R;
 import com.example.paybuddy.Viewmodels.LocationViewModel;
 import com.example.paybuddy.Viewmodels.OccasionViewModel;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This is a RecyclerView class that displays a list of OccasionModels.
+ * We also have observers to receive database items.
+ *
+ * We use the interface Filterable to filter results in this RecyclerView.
+ * @date 2021-03-09
+ * @version 1.0
+ * @author Viggo Lagerstedt Ekholm
+ */
 public class ActiveOccasionRecyclerViewAdapter extends RecyclerView.Adapter<ActiveOccasionRecyclerViewAdapter.ViewHolder> implements Filterable {
     private List<OccasionModel> items;
     private List<OccasionModel> filteredItems;
@@ -47,7 +58,7 @@ public class ActiveOccasionRecyclerViewAdapter extends RecyclerView.Adapter<Acti
         this.filteredItems = new ArrayList<>();
         this.locationViewModel = locationViewModel;
 
-        coordinatesViewModel = new ViewModelProvider(currentFragment.getActivity()).get(CoordinatesViewModel.class);
+        coordinatesViewModel = new ViewModelProvider(currentFragment.requireActivity()).get(CoordinatesViewModel.class);
     }
 
     public void addItems(List<OccasionModel> occasionModels){
@@ -56,13 +67,25 @@ public class ActiveOccasionRecyclerViewAdapter extends RecyclerView.Adapter<Acti
         notifyDataSetChanged();
     }
 
+    /**
+     * This method inflates our "fragment_occasion_item.xml" that is the view for our items in the RecyclerView.
+     * @param parent view that contains other views.
+     * @param viewType int.
+     * @return ViewHolder
+     */
+    @NotNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_occasion_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_occasion_item, parent, false);
         return new ViewHolder(view);
     }
 
+    /**
+     * This method will be called for every item in the recyclerview. We add listeners and different
+     * logic when we click the occasion in the RecyclerView.
+     * @param holder class containing widgets.
+     * @param position of our item in the items array.
+     */
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         OccasionModel occasionModel = items.get(position);
@@ -74,85 +97,87 @@ public class ActiveOccasionRecyclerViewAdapter extends RecyclerView.Adapter<Acti
 
         LocationModel location = occasionModel.getLocationModel();
         if(location != null){
-            holder.textViewLocationOccasionCard.setText(location.getAdress());
+            holder.textViewLocationOccasionCard.setText(location.getAddress());
         }
 
+        //Observes the total cost of the
         itemsViewModel.getOccasionTotalCost(occasionModel.getID()).observe(currentFragment.getViewLifecycleOwner(), totalCost -> {
             if(totalCost != null){
                 double cost = totalCost.doubleValue();
-                holder.textViewSumOfItemsOccasionCard.setText(Double.toString(cost));
+                holder.textViewSumOfItemsOccasionCard.setText(String.valueOf(cost));
             }
         });
 
-        itemsViewModel.getOccasionItems(occasionModel.getID()).observe(currentFragment.getViewLifecycleOwner(), people -> {
-            int count = people.size();
-            holder.textViewPeopleOccasionCard.setText(String.valueOf(count));
+        //Gets the total amount of items in a occasion.
+        itemsViewModel.getOccasionItemCount(occasionModel.getID()).observe(currentFragment.getViewLifecycleOwner(), count -> holder.textViewPeopleOccasionCard.setText(String.valueOf(count.intValue())));
+
+        //Sends the location of this occasion to the maps fragment.
+        holder.button_see_location.setOnClickListener(v -> {
+            coordinatesViewModel.setLocation(occasionModel.getLocationModel());
+            Navigation.findNavController(holder.mView).navigate(R.id.action_tabViewFragment_to_mapsFragment);
         });
 
-        holder.button_see_location.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                coordinatesViewModel.setLocation(occasionModel.getLocationModel());
-                Navigation.findNavController(holder.mView).navigate(R.id.action_tabViewFragment_to_mapsFragment);
-            }
+        //If the user holds a occasion this listener is called.
+        holder.itemView.setOnLongClickListener(v -> {
+            DialogMakeExpired dialogMakeExpired = new DialogMakeExpired(occasionModel);
+            dialogMakeExpired.show(currentFragment.getChildFragmentManager(), "Test");
+            return false;
         });
 
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                DialogMakeExpired dialogMakeExpired = new DialogMakeExpired(occasionModel);
-                dialogMakeExpired.show(currentFragment.getChildFragmentManager(), "Test");
-                return false;
-            }
+        //Shows a preview dialog.
+        holder.itemView.setOnClickListener(v -> {
+            DialogPreviewOccasion dialogFragment = new DialogPreviewOccasion(occasionModel);
+            dialogFragment.show(currentFragment.getChildFragmentManager(), "Test");
         });
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogPreviewOccasion dialogFragment = new DialogPreviewOccasion(occasionModel);
-                dialogFragment.show(currentFragment.getChildFragmentManager(), "Test");
-            }
+        //Remove occasion and items/location to that occasion.
+        holder.buttonRemove.setOnClickListener(v -> {
+            locationViewModel.delete(occasionModel.getLocationModel());
+            occasionViewModel.delete(occasionModel);
+            itemsViewModel.delete(occasionModel.getItems());
         });
 
-        holder.buttonRemove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                locationViewModel.delete(occasionModel.getLocationModel());
-                occasionViewModel.delete(occasionModel);
-                itemsViewModel.delete(occasionModel.getItems());
-            }
-        });
-
-        holder.buttonRegisterPaid.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO
-                occasionModel.setPaid(true);
-                occasionViewModel.update(occasionModel);
-            }
+        //Register occasion as paid.
+        holder.buttonRegisterPaid.setOnClickListener(v -> {
+            occasionModel.setPaid(true);
+            occasionViewModel.update(occasionModel);
         });
     }
 
+    /**
+     * This method returns the items size.
+     * @return int size.
+     */
     @Override
     public int getItemCount() {
         return items.size();
     }
 
+    /**
+     * This method returns the filter for this RecyclerView.
+     * @return Filter
+     */
     @Override
     public Filter getFilter() {
         return filter;
     }
 
-    private Filter filter = new Filter() {
+    /**
+     * Creates a new filter.
+     * @return Filter
+     */
+    private final Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             List<OccasionModel> filteredList = new ArrayList<>();
 
+            //Check if empty.
             if(constraint == null || constraint.length() == 0){
                 filteredList.addAll(filteredItems);
             }else{
                 String filterPattern = constraint.toString().toLowerCase().trim();
 
+                //Try to find a match.
                 for(OccasionModel item : filteredItems){
                     if(item.getDescription().toLowerCase().contains(filterPattern)){
                         filteredList.add(item);
@@ -165,6 +190,11 @@ public class ActiveOccasionRecyclerViewAdapter extends RecyclerView.Adapter<Acti
             return results;
         }
 
+        /**
+         * This method fills our items list with the filtered item list.
+         * @param constraint sequence of char.
+         * @param results filtered results.
+         */
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             if(((List) results.values).size() != 0) {
@@ -175,7 +205,13 @@ public class ActiveOccasionRecyclerViewAdapter extends RecyclerView.Adapter<Acti
         }
     };
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    /**
+     * This class is a placeholder for every single item in the RecyclerView.
+     * @date 2021-03-09
+     * @version 1.0
+     * @author Viggo Lagerstedt Ekholm
+     */
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView titleOfMyOccasion;
         public final TextView textViewDateOccasionCard;
@@ -191,19 +227,20 @@ public class ActiveOccasionRecyclerViewAdapter extends RecyclerView.Adapter<Acti
             super(view);
             mView = view;
 
-            buttonRemove = (Button) view.findViewById(R.id.buttonRemoveItem);
-            buttonRegisterPaid = (Button) view.findViewById(R.id.buttonRegisterPaid);
-            button_see_location = (Button) view.findViewById(R.id.button_see_location);
+            buttonRemove = view.findViewById(R.id.buttonRemoveItem);
+            buttonRegisterPaid = view.findViewById(R.id.buttonRegisterPaid);
+            button_see_location = view.findViewById(R.id.button_see_location);
 
-            titleOfMyOccasion = (TextView) view.findViewById(R.id.titleOfMyOccasion);
-            textViewDateOccasionCard = (TextView) view.findViewById(R.id.textViewDateOccasionCard);
+            titleOfMyOccasion = view.findViewById(R.id.titleOfMyOccasion);
+            textViewDateOccasionCard = view.findViewById(R.id.textViewDateOccasionCard);
 
-            textViewLocationOccasionCard = (TextView) view.findViewById(R.id.textViewLocationOccasionCard);
+            textViewLocationOccasionCard = view.findViewById(R.id.textViewLocationOccasionCard);
 
-            textViewSumOfItemsOccasionCard = (TextView) view.findViewById(R.id.textViewSumOfItemsOccasionCard);
-            textViewPeopleOccasionCard = (TextView) view.findViewById(R.id.textViewPeopleOccasionCard);
+            textViewSumOfItemsOccasionCard = view.findViewById(R.id.textViewSumOfItemsOccasionCard);
+            textViewPeopleOccasionCard = view.findViewById(R.id.textViewPeopleOccasionCard);
         }
 
+        @NotNull
         @Override
         public String toString() {
             return super.toString() + " '" + titleOfMyOccasion.getText() + "'";

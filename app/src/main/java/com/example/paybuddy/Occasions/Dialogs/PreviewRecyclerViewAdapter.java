@@ -9,9 +9,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.paybuddy.Viewmodels.ItemsViewModel;
-import com.example.paybuddy.Viewmodels.OccasionViewModel;
 import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.R;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -21,12 +22,10 @@ import java.util.List;
 public class PreviewRecyclerViewAdapter extends RecyclerView.Adapter<PreviewRecyclerViewAdapter.ViewHolder> {
 
     private List<ItemModel> items;
-    private OccasionViewModel occasionViewModel;
-    private ItemsViewModel itemViewModel;
+    private final ItemsViewModel itemViewModel;
 
-    public PreviewRecyclerViewAdapter(List<ItemModel> items, OccasionViewModel occasionViewModel, ItemsViewModel itemViewModel) {
+    public PreviewRecyclerViewAdapter(List<ItemModel> items, ItemsViewModel itemViewModel) {
         this.items = items;
-        this.occasionViewModel = occasionViewModel;
         this.itemViewModel = itemViewModel;
     }
 
@@ -35,6 +34,7 @@ public class PreviewRecyclerViewAdapter extends RecyclerView.Adapter<PreviewRecy
         notifyDataSetChanged();
     }
 
+    @NotNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -56,12 +56,7 @@ public class PreviewRecyclerViewAdapter extends RecyclerView.Adapter<PreviewRecy
         holder.mQuantity.setText(String.valueOf(quantity));
         holder.mPerson.setText(name);
 
-        holder.deleteItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                itemViewModel.delete(itemModel);
-            }
-        });
+        holder.deleteItem.setOnClickListener(v -> itemViewModel.delete(itemModel));
     }
 
     @Override
@@ -69,7 +64,7 @@ public class PreviewRecyclerViewAdapter extends RecyclerView.Adapter<PreviewRecy
         return items.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mDescription;
         public final TextView mPrice;
@@ -81,13 +76,14 @@ public class PreviewRecyclerViewAdapter extends RecyclerView.Adapter<PreviewRecy
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            deleteItem = (Button) view.findViewById(R.id.buttonRemoveItem);
-            mDescription = (TextView) view.findViewById(R.id.titleOfMyOccasion);
-            mPrice = (TextView) view.findViewById(R.id.textViewPrice);
-            mQuantity = (TextView) view.findViewById(R.id.textViewQuantity);
-            mPerson = (TextView) view.findViewById(R.id.textViewPersonName);
+            deleteItem = view.findViewById(R.id.buttonRemoveItem);
+            mDescription = view.findViewById(R.id.titleOfMyOccasion);
+            mPrice = view.findViewById(R.id.textViewPrice);
+            mQuantity = view.findViewById(R.id.textViewQuantity);
+            mPerson = view.findViewById(R.id.textViewPersonName);
         }
 
+        @NotNull
         @Override
         public String toString() {
             return super.toString() + " '" + mDescription.getText() + "'";
