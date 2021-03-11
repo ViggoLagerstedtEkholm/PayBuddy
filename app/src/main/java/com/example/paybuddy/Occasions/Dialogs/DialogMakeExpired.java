@@ -20,7 +20,7 @@ import com.example.paybuddy.Viewmodels.OccasionViewModel;
 
 public class DialogMakeExpired extends DialogFragment {
     private OccasionViewModel occasionViewModel;
-    private OccasionModel occasionModel;
+    private final OccasionModel occasionModel;
 
     public DialogMakeExpired(OccasionModel occasionModel){
         this.occasionModel = occasionModel;
@@ -34,27 +34,19 @@ public class DialogMakeExpired extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        LayoutInflater inflater = getActivity().getLayoutInflater();
+        LayoutInflater inflater = requireActivity().getLayoutInflater();
 
         View view = inflater.inflate(R.layout.fragment_make_expired, null);
 
-        Button makeExpired = (Button) view.findViewById(R.id.buttonConfirmExpire);
-        Button cancelExpire = (Button) view.findViewById(R.id.buttonCancelExpire);
+        Button makeExpired = view.findViewById(R.id.buttonConfirmExpire);
+        Button cancelExpire = view.findViewById(R.id.buttonCancelExpire);
 
-        cancelExpire.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
+        cancelExpire.setOnClickListener(v -> dismiss());
 
-        makeExpired.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                occasionModel.setExpired(true);
-                occasionViewModel.update(occasionModel);
-                dismiss();
-            }
+        makeExpired.setOnClickListener(v -> {
+            occasionModel.setExpired(true);
+            occasionViewModel.update(occasionModel);
+            dismiss();
         });
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());

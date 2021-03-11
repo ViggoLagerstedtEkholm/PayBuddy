@@ -16,7 +16,7 @@ import java.text.DateFormat;
 import java.util.Calendar;
 
 public class DialogDatePicker extends DialogFragment implements DatePickerDialog.OnDateSetListener {
-    private Calendar calendar = Calendar.getInstance();
+    private final Calendar calendar = Calendar.getInstance();
     private DateViewModel dateViewModel;
 
     @Override

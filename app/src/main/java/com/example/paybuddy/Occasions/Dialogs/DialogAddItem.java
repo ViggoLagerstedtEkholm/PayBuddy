@@ -24,7 +24,7 @@ import com.example.paybuddy.Viewmodels.ItemsViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DialogAddItem extends DialogFragment implements View.OnClickListener {
+public class DialogAddItem extends DialogFragment {
     private ItemsViewModel itemsViewModel;
     private EditText txfItemName;
     private EditText txfItemPrice;
@@ -41,24 +41,41 @@ public class DialogAddItem extends DialogFragment implements View.OnClickListene
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        LayoutInflater inflater = getActivity().getLayoutInflater();
+        LayoutInflater inflater = requireActivity().getLayoutInflater();
 
         View view = inflater.inflate(R.layout.fragment_item_input, null);
 
         textList = new ArrayList<>();
 
-        Button buttonAdd = (Button) view.findViewById(R.id.buttonAddItemToList);
-        txfItemName = (EditText) view.findViewById(R.id.txfItemName);
-        txfItemPrice = (EditText) view.findViewById(R.id.txfItemPrice);
-        txfItemQuantity = (EditText) view.findViewById(R.id.txfItemQuantity);
-        txfItemPersonName = (EditText) view.findViewById(R.id.txfItemPersonName);
+        Button buttonAdd = view.findViewById(R.id.buttonAddItemToList);
+        txfItemName = view.findViewById(R.id.txfItemName);
+        txfItemPrice = view.findViewById(R.id.txfItemPrice);
+        txfItemQuantity = view.findViewById(R.id.txfItemQuantity);
+        txfItemPersonName = view.findViewById(R.id.txfItemPersonName);
 
         textList.add(txfItemName);
         textList.add(txfItemPrice);
         textList.add(txfItemQuantity);
         textList.add(txfItemPersonName);
 
-        buttonAdd.setOnClickListener(this);
+        buttonAdd.setOnClickListener(v -> {
+            if(Validator.EditTextHasValues(textList))
+            {
+                String title =  txfItemName.getText().toString();
+                double price = Double.parseDouble(String.valueOf(txfItemPrice.getText()));
+                int quantity = Integer.parseInt(String.valueOf(txfItemQuantity.getText()));
+                String name = txfItemPersonName.getText().toString();
+
+                ItemModel itemModel = new ItemModel(price, title, quantity, name);
+                itemModel.setOccasionID(-1);
+                itemsViewModel.insert(itemModel);
+
+                dismiss();
+            }
+            else{
+                Toast.makeText(getContext(), "Enter all fields", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setView(view);
@@ -67,25 +84,5 @@ public class DialogAddItem extends DialogFragment implements View.OnClickListene
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
         return alertDialog;
-    }
-
-    @Override
-    public void onClick(View v) {
-        if(Validator.EditTextHasValues(textList))
-        {
-            String title =  txfItemName.getText().toString();
-            double price = Double.parseDouble(String.valueOf(txfItemPrice.getText()));
-            int quantity = Integer.parseInt(String.valueOf(txfItemQuantity.getText()));
-            String name = txfItemPersonName.getText().toString();
-
-            ItemModel itemModel = new ItemModel(price, title, quantity, name);
-            itemModel.setOccasionID(-1);
-            itemsViewModel.insert(itemModel);
-
-            dismiss();
-        }
-        else{
-            Toast.makeText(getContext(), "Enter all fields", Toast.LENGTH_SHORT).show();
-        }
     }
 }

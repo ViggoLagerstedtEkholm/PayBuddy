@@ -37,7 +37,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import java.io.IOException;
 import java.util.List;
 
-public class DialogAddLocation extends DialogFragment implements View.OnClickListener, OnSuccessListener {
+public class DialogAddLocation extends DialogFragment implements OnSuccessListener {
     private static final int PERMISSION_FOR_FINE_LOCATION = 100;
 
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -45,9 +45,6 @@ public class DialogAddLocation extends DialogFragment implements View.OnClickLis
     private LocationCallback locationCallBack;
 
     private LocationViewModel locationViewModel;
-
-    private final int UPDATING_INTERVAL_SPEED = 2000;
-    private final int UPDATING_INTERVAL_MIN_SPEED = 1000;
 
     private TextView valueLatitude;
     private TextView valueLongitude;
@@ -79,7 +76,7 @@ public class DialogAddLocation extends DialogFragment implements View.OnClickLis
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        LayoutInflater inflater = getActivity().getLayoutInflater();
+        LayoutInflater inflater = requireActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.fragment_location, null);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
@@ -94,47 +91,57 @@ public class DialogAddLocation extends DialogFragment implements View.OnClickLis
     }
 
     private void initializeFields(View view) {
-        Button backButton = (Button) view.findViewById(R.id.buttonBackLocation);
-        saveButton = (Button) view.findViewById(R.id.buttonSaveLocation);
+        Button backButton = view.findViewById(R.id.buttonBackLocation);
+        saveButton = view.findViewById(R.id.buttonSaveLocation);
         saveButton.setEnabled(false);
 
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             saveButton.setEnabled(true);
         }
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
+        backButton.setOnClickListener(v -> dismiss());
+
+        saveButton.setOnClickListener(v -> {
+            LocationModel model = new LocationModel(latitude, longitude, altitude, accuarcy, address);
+            locationViewModel.setLocation(model);
+            stopLocationUpdate();
+            dismiss();
         });
 
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LocationModel model = new LocationModel(latitude, longitude, altitude, accuarcy, address);
-                locationViewModel.setLocation(model);
+        valueLatitude = view.findViewById(R.id.valueLatitude);
+        valueLongitude = view.findViewById(R.id.valueLongitude);
+        valueAltitude = view.findViewById(R.id.valueAltitude);
+        valueAccuracy = view.findViewById(R.id.valueAccuracy);
+        valueUpdateStatus = view.findViewById(R.id.valueUpdateStatus);
+        valueTypeOfLocationAccuracy = view.findViewById(R.id.valueTypeOfLocationAccuracy);
+        valueAddress = view.findViewById(R.id.valueAdress);
+
+        slideLocation = view.findViewById(R.id.slideLocation);
+        slideLocationMode = view.findViewById(R.id.slideLocationMode);
+
+        slideLocation.setOnClickListener(v -> {
+            if (slideLocation.isChecked()) {
+                startLocationUpdate();
+            } else {
                 stopLocationUpdate();
-                dismiss();
+            }
+        });
+        slideLocationMode.setOnClickListener(v -> {
+            if (slideLocationMode.isChecked()) {
+                locationRequest.setPriority(locationRequest.PRIORITY_LOW_POWER);
+                valueTypeOfLocationAccuracy.setText("Lowest location accuracy.");
+            } else {
+                locationRequest.setPriority(locationRequest.PRIORITY_HIGH_ACCURACY);
+                valueTypeOfLocationAccuracy.setText("Highest location acccuracy");
             }
         });
 
-        valueLatitude = (TextView) view.findViewById(R.id.valueLatitude);
-        valueLongitude = (TextView) view.findViewById(R.id.valueLongitude);
-        valueAltitude = (TextView) view.findViewById(R.id.valueAltitude);
-        valueAccuracy = (TextView) view.findViewById(R.id.valueAccuracy);
-        valueUpdateStatus = (TextView) view.findViewById(R.id.valueUpdateStatus);
-        valueTypeOfLocationAccuracy = (TextView) view.findViewById(R.id.valueTypeOfLocationAccuracy);
-        valueAddress = (TextView) view.findViewById(R.id.valueAdress);
 
-        slideLocation = (SwitchCompat) view.findViewById(R.id.slideLocation);
-        slideLocationMode = (SwitchCompat) view.findViewById(R.id.slideLocationMode);
-
-        slideLocation.setOnClickListener(this);
-        slideLocationMode.setOnClickListener(this);
     }
 
     private void initializeLocationAPI() {
+        int UPDATING_INTERVAL_MIN_SPEED = 1000;
+        int UPDATING_INTERVAL_SPEED = 2000;
         locationRequest = new LocationRequest()
                 .setInterval(UPDATING_INTERVAL_SPEED)
                 .setFastestInterval(UPDATING_INTERVAL_MIN_SPEED)
@@ -152,8 +159,8 @@ public class DialogAddLocation extends DialogFragment implements View.OnClickLis
     }
 
     private void initializeGPSCapabilities() {
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity());
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this);
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -182,8 +189,8 @@ public class DialogAddLocation extends DialogFragment implements View.OnClickLis
 
     private void updateAllFields(Location location) {
         if(location != null){
-            latitude = Double.valueOf(String.valueOf(location.getLatitude()));
-            longitude = Double.valueOf(String.valueOf(location.getLongitude()));
+            latitude = Double.parseDouble(String.valueOf(location.getLatitude()));
+            longitude = Double.parseDouble(String.valueOf(location.getLongitude()));
 
             valueLatitude.setText(String.valueOf(latitude));
             valueLongitude.setText(String.valueOf(longitude));
@@ -191,7 +198,7 @@ public class DialogAddLocation extends DialogFragment implements View.OnClickLis
             if (location.hasAltitude()) {
                 String altitudeText = String.valueOf(location.getAltitude());
                 valueAltitude.setText(altitudeText);
-                altitude = Double.valueOf(String.valueOf(location.getAltitude()));
+                altitude = Double.parseDouble(String.valueOf(location.getAltitude()));
             } else {
                 valueAltitude.setText("No altitude detected.");
                 altitude = 0.0;
@@ -200,7 +207,7 @@ public class DialogAddLocation extends DialogFragment implements View.OnClickLis
             if (location.hasAccuracy()) {
                 String Accuracy = String.valueOf(location.getAccuracy());
                 valueAccuracy.setText(Accuracy);
-                accuarcy = Double.valueOf(String.valueOf(location.getAccuracy()));
+                accuarcy = Double.parseDouble(String.valueOf(location.getAccuracy()));
             } else {
                 valueAccuracy.setText("No accuracy detected.");
                 accuarcy = 0.0;
@@ -220,30 +227,8 @@ public class DialogAddLocation extends DialogFragment implements View.OnClickLis
         }
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.slideLocation:
-                if (slideLocation.isChecked()) {
-                    startLocationUpdate();
-                } else {
-                    stopLocationUpdate();
-                }
-                break;
-            case R.id.slideLocationMode:
-                if (slideLocationMode.isChecked()) {
-                    locationRequest.setPriority(locationRequest.PRIORITY_LOW_POWER);
-                    valueTypeOfLocationAccuracy.setText("Lowest location accuracy.");
-                } else {
-                    locationRequest.setPriority(locationRequest.PRIORITY_HIGH_ACCURACY);
-                    valueTypeOfLocationAccuracy.setText("Highest location acccuracy");
-                }
-                break;
-        }
-    }
-
     private void startLocationUpdate() {
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             valueUpdateStatus.setText("Location is being updated.");
             fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallBack, null);
         } else {

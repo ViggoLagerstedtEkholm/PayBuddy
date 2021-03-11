@@ -33,7 +33,7 @@ public class DeleteDialog extends DialogFragment {
     private ItemsViewModel itemsViewModel;
     private LocationViewModel locationViewModel;
 
-    private Repository.DELETE_TYPE delete_type;
+    private final Repository.DELETE_TYPE delete_type;
 
     //The constructor takes the DELETE_TYPE as an argument.
     public DeleteDialog(Repository.DELETE_TYPE DELETE_TYPE){
@@ -42,25 +42,25 @@ public class DeleteDialog extends DialogFragment {
 
     /**
      * Instantiate all the ViewModels.
-     * @param savedInstanceState
+     * @param savedInstanceState Recently saved instance.
      */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        occasionViewModel = new ViewModelProvider(getActivity()).get(OccasionViewModel.class);
-        itemsViewModel = new ViewModelProvider(getActivity()).get(ItemsViewModel.class);
-        locationViewModel = new ViewModelProvider(getActivity()).get(LocationViewModel.class);
+        occasionViewModel = new ViewModelProvider(requireActivity()).get(OccasionViewModel.class);
+        itemsViewModel = new ViewModelProvider(requireActivity()).get(ItemsViewModel.class);
+        locationViewModel = new ViewModelProvider(requireActivity()).get(LocationViewModel.class);
     }
 
     /**
      * Creates the dialog view.
-     * @param savedInstanceState
-     * @return
+     * @param savedInstanceState Recently saved instance.
+     * @return Created Dialog.
      */
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        LayoutInflater inflater = getActivity().getLayoutInflater();
+        LayoutInflater inflater = requireActivity().getLayoutInflater();
 
         View view = inflater.inflate(R.layout.fragment_confirm, null);
 
