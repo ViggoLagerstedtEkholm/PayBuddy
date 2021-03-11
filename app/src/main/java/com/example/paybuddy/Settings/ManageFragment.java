@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
 
 import com.example.paybuddy.R;
 import com.example.paybuddy.Repositories.Repository;
@@ -33,9 +32,9 @@ public class ManageFragment extends Fragment {
 
     /**
      * This method inflates our "fragment_manage.xml" view.
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
+     * @param inflater inflater for our view.
+     * @param container contains other views.
+     * @param savedInstanceState latest saved instance.
      * @return the inflated view is returned.
      */
     @Override
@@ -94,30 +93,27 @@ public class ManageFragment extends Fragment {
      * @param switchDarkModeHome the View switch element.
      */
     private void handleDarkMode(SwitchCompat switchDarkModeHome){
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("night", 0);
-        Boolean booleanValue = sharedPreferences.getBoolean("night mode", true);
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("night", 0);
+        boolean booleanValue = sharedPreferences.getBoolean("night mode", true);
 
-        if(booleanValue.booleanValue()){
+        if(booleanValue){
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             switchDarkModeHome.setChecked(true);
         }
 
-        switchDarkModeHome.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    switchDarkModeHome.setChecked(true);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putBoolean("night mode", true);
-                    editor.commit();
-                }else{
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    switchDarkModeHome.setChecked(false);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putBoolean("night mode", false);
-                    editor.commit();
-                }
+        switchDarkModeHome.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked){
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                switchDarkModeHome.setChecked(true);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("night mode", true);
+                editor.apply();
+            }else{
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                switchDarkModeHome.setChecked(false);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("night mode", false);
+                editor.apply();
             }
         });
     }

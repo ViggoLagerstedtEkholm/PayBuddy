@@ -15,7 +15,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,6 +24,8 @@ import com.example.paybuddy.Models.Contact;
 import com.example.paybuddy.R;
 import com.example.paybuddy.Search.SearchViewModels.FilterContactViewModel;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,6 @@ public class ContactsFragment extends Fragment implements SwipeRefreshLayout.OnR
     private FilterContactViewModel filterContactViewModel;
     private List<Contact> contacts;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private RecyclerView recyclerView;
     private ContactsRecyclerViewAdapter adapter;
     private static final int REQUEST_RUNTIME_PERMISSION = 100;
 
@@ -42,19 +42,14 @@ public class ContactsFragment extends Fragment implements SwipeRefreshLayout.OnR
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         contacts = new ArrayList<>();
-        filterContactViewModel = new ViewModelProvider(getActivity()).get(FilterContactViewModel.class);
+        filterContactViewModel = new ViewModelProvider(requireActivity()).get(FilterContactViewModel.class);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        filterContactViewModel.getSelected().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String searchWord) {
-                adapter.getFilter().filter(searchWord);
-            };
-        });
+        filterContactViewModel.getSelected().observe(getViewLifecycleOwner(), searchWord -> adapter.getFilter().filter(searchWord));
     }
 
     @Override
@@ -83,7 +78,7 @@ public class ContactsFragment extends Fragment implements SwipeRefreshLayout.OnR
     private void instantiate(View view)
     {
         swipeRefreshLayout = view.findViewById(R.id.contact_list_swipe_refresh_layout);
-        recyclerView = view.findViewById(R.id.contact_recycler);
+        RecyclerView recyclerView = view.findViewById(R.id.contact_recycler);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ContactsRecyclerViewAdapter(getContext());
@@ -98,7 +93,7 @@ public class ContactsFragment extends Fragment implements SwipeRefreshLayout.OnR
      * @return List<Contact> All the contacts from the user phone.
      */
     private List<Contact> getContacts() {
-        int hasWriteContactsPermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_CONTACTS); //granted = 0
+        int hasWriteContactsPermission = ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.READ_CONTACTS); //granted = 0
         if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED)
         {
             requestPermissions(new String[] {Manifest.permission.READ_CONTACTS}, REQUEST_RUNTIME_PERMISSION);
@@ -108,15 +103,14 @@ public class ContactsFragment extends Fragment implements SwipeRefreshLayout.OnR
 
         String phone = "";
 
-        Cursor cur = getContext().getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,
-                null, null, null, null);
+        Cursor cursor = requireContext().getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
 
-        if (cur.getCount() > 0) {
-            while (cur.moveToNext()) {
-                String id = cur.getString(cur.getColumnIndex(ContactsContract.Contacts._ID));
-                String name = cur.getString(cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
+                String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
                 // get the phone number
-                Cursor pCur = getContext().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,
+                Cursor pCur = requireContext().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,
                         ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = ?",
                         new String[]{id}, null);
                 while (pCur.moveToNext()) {
@@ -129,17 +123,18 @@ public class ContactsFragment extends Fragment implements SwipeRefreshLayout.OnR
                 if(phone.equals("")){
                     Contact contact = new Contact(name, "NO NUMBER");
                     contacts.add(contact);
-                    Log.d("STATUS", "FETCHING DONE: " + String.valueOf(contacts.size()));
+                    Log.d("STATUS", "FETCHING DONE: " + contacts.size());
                 }else{
                     Contact contact = new Contact(name, phone);
                     contacts.add(contact);
-                    Log.d("STATUS", "FETCHING DONE: " + String.valueOf(contacts.size()));
+                    Log.d("STATUS", "FETCHING DONE: " + contacts.size());
                 }
 
                 phone = "";
                 pCur.close();
             }
         }
+        cursor.close();
         return contacts;
     }
 
@@ -152,19 +147,17 @@ public class ContactsFragment extends Fragment implements SwipeRefreshLayout.OnR
      * @return void
      */
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_RUNTIME_PERMISSION:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // Permission Granted
-                    adapter.addItems(getContacts());
-                } else {
-                    // Permission Denied
-                    Toast.makeText(getActivity(), "READ_CONTACTS Denied", Toast.LENGTH_SHORT).show();
-                }
-                break;
-            default:
-                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    public void onRequestPermissionsResult(int requestCode, @NotNull String[] permissions, @NotNull int[] grantResults) {
+        if (requestCode == REQUEST_RUNTIME_PERMISSION) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission Granted
+                adapter.addItems(getContacts());
+            } else {
+                // Permission Denied
+                Toast.makeText(getActivity(), "READ_CONTACTS Denied", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 }

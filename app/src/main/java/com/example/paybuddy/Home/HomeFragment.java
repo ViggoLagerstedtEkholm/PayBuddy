@@ -45,9 +45,9 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        itemsViewModel = new ViewModelProvider(getActivity()).get(ItemsViewModel.class);
-        occasionViewModel = new ViewModelProvider(getActivity()).get(OccasionViewModel.class);
-        coordinatesViewModel = new ViewModelProvider(getActivity()).get(CoordinatesViewModel.class);
+        itemsViewModel = new ViewModelProvider(requireActivity()).get(ItemsViewModel.class);
+        occasionViewModel = new ViewModelProvider(requireActivity()).get(OccasionViewModel.class);
+        coordinatesViewModel = new ViewModelProvider(requireActivity()).get(CoordinatesViewModel.class);
     }
 
     @Override
@@ -61,21 +61,18 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        textViewCountOfExpiredOccasions = (TextView) view.findViewById(R.id.textViewCountOfExpiredOccasions);
-        textViewSumOfItems = (TextView) view.findViewById(R.id.textViewSumOfItems);
-        textViewCountOfOccasions = (TextView) view.findViewById(R.id.textViewCountOfOccasions);
-        textViewCountOfPaidOccasions = (TextView) view.findViewById(R.id.textViewCountOfPaidOccasions);
+        textViewCountOfExpiredOccasions = view.findViewById(R.id.textViewCountOfExpiredOccasions);
+        textViewSumOfItems = view.findViewById(R.id.textViewSumOfItems);
+        textViewCountOfOccasions = view.findViewById(R.id.textViewCountOfOccasions);
+        textViewCountOfPaidOccasions = view.findViewById(R.id.textViewCountOfPaidOccasions);
 
-        Button locationsButton = (Button) view.findViewById(R.id.buttonHomeSeeAllLocations);
-        locationsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                coordinatesViewModel.setLocations(occasionModels);
-                Navigation.findNavController(view).navigate(R.id.action_tabViewFragment_to_allOccasionsMapFragment);
-            }
+        Button locationsButton = view.findViewById(R.id.buttonHomeSeeAllLocations);
+        locationsButton.setOnClickListener(v -> {
+            coordinatesViewModel.setLocations(occasionModels);
+            Navigation.findNavController(view).navigate(R.id.action_tabViewFragment_to_allOccasionsMapFragment);
         });
 
-        occasionViewModel.getAllOccasions().observe(getActivity(), occasionWithItems -> {
+        occasionViewModel.getAllOccasions().observe(requireActivity(), occasionWithItems -> {
             List<OccasionModel> occasionModels = new ArrayList<>();
 
             for(OccasionWithItems occasionModel : occasionWithItems){
@@ -88,24 +85,24 @@ public class HomeFragment extends Fragment {
             this.occasionModels = occasionModels;
         });
 
-        occasionViewModel.getActiveOccasions().observe(getActivity(), items ->{
+        occasionViewModel.getActiveOccasions().observe(requireActivity(), items ->{
             int totalOccasions = items.size();
-            animate(0, totalOccasions, textViewCountOfOccasions);
+            animate(totalOccasions, textViewCountOfOccasions);
         });
 
-        occasionViewModel.getExpiredOccasions().observe(getActivity(), items->{
+        occasionViewModel.getExpiredOccasions().observe(requireActivity(), items->{
             int totalExpired = items.size();
-            animate(0, totalExpired, textViewCountOfExpiredOccasions);
+            animate(totalExpired, textViewCountOfExpiredOccasions);
         });
 
-        occasionViewModel.getPaidOccasions().observe(getActivity(), items ->{
+        occasionViewModel.getPaidOccasions().observe(requireActivity(), items ->{
             int totalPaid = items.size();
-            animate(0, totalPaid, textViewCountOfPaidOccasions);
+            animate(totalPaid, textViewCountOfPaidOccasions);
         });
 
-        itemsViewModel.getTotalCost().observe(getActivity(), items ->{
+        itemsViewModel.getTotalCost().observe(requireActivity(), items ->{
             if(items != null){
-                animate(0, items.intValue(), textViewSumOfItems);
+                animate(items, textViewSumOfItems);
             }
             else{
                 textViewSumOfItems.setText("0.0");
@@ -113,15 +110,11 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void animate(int start, int end, TextView view)
+    private void animate(int end, TextView view)
     {
         ValueAnimator animator = new ValueAnimator();
-        animator.setObjectValues(start, end);
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            public void onAnimationUpdate(ValueAnimator animation) {
-                view.setText(String.valueOf(animation.getAnimatedValue()));
-            }
-        });
+        animator.setObjectValues(0, end);
+        animator.addUpdateListener(animation -> view.setText(String.valueOf(animation.getAnimatedValue())));
         animator.setDuration(600);
         animator.start();
     }

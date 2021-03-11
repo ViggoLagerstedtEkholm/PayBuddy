@@ -65,6 +65,7 @@ public class SelectorFragment extends Fragment {
         tabs.setupWithViewPager(viewPager);
         //Set the item index to 0.
         viewPager.setCurrentItem(0);
+        viewPager.setOffscreenPageLimit(2);
 
         //Add a button click listener that navigates us to the "Add Occasion" fragment on user click.
         Button buttonAdd = view.findViewById(R.id.buttonAdd);

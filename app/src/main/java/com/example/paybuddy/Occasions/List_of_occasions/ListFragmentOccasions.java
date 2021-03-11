@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +27,12 @@ import com.example.paybuddy.Search.SearchViewModels.FilterSelectionViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *  This fragment shows the "Active occasions".
+ *  @date 2021-03-09
+ *  @version 1.0
+ *  @author Viggo Lagerstedt Ekholm
+ */
 public class ListFragmentOccasions extends Fragment {
     private int mColumnCount = 1;
     private OccasionViewModel occasionViewModel;
@@ -36,8 +41,14 @@ public class ListFragmentOccasions extends Fragment {
     private LocationViewModel locationViewModel;
     private ActiveOccasionRecyclerViewAdapter activeOccasionRecyclerViewAdapter;
 
-    public ListFragmentOccasions() { }
+    public ListFragmentOccasions() {
+        // Required empty public constructor
+    }
 
+    /**
+     * Instantiate all the ViewModels.
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,26 +58,34 @@ public class ListFragmentOccasions extends Fragment {
         locationViewModel = new ViewModelProvider(this).get(LocationViewModel.class);
     }
 
+    /**
+     * This method will create the RecyclerView and fetch items to that RecyclerView.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_occasions_list, container, false);
 
+        //Create the adapter.
         activeOccasionRecyclerViewAdapter = new ActiveOccasionRecyclerViewAdapter(new ArrayList<>(), this, occasionViewModel, itemsViewModel, locationViewModel);
 
-        occasionViewModel.getActiveOccasions().observe(getViewLifecycleOwner(), new Observer<List<OccasionWithItems>>() {
-            @Override
-            public void onChanged(List<OccasionWithItems> occasionWithItems) {
-                List<OccasionModel> occasionModels = new ArrayList<>();
-                for(OccasionWithItems occasionModel : occasionWithItems){
-                    OccasionModel aOccasionModel = occasionModel.occasionModel;
-                    aOccasionModel.setItems(occasionModel.itemModelList);
-                    aOccasionModel.setLocationModel(occasionModel.locationModel);
+        //Observe occasions fetched.
+        occasionViewModel.getActiveOccasions().observe(getViewLifecycleOwner(), occasionWithItems -> {
+            List<OccasionModel> occasionModels = new ArrayList<>();
+            //Fill our occasion list.
+            for(OccasionWithItems occasionModel : occasionWithItems){
+                OccasionModel aOccasionModel = occasionModel.occasionModel;
+                aOccasionModel.setItems(occasionModel.itemModelList);
+                aOccasionModel.setLocationModel(occasionModel.locationModel);
 
-                    occasionModels.add(aOccasionModel);
-                }
-                activeOccasionRecyclerViewAdapter.addItems(occasionModels);
+                occasionModels.add(aOccasionModel);
             }
+            //Add the items to the recycler.
+            activeOccasionRecyclerViewAdapter.addItems(occasionModels);
         });
 
         if (view instanceof RecyclerView) {
@@ -84,10 +103,16 @@ public class ListFragmentOccasions extends Fragment {
         return view;
     }
 
+    /**
+     * This method is called when the fragment is created.
+     * @param view
+     * @param savedInstanceState
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //Observe search query.
         filterSelectionViewModel.getSelected().observe(getActivity(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String searchWord) {

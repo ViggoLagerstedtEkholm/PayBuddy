@@ -15,8 +15,10 @@ import android.widget.Button;
 import com.example.paybuddy.R;
 
 /**
- * A simple {@link Fragment} subclass.
- * create an instance of this fragment.
+ *  This fragment shows the phone call history.
+ *  @date 2021-03-09
+ *  @version 1.0
+ *  @author Viggo Lagerstedt Ekholm
  */
 public class HistoryCallFragment extends Fragment {
 
@@ -29,9 +31,15 @@ public class HistoryCallFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * Inflate the fragment with the "fragment_history_call.xml".
+     * @param inflater inflates the view.
+     * @param container view that contains views.
+     * @param savedInstanceState latest saved instance.
+     * @return View
+     */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_history_call, container, false);
     }
 
@@ -41,18 +49,10 @@ public class HistoryCallFragment extends Fragment {
         Button buttonBackCallHistory = view.findViewById(R.id.buttonBackCallHistory);
         Button contacts = view.findViewById(R.id.buttonGoToContacts);
 
-        buttonBackCallHistory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(view).navigate(R.id.action_historyCallFragment_to_tabViewFragment);
-            }
-        });
+        //Navigate to the tabView Fragment.
+        buttonBackCallHistory.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_historyCallFragment_to_tabViewFragment));
 
-        contacts.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(view).navigate(R.id.action_historyCallFragment_to_contactManageFragment);
-            }
-        });
+        //Navigate to the contact fragment.
+        contacts.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_historyCallFragment_to_contactManageFragment));
     }
 }

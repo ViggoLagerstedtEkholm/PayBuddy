@@ -38,12 +38,6 @@ public class ContactManageFragment extends Fragment {
 
         Button buttonBackToLogHistory = view.findViewById(R.id.buttonBackToLogHistory);
 
-        buttonBackToLogHistory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Navigation.findNavController(view).navigate(R.id.action_contactManageFragment_to_historyCallFragment);
-            }
-        });
+        buttonBackToLogHistory.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_contactManageFragment_to_historyCallFragment));
     }
 }

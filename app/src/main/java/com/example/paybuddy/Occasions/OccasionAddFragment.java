@@ -1,27 +1,16 @@
 package com.example.paybuddy.Occasions;
 
-import android.Manifest;
-import android.app.AlertDialog;
-import android.content.ContentResolver;
-import android.content.ContentValues;
-import android.content.DialogInterface;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.CalendarContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -40,12 +29,15 @@ import com.example.paybuddy.Viewmodels.OccasionViewModel;
 import com.example.paybuddy.Validator;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
-import static androidx.core.content.ContextCompat.checkSelfPermission;
-
-public class OccasionAddFragment extends Fragment implements View.OnClickListener{
+/**
+ *  This fragment shows the "Add occasion" page. Here the user can add date/items/locations.
+ *  @date 2021-03-09
+ *  @version 1.0
+ *  @author Viggo Lagerstedt Ekholm
+ */
+public class OccasionAddFragment extends Fragment{
     private LocationModel location;
     private EditText title;
     private View currentView;
@@ -55,14 +47,19 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
     private DateViewModel dateViewModel;
     private ItemsViewModel itemsViewModel;
 
-    private List<EditText> editTexts = new ArrayList<>();
+    private final List<EditText> editTexts = new ArrayList<>();
     private String selectedDate;
     private TextView textDateDisplay;
-    private CheckBox checkBoxAddCalendar;
     private boolean hasItems;
 
-    public OccasionAddFragment() {}
+    public OccasionAddFragment() {
+        // Required empty public constructor
+    }
 
+    /**
+     * Instantiate all the ViewModels.
+     * @param savedInstanceState last saved instance.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +69,13 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
         itemsViewModel = new ViewModelProvider(this).get(ItemsViewModel.class);
     }
 
+    /**
+     * This method inflates our "fragment_item.xml" view.
+     * @param inflater inflater for our view.
+     * @param container view that contains other views.
+     * @param savedInstanceState latest saved instance.
+     * @return the inflated view is returned.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -79,104 +83,95 @@ public class OccasionAddFragment extends Fragment implements View.OnClickListene
         return inflater.inflate(R.layout.fragment_item, container, false);
     }
 
+    /**
+     * This method gets all the Buttons/EditTexts.
+     * It also observes the ViewModel for pending items.
+     * @param view the inflated view.
+     * @param savedInstanceState saved bundle.
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.currentView = view;
-        instantiate(view);
-    }
 
-    private void instantiate(View view) {
-        checkBoxAddCalendar = (CheckBox) view.findViewById(R.id.checkBoxAddCalendar);
-        title = (EditText) view.findViewById(R.id.FieldTitle);
-        textDateDisplay = (TextView) view.findViewById(R.id.textDateDisplay);
+        title = view.findViewById(R.id.FieldTitle);
+        textDateDisplay = view.findViewById(R.id.textDateDisplay);
 
         editTexts.add(title);
 
-        TextView locationAdded = (TextView) view.findViewById(R.id.textAddedLocation);
-        TextView textTotalItems = (TextView) view.findViewById(R.id.textTotalItemsLabel);
+        TextView locationAdded = view.findViewById(R.id.textAddedLocation);
+        TextView textTotalItems = view.findViewById(R.id.textTotalItemsLabel);
 
-        Button buttonSave = (Button) view.findViewById(R.id.buttonEnter);
-        Button buttonCancel = (Button) view.findViewById(R.id.buttonCancel);
-        Button buttonAddItems = (Button) view.findViewById(R.id.buttonAddItems);
-        Button buttonEnterLocation = (Button) view.findViewById(R.id.buttonEnterLocation);
-        Button buttonChooseDate = (Button) view.findViewById(R.id.buttonPickADate);
-        Button buttonClearPendingItems = (Button) view.findViewById(R.id.buttonClearPendingItems);
+        //Get the buttons.
+        Button buttonSave = view.findViewById(R.id.buttonEnter);
+        Button buttonCancel = view.findViewById(R.id.buttonCancel);
+        Button buttonAddItems = view.findViewById(R.id.buttonAddItems);
+        Button buttonEnterLocation = view.findViewById(R.id.buttonEnterLocation);
+        Button buttonChooseDate = view.findViewById(R.id.buttonPickADate);
+        Button buttonClearPendingItems = view.findViewById(R.id.buttonClearPendingItems);
 
-        buttonSave.setOnClickListener(this);
-        buttonCancel.setOnClickListener(this);
-        buttonAddItems.setOnClickListener(this);
-        buttonEnterLocation.setOnClickListener(this);
-        buttonChooseDate.setOnClickListener(this);
+        //Add listeners.
+        buttonSave.setOnClickListener(v -> {
+            //Check if all fields have values.
+            if(Validator.EditTextHasValues(editTexts) && location != null && !selectedDate.equals("") && hasItems)
+            {
+                String occasionTitle = title.getText().toString();
 
-        buttonClearPendingItems.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                itemsViewModel.deletePendingItems();
+                //Create new occasion and assign the location/items/date etc.
+                OccasionModel occasionModel = new OccasionModel(selectedDate, occasionTitle,false, false);
+                occasionModel.setItems(itemsViewModel.getPendingItems().getValue());
+                occasionModel.setLocationModel(location);
+                occasionViewModel.insert(occasionModel);
+
+                //Navigate back to the main TabView.
+                Navigation.findNavController(currentView).navigate(R.id.action_occasionAddFragment_to_tabViewFragment);
+            }
+            else{
+                Toast.makeText(getContext(), "Make sure to add items/date/location and a title.", Toast.LENGTH_SHORT).show();
             }
         });
 
-        locationViewModel.getLocation().observe(getViewLifecycleOwner(), locationModel -> {
-            this.location = locationModel;
-            locationAdded.setText(location.getAdress());
+        //Open a dialog for adding items.
+        buttonCancel.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_occasionAddFragment_to_tabViewFragment));
+
+        //Open a dialog for adding items.
+        buttonAddItems.setOnClickListener(v -> {
+            DialogAddItem dialogFragment = new DialogAddItem();
+            dialogFragment.show(getChildFragmentManager(), "Test");
         });
 
+        //Open a dialog for adding location.
+        buttonEnterLocation.setOnClickListener(v -> {
+            DialogAddLocation dialogAddLocation = new DialogAddLocation();
+            dialogAddLocation.show(getChildFragmentManager(), "Test");
+        });
+
+        //Opens a date picker dialog.
+        buttonChooseDate.setOnClickListener(v -> {
+            DialogDatePicker datePickerDialog = new DialogDatePicker();
+            datePickerDialog.show(getChildFragmentManager(), "Test");
+        });
+
+        buttonClearPendingItems.setOnClickListener(v -> itemsViewModel.deletePendingItems());
+
+        //Get the location.
+        locationViewModel.getLocation().observe(getViewLifecycleOwner(), locationModel -> {
+            this.location = locationModel;
+            locationAdded.setText(location.getAddress());
+        });
+
+        //Get the date.
         dateViewModel.getDate().observe(getViewLifecycleOwner(), date -> {
             this.selectedDate = date;
             textDateDisplay.setText(date);
         });
 
+        //Get all the pending items.
         itemsViewModel.getPendingItems().observe(getViewLifecycleOwner(), itemModels -> {
             int size = itemModels.size();
             textTotalItems.setText(String.valueOf(size));
 
-            if(size > 0){
-                hasItems = true;
-            }else{
-                hasItems = false;
-            }
+            hasItems = size > 0;
         });
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch(view.getId()){
-            case R.id.buttonEnter:
-                if(Validator.EditTextHasValues(editTexts) && location != null && selectedDate != "" && hasItems)
-                {
-                    String occasionTitle = title.getText().toString();
-                    OccasionModel occasionModel = new OccasionModel(selectedDate, occasionTitle,false, false);
-                    occasionModel.setItems(itemsViewModel.getPendingItems().getValue());
-                    occasionModel.setLocationModel(location);
-                    occasionViewModel.insert(occasionModel);
-
-                    Navigation.findNavController(currentView).navigate(R.id.action_occasionAddFragment_to_tabViewFragment);
-                }
-                else{
-                    if(!Validator.EditTextHasValues(editTexts)){
-                        Toast.makeText(getActivity(), "Enter title or date!", Toast.LENGTH_SHORT).show();
-                    }
-                    if(itemsViewModel.getPendingItems().getValue().size() == 0){
-                        Toast.makeText(getActivity(), "Add atleast 1 item!", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                break;
-            case R.id.buttonCancel:
-
-                Navigation.findNavController(view).navigate(R.id.action_occasionAddFragment_to_tabViewFragment);
-                break;
-            case R.id.buttonAddItems:
-                DialogAddItem dialogFragment = new DialogAddItem();
-                dialogFragment.show(getChildFragmentManager(), "Test");
-                break;
-            case R.id.buttonEnterLocation:
-                DialogAddLocation dialogAddLocation = new DialogAddLocation();
-                dialogAddLocation.show(getChildFragmentManager(), "Test");
-                break;
-            case R.id.buttonPickADate:
-                DialogDatePicker datePickerDialog = new DialogDatePicker();
-                datePickerDialog.show(getChildFragmentManager(), "Test");
-                break;
-        }
     }
 }

@@ -3,7 +3,6 @@ package com.example.paybuddy.PhoneCall;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,58 +12,70 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import android.view.View.OnClickListener;
-
-import com.example.paybuddy.Models.Contact;
 import com.example.paybuddy.Models.HistoryModel;
 import com.example.paybuddy.R;
 
+/**
+ *  This adapter shows the call history of the user's phone. We also implement Filterable to filter
+ *  the List.
+ *  @date 2021-03-09
+ *  @version 1.0
+ *  @author Viggo Lagerstedt Ekholm
+ */
 public class HistoryLogAdapter extends RecyclerView.Adapter<HistoryLogAdapter.MyViewHolder> implements Filterable {
-    private Context context;
+    private final Context context;
     private List<HistoryModel> callingHistory;
     private List<HistoryModel> filteredItems;
 
     public HistoryLogAdapter(Context context) {
-        Log.d("CREATED_ADAPTER", "...");
-
         this.context = context;
         this.filteredItems = new ArrayList<>();
     }
 
+    /**
+     * Adds items to our items array.
+     * @param items List<HistoryModel>
+     */
     public void addItems(List<HistoryModel> items) {
         this.callingHistory = items;
         this.filteredItems = new ArrayList<>(items);
         notifyDataSetChanged();
     }
 
+    /**
+     * Inflate our ViewHolder with "fragment_call_history_list_item.xml".
+     * @param parent view that contains other views.
+     * @param viewType int
+     * @return HistoryLogAdapter.MyViewHolder
+     */
     @NonNull
     @Override
     public HistoryLogAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Log.d("CALL_HISTORY_INFLATED", "...");
-        return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.fragment_call_history_list_item, parent,false));
+        return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.fragment_call_history_list_item, parent, false));
     }
 
+    /**
+     * This method will be called for all items in our RecyclerView.
+     * @param holder the holder object.
+     * @param position the position the item has in the list.
+     */
     @Override
     public void onBindViewHolder(@NonNull HistoryLogAdapter.MyViewHolder holder, int position) {
-        Log.d("BINDING", "...");
         HistoryModel currentHistoryModel = callingHistory.get(position);
         holder.textViewDate.setText(currentHistoryModel.getDate());
         holder.time.setText(currentHistoryModel.getTime());
         holder.textViewNr.setText(currentHistoryModel.getNumber());
         holder.type.setText(currentHistoryModel.getType());
-        holder.callButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("INDEX:" ,"Clicked index: " + position);
-                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + currentHistoryModel.getNumber()));
-                context.startActivity(intent);
-            }
+
+        //Calls the number on the event.
+        holder.callButton.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + currentHistoryModel.getNumber()));
+            context.startActivity(intent);
         });
     }
 
@@ -78,21 +89,30 @@ public class HistoryLogAdapter extends RecyclerView.Adapter<HistoryLogAdapter.My
         return callingHistory == null ? 0 : callingHistory.size();
     }
 
+    /**
+     * This method returns the filter for this RecyclerView.
+     * @return Filter
+     */
     @Override
     public Filter getFilter() {
         return filter;
     }
 
-    private Filter filter = new Filter() {
+    /**
+     * This gets called if we change the query text in the SeachView for the Search fragment.
+     * @return Filter
+     */
+    private final Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             List<HistoryModel> filteredList = new ArrayList<>();
 
+            //Check if empty.
             if(constraint == null || constraint.length() == 0){
                 filteredList.addAll(filteredItems);
             }else{
                 String filterPattern = constraint.toString().toLowerCase().trim();
-
+                //Try to find a match.
                 for(HistoryModel item : filteredItems){
                     if(item.getNumber().toLowerCase().contains(filterPattern)){
                         filteredList.add(item);
@@ -105,11 +125,16 @@ public class HistoryLogAdapter extends RecyclerView.Adapter<HistoryLogAdapter.My
             return results;
         }
 
+        /**
+         * When we have performed a search this method will be called.
+         * @param constraint a sequence of characters.
+         * @param results the list of results.
+         */
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             if(callingHistory != null){
                 callingHistory.clear();
-                callingHistory.addAll((List)results.values);
+                callingHistory.addAll(((List<HistoryModel>)results.values));
                 notifyDataSetChanged();
             }
         }
@@ -118,10 +143,12 @@ public class HistoryLogAdapter extends RecyclerView.Adapter<HistoryLogAdapter.My
     /**
      * This class will represent our holder of values passed from our custom HistoryModel.
      */
-    public class  MyViewHolder extends RecyclerView.ViewHolder{
-        private CardView cardView;
-        private TextView textViewNr, textViewDate, type, time;
-        private Button callButton;
+    public static class  MyViewHolder extends RecyclerView.ViewHolder{
+        private final TextView textViewNr;
+        private final TextView textViewDate;
+        private final TextView type;
+        private final TextView time;
+        private final Button callButton;
 
         /**
          * We fetch all the UI components from the view.
@@ -129,12 +156,11 @@ public class HistoryLogAdapter extends RecyclerView.Adapter<HistoryLogAdapter.My
          */
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            cardView = (CardView) itemView.findViewById(R.id.cardView);
-            time = (TextView) itemView.findViewById(R.id.textViewCallTime);
-            textViewDate = (TextView) itemView.findViewById(R.id.textViewDateCall);
-            textViewNr = (TextView) itemView.findViewById(R.id.textViewNr);
-            callButton = (Button) itemView.findViewById(R.id.callBtn);
-            type = (TextView) itemView.findViewById(R.id.valueType);
+            time = itemView.findViewById(R.id.textViewCallTime);
+            textViewDate = itemView.findViewById(R.id.textViewDateCall);
+            textViewNr = itemView.findViewById(R.id.textViewNr);
+            callButton = itemView.findViewById(R.id.callBtn);
+            type = itemView.findViewById(R.id.valueType);
         }
     }
 }

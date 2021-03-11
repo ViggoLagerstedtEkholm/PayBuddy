@@ -27,17 +27,13 @@ import com.example.paybuddy.Search.SearchViewModels.FilterPhoneHistoryViewModel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 import static androidx.core.content.ContextCompat.checkSelfPermission;
 
 public class ListLogAdapter extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private ArrayList<HistoryModel> callHistoryModels;
-    private RecyclerView recyclerView;
     private HistoryLogAdapter callHistoryAdapter;
-
-    private String fullDate;
-    private String TelephoneNumber;
-    private String TYPE_OF_CALL;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private FilterPhoneHistoryViewModel filterPhoneHistoryViewModel;
@@ -52,13 +48,25 @@ public class ListLogAdapter extends Fragment implements SwipeRefreshLayout.OnRef
 
     private final int PERMISSION_REQUEST_CODE = 101;
 
+    /**
+     * Create the ViewModel.
+     * @param savedInstanceState latest saved instance.
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        filterPhoneHistoryViewModel = new ViewModelProvider(getActivity()).get(FilterPhoneHistoryViewModel.class);
+        filterPhoneHistoryViewModel = new ViewModelProvider(requireActivity()).get(FilterPhoneHistoryViewModel.class);
     }
 
+    /**
+     * Check if we have permission, if that is the case we instantly fill the list with items. Otherwise
+     * we query the user for permission.
+     * @param inflater inflates the view.
+     * @param container view that contains other views.
+     * @param savedInstanceState latest saved instance.
+     * @return View
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -75,10 +83,14 @@ public class ListLogAdapter extends Fragment implements SwipeRefreshLayout.OnRef
         return view;
     }
 
+    /**
+     * Setup the RecyclerView.
+     * @param view fragment view.
+     */
     private void instantiate(View view)
     {
         swipeRefreshLayout = view.findViewById(R.id.activity_main_swipe_refresh_layout);
-        recyclerView = view.findViewById(R.id.activity_main_rv);
+        RecyclerView recyclerView = view.findViewById(R.id.activity_main_rv);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         callHistoryAdapter = new HistoryLogAdapter(getContext());
@@ -86,6 +98,10 @@ public class ListLogAdapter extends Fragment implements SwipeRefreshLayout.OnRef
         recyclerView.setAdapter(callHistoryAdapter);
     }
 
+    /**
+     * When we swipe to refresh this method gets called and checks if we have permission and updates the
+     * RecyclerView.
+     */
     @Override
     public void onRefresh() {
         if(checkForHistoryPermission())
@@ -103,16 +119,16 @@ public class ListLogAdapter extends Fragment implements SwipeRefreshLayout.OnRef
         }
     }
 
+    /**
+     * Observe the filter ViewModel to see if we have a filter.
+     * @param view the fragment view.
+     * @param savedInstanceState latest saved instance.
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        filterPhoneHistoryViewModel.getSelected().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String searchWord) {
-                callHistoryAdapter.getFilter().filter(searchWord);
-            };
-        });
+        filterPhoneHistoryViewModel.getSelected().observe(getViewLifecycleOwner(), searchWord -> callHistoryAdapter.getFilter().filter(searchWord));
     }
 
     /**
@@ -125,20 +141,16 @@ public class ListLogAdapter extends Fragment implements SwipeRefreshLayout.OnRef
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        Log.d("dO I GET HERE? ", "I HAVE REACHED");
 
         boolean hasFoundDenied = false;
         if(requestCode == PERMISSION_REQUEST_CODE){
             for(int i = 0; i < permissions.length; i++){
                 if(grantResults[i] == PackageManager.PERMISSION_DENIED){
                     hasFoundDenied = true;
-                    Log.d("Status", "I HAVE REACHED");
                     break;
                 }
             }
             if(!hasFoundDenied){
-                Log.d("Status333333 ", "I HAVE REACHED");
-
                 populateCallhistory();
             }
         }
@@ -152,14 +164,13 @@ public class ListLogAdapter extends Fragment implements SwipeRefreshLayout.OnRef
     private boolean checkForHistoryPermission(){
         ArrayList<String> listOfPermissionsNeeded = new ArrayList<>();
         for(String aPermission : appPermissions){
-            if(checkSelfPermission(getContext(), aPermission) != PackageManager.PERMISSION_GRANTED){
+            if(checkSelfPermission(requireContext(), aPermission) != PackageManager.PERMISSION_GRANTED){
                 listOfPermissionsNeeded.add(aPermission);
             }
         }
 
         if(!listOfPermissionsNeeded.isEmpty()){
-            requestPermissions(listOfPermissionsNeeded.toArray(new String[listOfPermissionsNeeded.size()]),
-                    PERMISSION_REQUEST_CODE);
+            requestPermissions(listOfPermissionsNeeded.toArray(new String[listOfPermissionsNeeded.size()]), PERMISSION_REQUEST_CODE);
             return false;
         }
         return true;
@@ -174,23 +185,22 @@ public class ListLogAdapter extends Fragment implements SwipeRefreshLayout.OnRef
     private void populateCallhistory() {
         String sortingOrder = android.provider.CallLog.Calls.DATE + " DESC";
 
-        Cursor cursor;
-        cursor = getContext().getContentResolver().query(
-                CallLog.Calls.CONTENT_URI, null, null, null, sortingOrder);
+        Cursor cursor =
+                requireContext().getContentResolver().query(CallLog.Calls.CONTENT_URI, null, null, null, sortingOrder);
 
         callHistoryModels.clear();
 
         while (cursor.moveToNext()) {
-            fullDate = cursor.getString(cursor.getColumnIndex(CallLog.Calls.DATE));
+            String fullDate = cursor.getString(cursor.getColumnIndex(CallLog.Calls.DATE));
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH);
             String date = dateFormat.format(new Date(Long.parseLong(fullDate)));
 
-            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss", Locale.ENGLISH);
             String time =timeFormat.format(new Date(Long.parseLong(fullDate)));
 
-            TelephoneNumber = cursor.getString(cursor.getColumnIndex(CallLog.Calls.NUMBER));
-            TYPE_OF_CALL = cursor.getString(cursor.getColumnIndex(CallLog.Calls.TYPE));
+            String telephoneNumber = cursor.getString(cursor.getColumnIndex(CallLog.Calls.NUMBER));
+            String TYPE_OF_CALL = cursor.getString(cursor.getColumnIndex(CallLog.Calls.TYPE));
 
             switch (Integer.parseInt(TYPE_OF_CALL)) {
                 case CallLog.Calls.INCOMING_TYPE:
@@ -218,9 +228,9 @@ public class ListLogAdapter extends Fragment implements SwipeRefreshLayout.OnRef
                     TYPE_OF_CALL = "NA";
             }
 
-            HistoryModel historyModel = new HistoryModel(TelephoneNumber, date , time, TYPE_OF_CALL);
+            HistoryModel historyModel = new HistoryModel(telephoneNumber, date , time, TYPE_OF_CALL);
             callHistoryModels.add(historyModel);
-            Log.d("COUNT: ", String.valueOf(callHistoryModels.size()));
+            cursor.close();
         }
         callHistoryAdapter.addItems(callHistoryModels);
     }

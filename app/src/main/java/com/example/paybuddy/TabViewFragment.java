@@ -26,11 +26,15 @@ public class TabViewFragment extends Fragment {
 
     public TabViewFragment() { }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
     /**
      * This method inflates our "fragment_tab_view.xml" view.
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
+     * @param inflater inflates our view.
+     * @param container view that contains other views.
+     * @param savedInstanceState saved instance for this fragment.
      * @return the inflated view is returned.
      */
     @Override
@@ -50,14 +54,15 @@ public class TabViewFragment extends Fragment {
         //Inflate the layout for this fragment
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(getContext(), getChildFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         //Get the viewpager from the view.
-        ViewPager viewPager = getActivity().findViewById(R.id.view_pager);
+        ViewPager viewPager = requireActivity().findViewById(R.id.view_pager);
         //Set the adapter for this viewpager.
         viewPager.setAdapter(sectionsPagerAdapter);
         //Get the tabs from our view.
-        TabLayout tabs = getActivity().findViewById(R.id.tabs);
+        TabLayout tabs = requireActivity().findViewById(R.id.tabs);
         //Add a viewpager to our tabs.
         tabs.setupWithViewPager(viewPager);
         //Set the item index to 1.
         viewPager.setCurrentItem(1);
+        viewPager.setOffscreenPageLimit(2);
     }
 }

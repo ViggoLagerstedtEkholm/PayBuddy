@@ -28,9 +28,9 @@ public class InfoFragment extends Fragment {
 
     /**
      * This method inflates our "fragment_info.xml" view.
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
+     * @param inflater inflater for our view.
+     * @param container view that contains other views.
+     * @param savedInstanceState recently saved instance.
      * @return the inflated view is returned.
      */
     @Override

@@ -13,6 +13,10 @@ import com.example.paybuddy.Occasions.List_of_occasions.ListFragmentOccasions;
 import com.example.paybuddy.R;
 import com.example.paybuddy.TimesUp.TimesUp.List.ListFragmentDuePayment;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
+
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
  * one of the sections/tabs/pages.
@@ -29,10 +33,9 @@ public class SelectorPagerAdapter extends FragmentPagerAdapter {
 
     /**
      * Constructor for this class.
-     *
      * @param context the application context
      * @param fm Fragment Manager.
-     * @param behavior
+     * @param behavior behavior.
      */
     public SelectorPagerAdapter(Context context, FragmentManager fm, int behavior) {
         super(fm, behavior);
@@ -45,6 +48,7 @@ public class SelectorPagerAdapter extends FragmentPagerAdapter {
      * @param position the current index in the ViewPager.
      * @return Fragment at the item index.
      */
+    @NotNull
     @Override
     public Fragment getItem(int position) {
         Fragment routedFragment = null;
@@ -58,7 +62,7 @@ public class SelectorPagerAdapter extends FragmentPagerAdapter {
                 routedFragment = new ListFragmentDuePayment();
                 break;
         }
-        return routedFragment;
+        return Objects.requireNonNull(routedFragment);
     }
 
     /**
