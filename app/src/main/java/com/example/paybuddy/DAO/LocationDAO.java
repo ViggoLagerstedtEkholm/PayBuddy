@@ -8,6 +8,12 @@ import androidx.room.Update;
 
 import com.example.paybuddy.Models.LocationModel;
 
+/**
+ *  This interface handles queries for the location table.
+ *  @date 2021-03-09
+ *  @version 1.0
+ *  @author Viggo Lagerstedt Ekholm
+ */
 @Dao
 public abstract class LocationDAO {
     @Insert

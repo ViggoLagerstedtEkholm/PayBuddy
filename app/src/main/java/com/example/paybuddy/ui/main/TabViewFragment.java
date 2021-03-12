@@ -1,4 +1,4 @@
-package com.example.paybuddy;
+package com.example.paybuddy.ui.main;
 
 import android.os.Bundle;
 
@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.paybuddy.R;
 import com.example.paybuddy.ui.main.SectionsPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 

@@ -8,6 +8,12 @@ import androidx.room.Update;
 
 import com.example.paybuddy.Models.OccasionModel;
 
+/**
+ *  This interface handles queries for the occasion table.
+ *  @date 2021-03-09
+ *  @version 1.0
+ *  @author Viggo Lagerstedt Ekholm
+ */
 @Dao
 public interface OccasionDAO {
 

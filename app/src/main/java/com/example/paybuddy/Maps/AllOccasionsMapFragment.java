@@ -33,20 +33,37 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This is a Google Maps fragment that should show an array of locations.
+ * @date 2021-03-09
+ * @version 1.0
+ * @author Viggo Lagerstedt Ekholm
+ */
 public class AllOccasionsMapFragment extends Fragment {
     private CoordinatesViewModel coordinatesViewModel;
 
+    /**
+     * Callback interface for when the map is ready to be used.
+     */
     private final OnMapReadyCallback callback = new OnMapReadyCallback() {
+
+        /**
+         * This method gets called when the map is ready to be used.
+         * @param googleMap the map object.
+         */
         @Override
         public void onMapReady(GoogleMap googleMap) {
+            //Observe all the locations from our occasions.
             coordinatesViewModel.getLocations().observe(getViewLifecycleOwner(), occasionModels -> {
                 googleMap.clear();
                 if(occasionModels != null){
+                    //Get all the locations from the occasions.
                     List<LocationModel> locationModels = new ArrayList<>();
                     for(int i = 0; i < occasionModels.size(); i++) {
                         locationModels.add(occasionModels.get(i).getLocationModel());
                     }
 
+                    //Loop through all occasions and show different icons on the map depending on it's state.
                     for(int i = 0; i < occasionModels.size(); i++){
                         OccasionModel occasionModel = occasionModels.get(i);
 
@@ -55,10 +72,12 @@ public class AllOccasionsMapFragment extends Fragment {
 
                             LatLng occasionLocation = new LatLng(location.getLatitude(), location.getLongitude());
 
+                            //Convert the vector icons to a BitmapDescriptor.
                             BitmapDescriptor warningIcon = bitmapDescriptorFromVector(getActivity(), R.drawable.ic_baseline_warning_24);
                             BitmapDescriptor pendingIcon = bitmapDescriptorFromVector(getActivity(), R.drawable.ic_baseline_pending_actions_24);
                             BitmapDescriptor historyIcon = bitmapDescriptorFromVector(getActivity(), R.drawable.ic_baseline_history_24);
 
+                            //Show pending marker icon.
                             if(occasionModel.isExpired()){
                                 Marker myMapMarker = googleMap.addMarker(new MarkerOptions()
                                         .position(occasionLocation)
@@ -67,9 +86,11 @@ public class AllOccasionsMapFragment extends Fragment {
                                                 + occasionModel.getItems().size() + " items. It's marked as: Expired!")
                                         .icon(warningIcon));
 
+                                //Add occasion object to the marker.
                                 myMapMarker.setTag(occasionModel);
                             }
 
+                            //Show pending history icon.
                             if(occasionModel.isPaid()){
                                 Marker myMapMarker = googleMap.addMarker(new MarkerOptions()
                                         .position(occasionLocation)
@@ -78,9 +99,11 @@ public class AllOccasionsMapFragment extends Fragment {
                                                 + occasionModel.getItems().size() + " items. It's marked as: Paid!")
                                         .icon(historyIcon));
 
+                                //Add occasion object to the marker.
                                 myMapMarker.setTag(occasionModel);
                             }
 
+                            //Show expired marker icon.
                             if(!occasionModel.isPaid() && !occasionModel.isExpired()){
                                 Marker myMapMarker = googleMap.addMarker(new MarkerOptions()
                                         .position(occasionLocation)
@@ -89,13 +112,17 @@ public class AllOccasionsMapFragment extends Fragment {
                                                 + occasionModel.getItems().size() + " items. It's marked as: Paid!")
                                         .icon(pendingIcon));
 
+                                //Add occasion object to the marker.
                                 myMapMarker.setTag(occasionModel);
                             }
 
-
+                            //Calculate the center point of N...1 amount of latitude and longitude coordinates.
+                            //This is just so we can get a reasonable zoom position when the user first opens the map.
+                            //https://en.wikipedia.org/wiki/Centroid
                             CameraUpdate centroidLocation = CameraUpdateFactory.newLatLngZoom(GetCentralGeoCoordinate(locationModels), 10);
                             googleMap.animateCamera(centroidLocation);
 
+                            //When the user clicks a marker the preview dialog should appear.
                             googleMap.setOnMarkerClickListener(marker -> {
                                 OccasionModel markerObject = (OccasionModel) marker.getTag();
                                 DialogPreviewOccasion dialogFragment = new DialogPreviewOccasion(markerObject);
@@ -157,6 +184,13 @@ public class AllOccasionsMapFragment extends Fragment {
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 
+    /**
+     * This method creates our ViewModel and inflates our fragment with the map.
+     * @param inflater the inflater for our view.
+     * @param container a view that containts other views.
+     * @param savedInstanceState the last saved instance.
+     * @return View
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -167,6 +201,11 @@ public class AllOccasionsMapFragment extends Fragment {
         return mapsView;
     }
 
+    /**
+     * When we have created our view we can get the map fragment from our view.
+     * @param view the inflated view for this fragment.
+     * @param savedInstanceState latest saved instance.
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

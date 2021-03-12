@@ -21,30 +21,53 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *  This RecyclerView displays the contacts of the user.
+ *  @date 2021-03-09
+ *  @version 1.0
+ *  @author Viggo Lagerstedt Ekholm
+ */
 public class ContactsRecyclerViewAdapter extends RecyclerView.Adapter<ContactsRecyclerViewAdapter.ViewHolder> implements Filterable {
     private final Context context;
     private List<Contact> contacts;
     private List<Contact> filteredItems;
 
+    //Constructor that takes the context.
     public ContactsRecyclerViewAdapter(Context context) {
         this.context = context;
         this.filteredItems = new ArrayList<>();
     }
 
+    /**
+     * This method adds the parameter list to our items and filtered list.
+     * notifyDataSetChanged() notifies the RecyclerView to refresh.
+     * @param items List of items we want to add.
+     */
     public void addItems(List<Contact> items) {
         this.contacts = items;
         this.filteredItems = new ArrayList<>(items);
         notifyDataSetChanged();
     }
 
+    /**
+     * This method returns the view from our "fragment_contacts.xml" that is the view for our items in the RecyclerView.
+     * @param parent parent ViewGroup.
+     * @param viewType viewType.
+     * @return ViewHolder
+     */
     @NotNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_contacts, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_contacts, parent, false);
         return new ViewHolder(view);
     }
 
+    /**
+     * This method will be called for every item in the recyclerview.
+     * logic when we click the occasion in the RecyclerView.
+     * @param holder class containing widgets.
+     * @param position of our item in the items array.
+     */
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Contact aContact = contacts.get(position);
@@ -61,16 +84,28 @@ public class ContactsRecyclerViewAdapter extends RecyclerView.Adapter<ContactsRe
         });
     }
 
+    /**
+     * This method returns the items size.
+     * @return int size.
+     */
     @Override
     public int getItemCount() {
         return contacts == null ? 0 : contacts.size();
     }
 
+    /**
+     * This method returns the filter for this RecyclerView.
+     * @return Filter
+     */
     @Override
     public Filter getFilter() {
         return filter;
     }
 
+    /**
+     * Creates a new filter.
+     * @return Filter
+     */
     private final Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
@@ -93,6 +128,11 @@ public class ContactsRecyclerViewAdapter extends RecyclerView.Adapter<ContactsRe
             return results;
         }
 
+        /**
+         * This method fills our items list with the filtered item list.
+         * @param constraint sequence of char.
+         * @param results filtered results.
+         */
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             contacts.clear();
@@ -101,6 +141,12 @@ public class ContactsRecyclerViewAdapter extends RecyclerView.Adapter<ContactsRe
         }
     };
 
+    /**
+     * This class is a placeholder for every single item in the RecyclerView.
+     * @date 2021-03-09
+     * @version 1.0
+     * @author Viggo Lagerstedt Ekholm
+     */
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mIdView;

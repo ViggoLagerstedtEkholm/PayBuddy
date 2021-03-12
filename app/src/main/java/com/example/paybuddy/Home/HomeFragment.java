@@ -26,8 +26,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A simple {@link Fragment} subclass.
- * create an instance of this fragment.
+ * This fragment displays the home screen of the app.
+ * @date 2021-03-09
+ * @version 1.0
+ * @author Viggo Lagerstedt Ekholm
  */
 public class HomeFragment extends Fragment {
     private TextView textViewSumOfItems;
@@ -40,8 +42,14 @@ public class HomeFragment extends Fragment {
     private CoordinatesViewModel coordinatesViewModel;
     private List<OccasionModel> occasionModels;
 
-    public HomeFragment(){}
+    public HomeFragment(){
+        // Required empty public constructor
+    }
 
+    /**
+     * Instantiate all the ViewModels.
+     * @param savedInstanceState latest saved instance.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +58,13 @@ public class HomeFragment extends Fragment {
         coordinatesViewModel = new ViewModelProvider(requireActivity()).get(CoordinatesViewModel.class);
     }
 
+    /**
+     * This method inflates our view.
+     * @param inflater inflater for our view.
+     * @param container view that contains other views.
+     * @param savedInstanceState latest saved instance.
+     * @return View
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -57,6 +72,12 @@ public class HomeFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
+    /**
+     * This method is called when the fragment is created.
+     * We observe data about total item cost/total amount of pending occasions etc...
+     * @param view the fragment view.
+     * @param savedInstanceState latest saved instance.
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -67,11 +88,14 @@ public class HomeFragment extends Fragment {
         textViewCountOfPaidOccasions = view.findViewById(R.id.textViewCountOfPaidOccasions);
 
         Button locationsButton = view.findViewById(R.id.buttonHomeSeeAllLocations);
+
+        //Open the maps fragment.
         locationsButton.setOnClickListener(v -> {
             coordinatesViewModel.setLocations(occasionModels);
             Navigation.findNavController(view).navigate(R.id.action_tabViewFragment_to_allOccasionsMapFragment);
         });
 
+        //Observe all the occasions.
         occasionViewModel.getAllOccasions().observe(requireActivity(), occasionWithItems -> {
             List<OccasionModel> occasionModels = new ArrayList<>();
 
@@ -85,21 +109,25 @@ public class HomeFragment extends Fragment {
             this.occasionModels = occasionModels;
         });
 
+        //Observe the active occasions.
         occasionViewModel.getActiveOccasions().observe(requireActivity(), items ->{
             int totalOccasions = items.size();
             animate(totalOccasions, textViewCountOfOccasions);
         });
 
+        //Observe the expired occasions.
         occasionViewModel.getExpiredOccasions().observe(requireActivity(), items->{
             int totalExpired = items.size();
             animate(totalExpired, textViewCountOfExpiredOccasions);
         });
 
+        //Observe all the paid occasions.
         occasionViewModel.getPaidOccasions().observe(requireActivity(), items ->{
             int totalPaid = items.size();
             animate(totalPaid, textViewCountOfPaidOccasions);
         });
 
+        //Observe the total cost of the items.
         itemsViewModel.getTotalCost().observe(requireActivity(), items ->{
             if(items != null){
                 animate(items, textViewSumOfItems);
@@ -110,6 +138,11 @@ public class HomeFragment extends Fragment {
         });
     }
 
+    /**
+     * Animates our TextViews
+     * @param end the count max value.
+     * @param view the TextView to be animated.
+     */
     private void animate(int end, TextView view)
     {
         ValueAnimator animator = new ValueAnimator();

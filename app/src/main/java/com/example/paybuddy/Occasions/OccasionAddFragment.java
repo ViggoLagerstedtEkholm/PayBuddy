@@ -26,7 +26,7 @@ import com.example.paybuddy.R;
 import com.example.paybuddy.Viewmodels.ItemsViewModel;
 
 import com.example.paybuddy.Viewmodels.OccasionViewModel;
-import com.example.paybuddy.Validator;
+import com.example.paybuddy.Settings.Validator;
 
 import java.util.ArrayList;
 import java.util.List;

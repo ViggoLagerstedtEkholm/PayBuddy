@@ -9,6 +9,12 @@ import com.example.paybuddy.Models.OccasionWithItems;
 
 import java.util.List;
 
+/**
+ *  This interface fetches all the occasions with items/location included.
+ *  @date 2021-03-09
+ *  @version 1.0
+ *  @author Viggo Lagerstedt Ekholm
+ */
 @Dao
 public interface OccasionWithItemsDAO {
     @Transaction

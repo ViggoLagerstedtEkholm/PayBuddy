@@ -11,6 +11,12 @@ import com.example.paybuddy.Models.ItemModel;
 
 import java.util.List;
 
+/**
+ *  This interface handles queries for the item table.
+ *  @date 2021-03-09
+ *  @version 1.0
+ *  @author Viggo Lagerstedt Ekholm
+ */
 @Dao
 public abstract class ItemsDAO {
     @Insert

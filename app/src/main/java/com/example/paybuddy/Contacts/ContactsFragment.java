@@ -29,6 +29,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *  This Fragment displays the contacts of the user.
+ *  @date 2021-03-09
+ *  @version 1.0
+ *  @author Viggo Lagerstedt Ekholm
+ */
 public class ContactsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private FilterContactViewModel filterContactViewModel;
     private List<Contact> contacts;
@@ -36,8 +42,14 @@ public class ContactsFragment extends Fragment implements SwipeRefreshLayout.OnR
     private ContactsRecyclerViewAdapter adapter;
     private static final int REQUEST_RUNTIME_PERMISSION = 100;
 
-    public ContactsFragment() { }
+    public ContactsFragment() {
+        // Required empty public constructor
+    }
 
+    /**
+     * Instantiate all the ViewModels.
+     * @param savedInstanceState latest saved instance.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +57,11 @@ public class ContactsFragment extends Fragment implements SwipeRefreshLayout.OnR
         filterContactViewModel = new ViewModelProvider(requireActivity()).get(FilterContactViewModel.class);
     }
 
+    /**
+     * This method is called when the fragment is created.
+     * @param view the fragment view.
+     * @param savedInstanceState latest saved instance.
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -52,6 +69,9 @@ public class ContactsFragment extends Fragment implements SwipeRefreshLayout.OnR
         filterContactViewModel.getSelected().observe(getViewLifecycleOwner(), searchWord -> adapter.getFilter().filter(searchWord));
     }
 
+    /**
+     * This method gets called when we refresh the list by swiping upwards in the list.
+     */
     @Override
     public void onRefresh() {
         contacts = getContacts();
@@ -61,6 +81,13 @@ public class ContactsFragment extends Fragment implements SwipeRefreshLayout.OnR
         }
     }
 
+    /**
+     * This method will create get the contacts from the phone and add them to the adapter.
+     * @param inflater inflater for our view.
+     * @param container view that contains other views.
+     * @param savedInstanceState latest saved instance.
+     * @return View
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -75,6 +102,10 @@ public class ContactsFragment extends Fragment implements SwipeRefreshLayout.OnR
         return view;
     }
 
+    /**
+     * Setup the RecyclerView.
+     * @param view the fragment view.
+     */
     private void instantiate(View view)
     {
         swipeRefreshLayout = view.findViewById(R.id.contact_list_swipe_refresh_layout);

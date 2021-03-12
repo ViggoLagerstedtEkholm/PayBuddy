@@ -1,4 +1,4 @@
-package com.example.paybuddy;
+package com.example.paybuddy.Settings;
 
 import android.widget.EditText;
 import java.util.List;

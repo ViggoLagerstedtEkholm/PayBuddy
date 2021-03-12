@@ -18,7 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.R;
-import com.example.paybuddy.Validator;
+import com.example.paybuddy.Settings.Validator;
 import com.example.paybuddy.Viewmodels.ItemsViewModel;
 
 import java.util.ArrayList;

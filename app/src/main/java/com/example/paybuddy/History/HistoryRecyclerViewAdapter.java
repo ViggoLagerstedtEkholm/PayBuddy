@@ -1,4 +1,4 @@
-package com.example.paybuddy.History.List;
+package com.example.paybuddy.History;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -44,20 +44,15 @@ public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecy
     private final CoordinatesViewModel coordinatesViewModel;
 
     //Constructor that takes required parameter values.
-    public HistoryRecyclerViewAdapter(List<OccasionModel> items,
-                                      Fragment fragment,
-                                      OccasionViewModel occasionViewModel,
-                                      LocationViewModel locationViewModel,
-                                      ItemsViewModel itemsViewModel) {
+    public HistoryRecyclerViewAdapter(List<OccasionModel> items, Fragment fragment) {
         this.filteredItems = new ArrayList<>();
         this.items = items;
         this.fragment = fragment;
 
-        this.occasionViewModel = occasionViewModel;
-        this.itemsViewModel = itemsViewModel;
-        this.locationViewModel = locationViewModel;
-
-        coordinatesViewModel = new ViewModelProvider(fragment.requireActivity()).get(CoordinatesViewModel.class);
+        this.occasionViewModel = new ViewModelProvider(fragment.requireActivity()).get(OccasionViewModel.class);
+        this.itemsViewModel = new ViewModelProvider(fragment.requireActivity()).get(ItemsViewModel.class);
+        this.locationViewModel = new ViewModelProvider(fragment.requireActivity()).get(LocationViewModel.class);
+        this.coordinatesViewModel = new ViewModelProvider(fragment.requireActivity()).get(CoordinatesViewModel.class);
     }
 
     /**
@@ -72,7 +67,7 @@ public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecy
     }
 
     /**
-     * This method inflates our "fragment_list_due_payment_item.xml" that is the view for our items in the RecyclerView.
+     * This method returns the view from our "fragment_list_due_payment_item.xml" that is the view for our items in the RecyclerView.
      * @param parent parent ViewGroup.
      * @param viewType viewType.
      * @return ViewHolder

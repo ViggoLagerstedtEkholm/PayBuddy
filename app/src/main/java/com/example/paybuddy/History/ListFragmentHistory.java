@@ -1,4 +1,4 @@
-package com.example.paybuddy.TimesUp.TimesUp.List;
+package com.example.paybuddy.History;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,32 +14,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.paybuddy.Viewmodels.OccasionViewModel;
 import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.Models.OccasionWithItems;
 import com.example.paybuddy.R;
-import com.example.paybuddy.Viewmodels.ItemsViewModel;
-import com.example.paybuddy.Viewmodels.LocationViewModel;
-import com.example.paybuddy.Viewmodels.OccasionViewModel;
 import com.example.paybuddy.Search.SearchViewModels.FilterSelectionViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class sets our RecyclerView up and adds items to it.
- * We use the interface Filterable to filter results in this RecyclerView.
+ * This is the Fragment that displays a list of history occasions.
  * @date 2021-03-09
  * @version 1.0
  * @author Viggo Lagerstedt Ekholm
  */
-public class ListFragmentDuePayment extends Fragment {
-    private TimesUpRecyclerViewAdapter timesUpRecyclerViewAdapter;
+public class ListFragmentHistory extends Fragment {
     private OccasionViewModel occasionViewModel;
-    private LocationViewModel locationViewModel;
-    private ItemsViewModel itemsViewModel;
     private FilterSelectionViewModel filterSelectionViewModel;
+    private HistoryRecyclerViewAdapter historyRecyclerViewAdapter;
 
-    public ListFragmentDuePayment() {
+    public ListFragmentHistory(){
         // Required empty public constructor
     }
 
@@ -50,10 +45,10 @@ public class ListFragmentDuePayment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        occasionViewModel = new ViewModelProvider(requireActivity()).get(OccasionViewModel.class);
-        locationViewModel = new ViewModelProvider(requireActivity()).get(LocationViewModel.class);
-        itemsViewModel = new ViewModelProvider(requireActivity()).get(ItemsViewModel.class);
+        occasionViewModel = new ViewModelProvider(this).get(OccasionViewModel.class);
         filterSelectionViewModel = new ViewModelProvider(requireActivity()).get(FilterSelectionViewModel.class);
+        List<OccasionModel> occasionModels = new ArrayList<>();
+        historyRecyclerViewAdapter = new HistoryRecyclerViewAdapter(occasionModels, this);
     }
 
     /**
@@ -66,15 +61,11 @@ public class ListFragmentDuePayment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_list_due_payment, container, false);
+        View view = inflater.inflate(R.layout.fragment_list_history, container, false);
 
-        //Create RecyclerView.
-        timesUpRecyclerViewAdapter = new TimesUpRecyclerViewAdapter(new ArrayList<>(), occasionViewModel, itemsViewModel, locationViewModel, this);
-
-        //Observe occasions fetched.
-        occasionViewModel.getExpiredOccasions().observe(getViewLifecycleOwner(), occasionWithItems -> {
+        occasionViewModel.getPaidOccasions().observe(requireActivity(), occasionWithItems -> {
             List<OccasionModel> occasionModels = new ArrayList<>();
-            //Fill our occasion list.
+
             for(OccasionWithItems occasionModel : occasionWithItems){
                 OccasionModel aOccasionModel = occasionModel.occasionModel;
                 aOccasionModel.setItems(occasionModel.itemModelList);
@@ -82,8 +73,8 @@ public class ListFragmentDuePayment extends Fragment {
 
                 occasionModels.add(aOccasionModel);
             }
-            //Add the items to the recycler.
-            timesUpRecyclerViewAdapter.addItems(occasionModels);
+
+            historyRecyclerViewAdapter.addItems(occasionModels);
         });
 
         // Set the adapter
@@ -91,9 +82,8 @@ public class ListFragmentDuePayment extends Fragment {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(timesUpRecyclerViewAdapter);
+            recyclerView.setAdapter(historyRecyclerViewAdapter);
         }
-
         return view;
     }
 
@@ -106,7 +96,7 @@ public class ListFragmentDuePayment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //Observe search query.
-        filterSelectionViewModel.getSelected().observe(requireActivity(), searchWord -> timesUpRecyclerViewAdapter.getFilter().filter(searchWord));
+        //Apply filter.
+        filterSelectionViewModel.getSelected().observe(requireActivity(), searchWord -> historyRecyclerViewAdapter.getFilter().filter(searchWord));
     }
 }

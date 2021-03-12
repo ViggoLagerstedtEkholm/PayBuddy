@@ -27,12 +27,12 @@ import com.example.paybuddy.R;
  *  @version 1.0
  *  @author Viggo Lagerstedt Ekholm
  */
-public class HistoryLogAdapter extends RecyclerView.Adapter<HistoryLogAdapter.MyViewHolder> implements Filterable {
+public class HistoryLogRecyclerViewAdapter extends RecyclerView.Adapter<HistoryLogRecyclerViewAdapter.MyViewHolder> implements Filterable {
     private final Context context;
     private List<HistoryModel> callingHistory;
     private List<HistoryModel> filteredItems;
 
-    public HistoryLogAdapter(Context context) {
+    public HistoryLogRecyclerViewAdapter(Context context) {
         this.context = context;
         this.filteredItems = new ArrayList<>();
     }
@@ -55,7 +55,7 @@ public class HistoryLogAdapter extends RecyclerView.Adapter<HistoryLogAdapter.My
      */
     @NonNull
     @Override
-    public HistoryLogAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public HistoryLogRecyclerViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.fragment_call_history_list_item, parent, false));
     }
 
@@ -65,7 +65,7 @@ public class HistoryLogAdapter extends RecyclerView.Adapter<HistoryLogAdapter.My
      * @param position the position the item has in the list.
      */
     @Override
-    public void onBindViewHolder(@NonNull HistoryLogAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull HistoryLogRecyclerViewAdapter.MyViewHolder holder, int position) {
         HistoryModel currentHistoryModel = callingHistory.get(position);
         holder.textViewDate.setText(currentHistoryModel.getDate());
         holder.time.setText(currentHistoryModel.getTime());

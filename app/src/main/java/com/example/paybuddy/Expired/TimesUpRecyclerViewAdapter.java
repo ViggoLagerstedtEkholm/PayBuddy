@@ -1,4 +1,4 @@
-package com.example.paybuddy.TimesUp.TimesUp.List;
+package com.example.paybuddy.Expired;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;

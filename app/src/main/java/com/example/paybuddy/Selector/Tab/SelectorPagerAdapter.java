@@ -8,10 +8,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.example.paybuddy.History.List.ListFragmentHistory;
+import com.example.paybuddy.History.ListFragmentHistory;
 import com.example.paybuddy.Occasions.List_of_occasions.ListFragmentOccasions;
 import com.example.paybuddy.R;
-import com.example.paybuddy.TimesUp.TimesUp.List.ListFragmentDuePayment;
+import com.example.paybuddy.Expired.ListFragmentDuePayment;
 
 import org.jetbrains.annotations.NotNull;
 

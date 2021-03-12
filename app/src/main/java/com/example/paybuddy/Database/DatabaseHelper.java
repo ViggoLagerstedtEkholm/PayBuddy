@@ -17,6 +17,12 @@ import com.example.paybuddy.Models.ItemModel;
 import com.example.paybuddy.Models.LocationModel;
 import com.example.paybuddy.Models.OccasionModel;
 
+/**
+ *  This is the database class and we add test items into the database.
+ *  @date 2021-03-09
+ *  @version 1.0
+ *  @author Viggo Lagerstedt Ekholm
+ */
 @Database(entities = {OccasionModel.class, ItemModel.class, LocationModel.class}, version = 5, exportSchema = false)
 public abstract class DatabaseHelper extends RoomDatabase {
    private static DatabaseHelper instance;
@@ -25,6 +31,11 @@ public abstract class DatabaseHelper extends RoomDatabase {
    public abstract LocationDAO locationDAO();
    public abstract OccasionWithItemsDAO occasionWithItemsDAO();
 
+   /**
+    * Get the database instance singleton.
+    * @param context application context
+    * @return DatabaseHelper
+    */
    public static synchronized DatabaseHelper getInstance(Context context){
       if(instance == null){
          instance = Room.databaseBuilder(context.getApplicationContext(), DatabaseHelper.class, "PayBuddyDB")
@@ -35,6 +46,9 @@ public abstract class DatabaseHelper extends RoomDatabase {
       return instance;
    }
 
+   /**
+    * When the database is created insert test data into the database.
+    */
    private static final RoomDatabase.Callback roomCallBack = new RoomDatabase.Callback(){
       @Override
       public void onCreate(@NonNull SupportSQLiteDatabase db) {
@@ -43,6 +57,9 @@ public abstract class DatabaseHelper extends RoomDatabase {
       }
    };
 
+   /**
+    * AsyncTask class to handle background tasks.
+    */
    private static class PopulateDatabaseAsyncTask extends AsyncTask<Void, Void, Void> {
       private final OccasionDAO occasionDao;
       private final ItemsDAO itemsDAO;
@@ -53,6 +70,12 @@ public abstract class DatabaseHelper extends RoomDatabase {
          itemsDAO = databaseHelper.itemsDao();
          locationDAO = databaseHelper.locationDAO();
       }
+
+      /**
+       * Insert test data into the database in the background to prevent UI freeze.
+       * @param voids void
+       * @return Void
+       */
       @Override
       protected Void doInBackground(Void... voids) {
          //Pending occasion test data.

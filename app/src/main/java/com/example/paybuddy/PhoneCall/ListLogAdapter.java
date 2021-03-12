@@ -14,7 +14,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,7 +32,7 @@ import static androidx.core.content.ContextCompat.checkSelfPermission;
 
 public class ListLogAdapter extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private ArrayList<HistoryModel> callHistoryModels;
-    private HistoryLogAdapter callHistoryAdapter;
+    private HistoryLogRecyclerViewAdapter callHistoryAdapter;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private FilterPhoneHistoryViewModel filterPhoneHistoryViewModel;
@@ -93,7 +92,7 @@ public class ListLogAdapter extends Fragment implements SwipeRefreshLayout.OnRef
         RecyclerView recyclerView = view.findViewById(R.id.activity_main_rv);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        callHistoryAdapter = new HistoryLogAdapter(getContext());
+        callHistoryAdapter = new HistoryLogRecyclerViewAdapter(getContext());
         callHistoryModels = new ArrayList<>();
         recyclerView.setAdapter(callHistoryAdapter);
     }
@@ -230,8 +229,8 @@ public class ListLogAdapter extends Fragment implements SwipeRefreshLayout.OnRef
 
             HistoryModel historyModel = new HistoryModel(telephoneNumber, date , time, TYPE_OF_CALL);
             callHistoryModels.add(historyModel);
-            cursor.close();
         }
+        cursor.close();
         callHistoryAdapter.addItems(callHistoryModels);
     }
 }

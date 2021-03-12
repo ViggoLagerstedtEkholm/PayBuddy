@@ -20,7 +20,10 @@ import com.example.paybuddy.Viewmodels.ItemsViewModel;
 import java.util.ArrayList;
 
 /**
- * A fragment representing a list of Items.
+ * This is the Fragment that displays a list of items in a particular occasion.
+ * @date 2021-03-09
+ * @version 1.0
+ * @author Viggo Lagerstedt Ekholm
  */
 public class ItemInOccasionsFragment extends Fragment {
     private ItemsViewModel itemsViewModel;
@@ -29,6 +32,10 @@ public class ItemInOccasionsFragment extends Fragment {
     public ItemInOccasionsFragment() {
     }
 
+    /**
+     * Instantiate all the ViewModels.
+     * @param savedInstanceState latest saved instance.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,11 +43,23 @@ public class ItemInOccasionsFragment extends Fragment {
         itemsViewModel = new ViewModelProvider(requireParentFragment()).get(ItemsViewModel.class);
     }
 
+    /**
+     * This method is called when the fragment is created.
+     * @param view the fragment view.
+     * @param savedInstanceState latest saved instance.
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
     }
 
+    /**
+     * This method will create the RecyclerView and fetch items to that RecyclerView.
+     * @param inflater inflater for our view.
+     * @param container view that contains other views.
+     * @param savedInstanceState latest saved instance.
+     * @return View
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

@@ -6,7 +6,7 @@
     app:startDestination="@id/tabViewFragment">
     <fragment
         android:id="@+id/tabViewFragment"
-        android:name="com.example.paybuddy.TabViewFragment"
+        android:name="com.example.paybuddy.ui.main.TabViewFragment"
         android:label="TabViewFragment" >
         <action
             android:id="@+id/action_tabViewFragment_to_occasionAddFragment"

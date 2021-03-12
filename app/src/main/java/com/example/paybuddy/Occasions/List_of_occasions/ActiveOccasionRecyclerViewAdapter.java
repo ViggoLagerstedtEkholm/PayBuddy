@@ -61,6 +61,11 @@ public class ActiveOccasionRecyclerViewAdapter extends RecyclerView.Adapter<Acti
         coordinatesViewModel = new ViewModelProvider(currentFragment.requireActivity()).get(CoordinatesViewModel.class);
     }
 
+    /**
+     * This method adds the parameter list to our items and filtered list.
+     * notifyDataSetChanged() notifies the RecyclerView to refresh.
+     * @param occasionModels List of items we want to add.
+     */
     public void addItems(List<OccasionModel> occasionModels){
         this.items = occasionModels;
         this.filteredItems = new ArrayList<>(items);
