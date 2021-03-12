@@ -33,9 +33,9 @@ public class SelectorFragment extends Fragment {
 
     /**
      * This method inflates our view.
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
+     * @param inflater inflater for our view.
+     * @param container view that contains other views.
+     * @param savedInstanceState latest saved instance.
      * @return returns the inflated view.
      */
     @Override
@@ -69,11 +69,6 @@ public class SelectorFragment extends Fragment {
 
         //Add a button click listener that navigates us to the "Add Occasion" fragment on user click.
         Button buttonAdd = view.findViewById(R.id.buttonAdd);
-        buttonAdd.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(view).navigate(R.id.action_tabViewFragment_to_occasionAddFragment);
-            }
-        });
+        buttonAdd.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_tabViewFragment_to_occasionAddFragment));
     }
 }
