@@ -31,7 +31,7 @@ import java.util.ArrayList;
  *  @author Viggo Lagerstedt Ekholm
  */
 public class DialogPreviewOccasion extends DialogFragment {
-    private OccasionModel occasionModel;
+    private final OccasionModel occasionModel;
     private PreviewRecyclerViewAdapter recyclerViewAdapter;
     private ItemsViewModel itemsViewModel;
 
@@ -93,7 +93,7 @@ public class DialogPreviewOccasion extends DialogFragment {
                 }
                 textViewPreviewPeople.setText(personNames.toString());
             }else {
-                textViewPreviewPeople.setText("None");
+                textViewPreviewPeople.setText(R.string.none);
             }
         });
 

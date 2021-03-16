@@ -2,27 +2,25 @@ package com.example.paybuddy.Occasions.List_of_occasions;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.example.paybuddy.Viewmodels.ItemsViewModel;
-import com.example.paybuddy.Viewmodels.LocationViewModel;
-import com.example.paybuddy.Viewmodels.OccasionViewModel;
 import com.example.paybuddy.Models.OccasionModel;
 import com.example.paybuddy.Models.OccasionWithItems;
 import com.example.paybuddy.R;
 import com.example.paybuddy.Search.SearchViewModels.FilterSelectionViewModel;
+import com.example.paybuddy.Viewmodels.ItemsViewModel;
+import com.example.paybuddy.Viewmodels.LocationViewModel;
+import com.example.paybuddy.Viewmodels.OccasionViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +32,6 @@ import java.util.List;
  *  @author Viggo Lagerstedt Ekholm
  */
 public class ListFragmentOccasions extends Fragment {
-    private int mColumnCount = 1;
     private OccasionViewModel occasionViewModel;
     private ItemsViewModel itemsViewModel;
     private FilterSelectionViewModel filterSelectionViewModel;
@@ -47,7 +44,7 @@ public class ListFragmentOccasions extends Fragment {
 
     /**
      * Instantiate all the ViewModels.
-     * @param savedInstanceState
+     * @param savedInstanceState Latest saved instance.
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,10 +57,10 @@ public class ListFragmentOccasions extends Fragment {
 
     /**
      * This method will create the RecyclerView and fetch items to that RecyclerView.
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
+     * @param inflater inflater for our view.
+     * @param container view that contains other views.
+     * @param savedInstanceState latest saved instance.
+     * @return View
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -91,6 +88,7 @@ public class ListFragmentOccasions extends Fragment {
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
+            int mColumnCount = 1;
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
@@ -105,19 +103,14 @@ public class ListFragmentOccasions extends Fragment {
 
     /**
      * This method is called when the fragment is created.
-     * @param view
-     * @param savedInstanceState
+     * @param view created view.
+     * @param savedInstanceState latest saved instance.
      */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         //Observe search query.
-        filterSelectionViewModel.getSelected().observe(getActivity(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String searchWord) {
-                activeOccasionRecyclerViewAdapter.getFilter().filter(searchWord);
-            };
-        });
+        filterSelectionViewModel.getSelected().observe(getActivity(), searchWord -> activeOccasionRecyclerViewAdapter.getFilter().filter(searchWord));
     }
 }

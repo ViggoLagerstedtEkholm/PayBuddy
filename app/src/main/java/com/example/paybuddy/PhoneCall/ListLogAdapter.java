@@ -75,7 +75,7 @@ public class ListLogAdapter extends Fragment implements SwipeRefreshLayout.OnRef
 
         if(checkForHistoryPermission())
         {
-            populateCallhistory();
+            populateCallHistory();
         }
 
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -106,7 +106,7 @@ public class ListLogAdapter extends Fragment implements SwipeRefreshLayout.OnRef
         if(checkForHistoryPermission())
         {
             Log.d("REFRESH", "...");
-            populateCallhistory();
+            populateCallHistory();
             swipeRefreshLayout.setRefreshing(false);
         }
         else{
@@ -150,7 +150,7 @@ public class ListLogAdapter extends Fragment implements SwipeRefreshLayout.OnRef
                 }
             }
             if(!hasFoundDenied){
-                populateCallhistory();
+                populateCallHistory();
             }
         }
     }
@@ -169,7 +169,7 @@ public class ListLogAdapter extends Fragment implements SwipeRefreshLayout.OnRef
         }
 
         if(!listOfPermissionsNeeded.isEmpty()){
-            requestPermissions(listOfPermissionsNeeded.toArray(new String[listOfPermissionsNeeded.size()]), PERMISSION_REQUEST_CODE);
+            requestPermissions(listOfPermissionsNeeded.toArray(new String[0]), PERMISSION_REQUEST_CODE);
             return false;
         }
         return true;
@@ -181,7 +181,7 @@ public class ListLogAdapter extends Fragment implements SwipeRefreshLayout.OnRef
      * After each iteration we create a new HistoryModel object that holds the fetched columns.
      * @return void
      */
-    private void populateCallhistory() {
+    private void populateCallHistory() {
         String sortingOrder = android.provider.CallLog.Calls.DATE + " DESC";
 
         Cursor cursor =
