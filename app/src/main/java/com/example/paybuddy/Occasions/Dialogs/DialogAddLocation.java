@@ -135,10 +135,10 @@ public class DialogAddLocation extends DialogFragment implements OnSuccessListen
         slideLocationMode.setOnClickListener(v -> {
             if (slideLocationMode.isChecked()) {
                 locationRequest.setPriority(LocationRequest.PRIORITY_LOW_POWER);
-                valueTypeOfLocationAccuracy.setText("Lowest location accuracy.");
+                valueTypeOfLocationAccuracy.setText(R.string.lowest_location_accuracy);
             } else {
                 locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-                valueTypeOfLocationAccuracy.setText("Highest location acccuracy");
+                valueTypeOfLocationAccuracy.setText(R.string.highest_location_accuracy);
             }
         });
 
@@ -206,7 +206,7 @@ public class DialogAddLocation extends DialogFragment implements OnSuccessListen
                 valueAltitude.setText(altitudeText);
                 altitude = Double.parseDouble(String.valueOf(location.getAltitude()));
             } else {
-                valueAltitude.setText("No altitude detected.");
+                valueAltitude.setText(R.string.no_altitude_detected);
                 altitude = 0.0;
             }
 
@@ -215,7 +215,7 @@ public class DialogAddLocation extends DialogFragment implements OnSuccessListen
                 valueAccuracy.setText(Accuracy);
                 accuracy = Double.parseDouble(String.valueOf(location.getAccuracy()));
             } else {
-                valueAccuracy.setText("No accuracy detected.");
+                valueAccuracy.setText(R.string.no_accuracy_detected);
                 accuracy = 0.0;
             }
 
@@ -225,17 +225,17 @@ public class DialogAddLocation extends DialogFragment implements OnSuccessListen
                 valueAddress.setText(locations.get(0).getAddressLine(0));
                 address = (locations.get(0).getAddressLine(0));
             } catch (IOException e) {
-                valueAddress.setText("Adress failed to fetch.");
+                valueAddress.setText(R.string.address_failed_to_fetch);
             }
             catch(Exception e){
-                valueAddress.setText("Loading...");
+                valueAddress.setText(R.string.loading);
             }
         }
     }
 
     private void startLocationUpdate() {
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            valueUpdateStatus.setText("Location is being updated.");
+            valueUpdateStatus.setText(R.string.location_being_updated);
             fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallBack, null);
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -245,12 +245,12 @@ public class DialogAddLocation extends DialogFragment implements OnSuccessListen
     }
 
     private void stopLocationUpdate() {
-        valueUpdateStatus.setText("Location is NOT being updated.");
-        valueLatitude.setText("Updates off.");
-        valueLongitude.setText("Updates off.");
-        valueAccuracy.setText("Updates off.");
-        valueAddress.setText("Updates off.");
-        valueAltitude.setText("Updates off");
+        valueUpdateStatus.setText(R.string.location_not_being_updated);
+        valueLatitude.setText(R.string.updates_off);
+        valueLongitude.setText(R.string.updates_off);
+        valueAccuracy.setText(R.string.updates_off);
+        valueAddress.setText(R.string.updates_off);
+        valueAltitude.setText(R.string.updates_off);
         fusedLocationProviderClient.removeLocationUpdates(locationCallBack);
     }
 }
