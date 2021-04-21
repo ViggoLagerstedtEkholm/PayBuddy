@@ -55,10 +55,10 @@ There exists 3 types of occasions:
 - We can click “Contact” to contact whoever owes us money.
 
 Home Screen:
-Total item costs - Every item cost multiplied by the quantity of that item for all pending and expired occasions.
-Total expired occasions - Total amount of occasions expired.
-History occasion - Total amount of occasions that has been paid.
-See all locations (Button) - Displays all the occasions on the map.
+- Total item costs, every item cost multiplied by the quantity of that item for all pending and expired occasions.
+- Total expired occasions, total amount of occasions expired.
+- History occasion, total amount of occasions that has been paid.
+- See all locations (Button), displays all the occasions on the map.
 
 Adding a occasion:
 Pick a date - Shows a dialog and the user can input any date.
