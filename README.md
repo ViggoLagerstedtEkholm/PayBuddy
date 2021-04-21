@@ -63,19 +63,19 @@ Home Screen:
 Adding a occasion:
 Pick a date - Shows a dialog and the user can input any date.
 Add items - Shows a dialog and the user can add a new item with the following attributes:
-            - Item name -  The name of the item
-            - Price - The item cost.
-            - Quantity - The amount of this item we want to add.
-            - Person name - The person that has this item.
+- Item name -  The name of the item
+- Price - The item cost.
+- Quantity - The amount of this item we want to add.
+- Person name - The person that has this item.
 
 Add location - After the user provides permission the app will track the user position, the following information will be used:
-Latitude/longitude/altitude - Coordinates of the user.
-Address - The nearest address to those coordinates.
-Sensor mode - When we use the low accuracy the phone does not need to triangulate the position using nearby cell towers. This does save battery and provides a better user experience.
+- Latitude/longitude/altitude - Coordinates of the user.
+- Address - The nearest address to those coordinates.
+- Sensor mode - When we use the low accuracy the phone does not need to triangulate the position using nearby cell towers. This does save battery and provides a better user experience.
 
-If the user enables the high accuracy the app will try to triangulate the position and more battery will be used.
+- If the user enables the high accuracy the app will try to triangulate the position and more battery will be used.
 
-Location Updates - The user can enable / disable the location updates.
+- Location Updates - The user can enable / disable the location updates.
 
 Home screen:
 The home screen helps the user see a summary of the following:
