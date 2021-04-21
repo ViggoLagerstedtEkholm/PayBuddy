@@ -1,5 +1,7 @@
 # PayBuddy
 
+[Beskrivning.pdf](https://github.com/ViggoLagerstedtEkholm/PayBuddy/files/6352163/Beskrivning.pdf)
+
 What is PayBuddy?
 This app makes it possible to keep track of people that owe you money using
 occasions. 
