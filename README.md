@@ -63,11 +63,11 @@ See all locations (Button) - Displays all the occasions on the map.
 Adding a occasion:
 Pick a date - Shows a dialog and the user can input any date.
 Add items - Shows a dialog and the user can add a new item with the following attributes:
-            1. Item name -  The name of the item
-            2. Price - The item cost.
-            3. Quantity - The amount of this item we want to add.
-            4. Person name - The person that has this item.
-            5. 
+            - Item name -  The name of the item
+            - Price - The item cost.
+            - Quantity - The amount of this item we want to add.
+            - Person name - The person that has this item.
+
 Add location - After the user provides permission the app will track the user position, the following information will be used:
 Latitude/longitude/altitude - Coordinates of the user.
 Address - The nearest address to those coordinates.
@@ -79,10 +79,10 @@ Location Updates - The user can enable / disable the location updates.
 
 Home screen:
 The home screen helps the user see a summary of the following:
-1. Total item costs - Every item cost multiplied by the quantity of that item for all pending and expired occasions.
-2. Total expired occasions - Total amount of occasions expired.
-3. History occasion - Total amount of occasions that has been paid.
-4. See all locations (Button) - Displays all the occasions on the map.
+- Total item costs - Every item cost multiplied by the quantity of that item for all pending and expired occasions.
+- Total expired occasions - Total amount of occasions expired.
+- History occasion - Total amount of occasions that has been paid.
+- See all locations (Button) - Displays all the occasions on the map.
 
 When the user first enters the home page all numbers will start counting up with an animation. 
 
