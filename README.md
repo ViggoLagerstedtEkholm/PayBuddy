@@ -91,24 +91,24 @@ When you open the map it will zoom to the centroid of all the location latitude 
 You can click any icon on the map and see all information about that specific occasion.
 
 Settings:
-Layout style - Switch between dark and light themes, this is saved in shared preferences and starts with the prefered theme.
-The user can perfrom the following instructions:
-Delete history - Deletes all history occasions. (with items/location)
-Delete all active occasions - Deletes all pending occasions. (with items/location)
-Delete all expired occasions - Deletes all expired occasions. (with items/location)
-Wipe all data - Removes all occasions (expired, pending, history) (with items/location)
+- Layout style - Switch between dark and light themes, this is saved in shared preferences and starts with the prefered theme.
+- The user can perfrom the following instructions:
+- Delete history - Deletes all history occasions. (with items/location)
+- Delete all active occasions - Deletes all pending occasions. (with items/location)
+- Delete all expired occasions - Deletes all expired occasions. (with items/location)
+- Wipe all data - Removes all occasions (expired, pending, history) (with items/location)
 
 Flexability:
-The app supports landscape mode on every page.
-The logo supports different versions of android.
+- The app supports landscape mode on every page.
+- The logo supports different versions of android.
 
 Architecture:
-This app uses MVVM which makes it possible to move most of the logic away from the fragments. 
+- This app uses MVVM which makes it possible to move most of the logic away from the fragments. 
 
 I have 3 repositories
-Location
-Items 
-Occasion 
+- Location
+- Items 
+- Occasion 
 
 Each repository has methods for modifying each model.
 I have 4 DAOs, these are the interfaces that communicate with the database. To query the database I use Room with SQlite.
