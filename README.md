@@ -1,5 +1,6 @@
 # PayBuddy
 
+For a more detailed explaination use this link.
 [Beskrivning.pdf](https://github.com/ViggoLagerstedtEkholm/PayBuddy/files/6352163/Beskrivning.pdf)
 
 What is PayBuddy?
