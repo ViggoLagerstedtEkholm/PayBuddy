@@ -30,8 +30,6 @@ The app does not trigger notifications when the pending occasion expires but the
 
 When the user rotates the screen or recreates the activity the ViewModels will observe these changes. But if the android operating system decides to kill the background process to free memory our ViewModels will also be destroyed. If we have searched for something in the app this will no longer be saved once the user opens the app again. To solve this we need to use both ViewModel in combination with SavedInstanceState.
 
-[IMAGE]
-
 Working with both ViewModels and savedInstanceState improves the user experience for every case.
 
 The app does not currently support this but should be implemented before any release.
@@ -45,14 +43,10 @@ There exists 3 types of occasions:
 - We can click “Remove” to delete this pending occasion.
 - We can click “See location on maps” to see where we put our occasion.
 
-[Image]
-
 3. History occasion - This is an occasion that we have marked as paid and is therefore history.
 - We can click “Remove” to delete this history occasion.
 - We can click “Postpone” to make this occasion a pending occasion.
 - We can click “See location on maps” to see where we put our occasion.
-
-[Image]
 
 6. Expired occasion - This is an occasion that has not yet been paid before the expiring day.
 - We can click “Remove” to delete this expired occasion.
@@ -60,19 +54,14 @@ There exists 3 types of occasions:
 - We can click “See location on maps” to see where we put our occasion.
 - We can click “Contact” to contact whoever owes us money.
 
-[Image]
-
 Home Screen:
 Total item costs - Every item cost multiplied by the quantity of that item for all pending and expired occasions.
 Total expired occasions - Total amount of occasions expired.
 History occasion - Total amount of occasions that has been paid.
 See all locations (Button) - Displays all the occasions on the map.
 
-[Image]
-
 Adding a occasion:
 Pick a date - Shows a dialog and the user can input any date.
-
 Add items - Shows a dialog and the user can add a new item with the following attributes:
             1. Item name -  The name of the item
             2. Price - The item cost.
@@ -103,8 +92,6 @@ You can click any icon on the map and see all information about that specific oc
 
 Settings:
 Layout style - Switch between dark and light themes, this is saved in shared preferences and starts with the prefered theme.
-[Image]
-
 The user can perfrom the following instructions:
 Delete history - Deletes all history occasions. (with items/location)
 Delete all active occasions - Deletes all pending occasions. (with items/location)
@@ -124,13 +111,7 @@ Items
 Occasion 
 
 Each repository has methods for modifying each model.
-
 I have 4 DAOs, these are the interfaces that communicate with the database. To query the database I use Room with SQlite.
-
 All the data is fetched using LiveData, so any change to the database will refetch the data to the view.
-
 This pattern makes it easy to work with the fragments. No need to worry about the phone rotating because everything will get fetched from the ViewModels once the fragment is destroyed and recreated.
 
-Entity-Relation-Model (Database model) And tables:
-[ER MODEL]
-[TEST DATA TABLES]
