@@ -18,13 +18,6 @@ user has added a few occasions they can also see them on the map, this is fun if
 want to show your friends where you have been in the past or to see an overview of
 your occasions.
 
-Why would I use this app?
-The reason I developed this app is to keep track of anyone that owes you money. It
-can also work as a reminder to pay for subscriptions or other payments. After the
-user has added a few occasions they can also see them on the map, this is fun if you
-want to show your friends where you have been in the past or to see an overview of
-your occasions.
-
 Future improvements
 The app does not trigger notifications when the pending occasion expires but the user can make any pending occasion expire by holding the item for 3 seconds and accepting the dialog query.
 
