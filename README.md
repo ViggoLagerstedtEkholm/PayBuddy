@@ -7,7 +7,7 @@ What is PayBuddy?
 This app makes it possible to keep track of people that owe you money using
 occasions. 
 
-This application was built as a final project for an Android course.
+This application was built as a final project for an Android course on Stockholm University.
 
 PayBuddy was selected as one of the best final projects during VT2021 (Spring term 2021).
 
