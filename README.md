@@ -91,7 +91,7 @@ Settings:
 - Delete all expired occasions - Deletes all expired occasions. (with items/location)
 - Wipe all data - Removes all occasions (expired, pending, history) (with items/location)
 
-Flexability:
+Flexibility:
 - The app supports landscape mode on every page.
 - The logo supports different versions of android.
 
