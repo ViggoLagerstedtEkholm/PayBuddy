@@ -70,13 +70,6 @@ Add location - After the user provides permission the app will track the user po
 
 - Location Updates - The user can enable / disable the location updates.
 
-Home screen:
-The home screen helps the user see a summary of the following:
-- Total item costs - Every item cost multiplied by the quantity of that item for all pending and expired occasions.
-- Total expired occasions - Total amount of occasions expired.
-- History occasion - Total amount of occasions that has been paid.
-- See all locations (Button) - Displays all the occasions on the map.
-
 When the user first enters the home page all numbers will start counting up with an animation. 
 
 When you open the map it will zoom to the centroid of all the location latitude and longitude coordinates. This will work for clusters of occasions but needs improvement if the user places 2 occasions on different parts of the globe.
